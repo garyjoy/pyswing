@@ -32,6 +32,21 @@ def deleteDirectory(relativeDirectoryPath):
         Logger.log(logging.DEBUG, "Caught Exception", {"scope":__name__, "exception":str(osError)})
 
 
+def deleteFile(relativeFilePath):
+    """
+    Delete the specified file.
+
+    :param relativeFilePath: Relative (from the working directory) path to a file (i.e. that we want to delete).
+    """
+
+    try:
+        if os.path.exists(relativeFilePath):
+            os.remove(relativeFilePath)
+    except OSError as osError:
+        Logger.log(logging.ERROR, "Cannot Delete File", {"scope":__name__, "directory":relativeFilePath})
+        Logger.log(logging.DEBUG, "Caught Exception", {"scope":__name__, "exception":str(osError)})
+
+
 def forceWorkingDirectory():
     """
     forceWorkingDirectory() will ensure that the working directory is set to the project root (i.e. /Users/Gary/PycharmProjects/pyswing).

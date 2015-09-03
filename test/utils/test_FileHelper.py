@@ -26,6 +26,24 @@ class TestFileHelper(unittest.TestCase):
 
         self.assertFalse(os.path.exists(relativeDirectoryPath))
 
+    def test_deleteFile(self):
+
+        relativeFilePath = "output/test_deleteFile.txt"
+
+        try:
+            file = open(relativeFilePath, 'w')
+            file.write("Hello!")
+            file.close()
+        except OSError as osError:
+            Logger.log(logging.ERROR, "Cannot Create File", {"scope":__name__, "directory":relativeFilePath})
+            Logger.log(logging.DEBUG, "Caught Exception", {"scope":__name__, "exception":str(osError)})
+
+        self.assertTrue(os.path.exists(relativeFilePath))
+
+        deleteFile(relativeFilePath)
+
+        self.assertFalse(os.path.exists(relativeFilePath))
+
     def test_forceWorkingDirectory(self):
 
         forceWorkingDirectory()

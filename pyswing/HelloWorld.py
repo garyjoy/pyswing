@@ -1,6 +1,10 @@
 import logging
 import getopt
 import sys
+import datetime
+import sqlite3
+
+import pandas.io.data as web
 
 from utils.Logger import Logger
 
@@ -43,7 +47,19 @@ def helloWorld(argv):
             name = arg
 
     if name != "":
-        print("Hello %s!" % (name))
+
+        print("Loading Data for %s..." % (name))
+
+        start = datetime.datetime(2010, 1, 1)
+        end = datetime.datetime(2010, 2, 1)
+        f = web.DataReader(name, 'yahoo', start, end)
+
+        f['Equity'] = name
+
+        print(f.ix['2010-01-04'])
+
+        connection = sqlite3.connect('output/helloWorld.db')
+        f.to_sql("helloWorld", connection)
 
     else:
         Logger.log(logging.ERROR, "Missing Options", {"scope": __name__, "options": str(argv)})

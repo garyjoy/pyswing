@@ -41,6 +41,7 @@ def deleteFile(relativeFilePath):
 
     try:
         if os.path.exists(relativeFilePath):
+            Logger.log(logging.INFO, "Delete File", {"scope":__name__, "file":relativeFilePath})
             os.remove(relativeFilePath)
     except OSError as osError:
         Logger.log(logging.ERROR, "Cannot Delete File", {"scope":__name__, "directory":relativeFilePath})

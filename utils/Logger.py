@@ -13,7 +13,7 @@ class Logger(object):
     """
 
     # Default Log Level
-    _defaultLogLevel = logging.INFO
+    _defaultLogLevel = logging.DEBUG
 
     # Persistent Log Data
     _logData = {}

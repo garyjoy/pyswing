@@ -1,17 +1,15 @@
 import logging
 import getopt
 import sys
-import datetime
-import sqlite3
-
-import pandas.io.data as web
 
 from utils.Logger import Logger
+from pyswing.objects.market import Market
+from pyswing.objects.equity import Equity
 
 
-def helloWorld(argv):
+def importData(argv):
     """
-    ?
+    Import Share Data.
 
     :param argv: Command Line Parameters.
 
@@ -19,17 +17,17 @@ def helloWorld(argv):
 
     Example:
 
-    python -m pyswing.HelloWorld -n Gary
+    python -m pyswing.ImportData -n asx
     """
 
     Logger.log(logging.INFO, "Log Script Call", {"scope":__name__, "arguments":" ".join(argv)})
     Logger.pushLogData("script", __name__)
 
-    name = ""
+    marketName = ""
 
     try:
         shortOptions = "n:dh"
-        longOptions = ["name=", "debug", "help"]
+        longOptions = ["marketName=", "debug", "help"]
         opts, __ = getopt.getopt(argv, shortOptions, longOptions)
     except getopt.GetoptError as e:
         Logger.log(logging.ERROR, "Error Reading Options", {"scope": __name__, "exception": str(e)})
@@ -43,23 +41,20 @@ def helloWorld(argv):
             print("?")
             usage()
             sys.exit()
-        elif opt in ("-n", "--name"):
-            name = arg
+        elif opt in ("-n", "--marketName"):
+            marketName = arg
 
-    if name != "":
+    if marketName != "":
 
-        print("Loading Data for %s..." % (name))
+        Logger.log(logging.INFO, "Import Market Data", {"scope":__name__, "market":marketName})
 
-        start = datetime.datetime(2010, 1, 1)
-        end = datetime.datetime(2010, 2, 1)
-        f = web.DataReader(name, 'yahoo', start, end)
+        tickerCodesRelativeFilePath = "resources/%s.txt" % (marketName)
 
-        f['Equity'] = name
+        market = Market(tickerCodesRelativeFilePath)
 
-        print(f.ix['2010-01-04'])
-
-        connection = sqlite3.connect('output/helloWorld.db')
-        f.to_sql("helloWorld", connection)
+        for index, row in market.tickers.iterrows():
+            equity = Equity(row[0])
+            equity.importData()
 
     else:
         Logger.log(logging.ERROR, "Missing Options", {"scope": __name__, "options": str(argv)})
@@ -70,7 +65,7 @@ def helloWorld(argv):
 def usage():
     print("")
     print("usage:")
-    print("  HelloWorld.py -n name [-d] [-h]")
+    print("  ImportData.py -n name [-d] [-h]")
     print("")
     print("arguments:")
     print("  -n, --name        Name")
@@ -81,4 +76,4 @@ def usage():
 
 
 if __name__ == "__main__":
-    helloWorld(sys.argv[1:])
+    importData(sys.argv[1:])

@@ -57,19 +57,19 @@ class testLogger(unittest.TestCase):
     def test_log(self):
         with patch.object(Logger._getLogger(), '_log', return_value=None) as mock_method:
 
-            # Assumes that the default log level is INFO
+            # Assumes that the default log level is DEBUG
 
             Logger.log(logging.DEBUG, "Test Debug Log Entry", {"key1":"value1","key2":"value2"})
-            self.assertEqual(0, mock_method.call_count)
-
-            Logger.log(logging.INFO, "Test Info Log Entry", {"key1":"value1","key2":"value2"})
             self.assertEqual(1, mock_method.call_count)
 
-            Logger.log(logging.WARN, "Test Warning Log Entry", {"key1":"value1","key2":"value2"})
+            Logger.log(logging.INFO, "Test Info Log Entry", {"key1":"value1","key2":"value2"})
             self.assertEqual(2, mock_method.call_count)
 
-            Logger.log(logging.ERROR, "Test Error Log Entry", {"key1":"value1","key2":"value2"})
+            Logger.log(logging.WARN, "Test Warning Log Entry", {"key1":"value1","key2":"value2"})
             self.assertEqual(3, mock_method.call_count)
+
+            Logger.log(logging.ERROR, "Test Error Log Entry", {"key1":"value1","key2":"value2"})
+            self.assertEqual(4, mock_method.call_count)
 
     def test_setLevel(self):
 

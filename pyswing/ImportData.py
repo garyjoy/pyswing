@@ -5,6 +5,7 @@ import sys
 from utils.Logger import Logger
 from pyswing.objects.market import Market
 from pyswing.objects.equity import Equity
+from utils.TeamCity import TeamCity
 
 
 def importData(argv):
@@ -55,6 +56,9 @@ def importData(argv):
         for index, row in market.tickers.iterrows():
             equity = Equity(row[0])
             equity.importData()
+
+        # TODO: Implement Integrety Checks for Data and Report Status (e.g. 74 Shares Populated up to 01.01.2015)
+        TeamCity.setBuildResultText("Imported Data from Yahoo")
 
     else:
         Logger.log(logging.ERROR, "Missing Options", {"scope": __name__, "options": str(argv)})

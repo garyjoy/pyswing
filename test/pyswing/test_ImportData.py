@@ -18,10 +18,10 @@ class TestImportData(unittest.TestCase):
         Logger.pushLogData("unitTesting", __name__)
         forceWorkingDirectory()
 
-        deleteFile("output/TestImportData.db")
-
         pyswing.constants.pySwingDatabase = "output/TestImportData.db"
         pyswing.constants.pySwingStartDate = datetime.datetime(2015, 1, 1)
+
+        deleteFile(pyswing.constants.pySwingDatabase)
 
         Logger.log(logging.INFO, "Creating Test Database", {"scope":__name__, "database":pyswing.constants.pySwingDatabase})
         query = open('resources/pyswing.sql', 'r').read()
@@ -34,7 +34,7 @@ class TestImportData(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        deleteFile("output/TestImportData.db")
+        deleteFile(pyswing.constants.pySwingDatabase)
         pass
 
 

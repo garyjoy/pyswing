@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS Indicator_SMA
     SMA_200 REAL
 );
 
-CREATE UNIQUE INDEX IF NOT EXISTS ix_Indicator_SMA_Date ON Indicator_SMA (Date);
+CREATE INDEX IF NOT EXISTS ix_Indicator_SMA_Date ON Indicator_SMA (Date);
 
 CREATE TABLE IF NOT EXISTS Indicator_EMA
 (
@@ -39,4 +39,29 @@ CREATE TABLE IF NOT EXISTS Indicator_EMA
     EMA_200 REAL
 );
 
-CREATE UNIQUE INDEX IF NOT EXISTS ix_Indicator_EMA_Date ON Indicator_EMA (Date);
+CREATE INDEX IF NOT EXISTS ix_Indicator_EMA_Date ON Indicator_EMA (Date);
+
+CREATE TABLE IF NOT EXISTS Indicator_BB20
+(
+    Date TEXT,
+    Code TEXT,
+    lowerband REAL,
+    middleband REAL,
+    upperband REAL,
+    lowerbandmom REAL,
+    middlebandmom REAL,
+    upperbandmom REAL
+);
+
+CREATE INDEX IF NOT EXISTS ix_Indicator_BB20_Date ON Indicator_BB20 (Date);
+
+CREATE TABLE IF NOT EXISTS Indicator_MOM
+(
+    Date TEXT,
+    Code TEXT,
+    MOM_5 REAL,
+    MOM_10 REAL,
+    MOM_20 REAL
+);
+
+CREATE INDEX IF NOT EXISTS ix_Indicator_MOM_Date ON Indicator_MOM (Date);

@@ -5,8 +5,11 @@ import sys
 from utils.Logger import Logger
 from pyswing.objects.market import Market
 from pyswing.objects.equity import Equity
+
 from pyswing.objects.indicatorSMA import IndicatorSMA
 from pyswing.objects.indicatorEMA import IndicatorEMA
+from pyswing.objects.indicatorBB20 import IndicatorBB20
+from pyswing.objects.indicatorMOM import IndicatorMOM
 
 from utils.TeamCity import TeamCity
 
@@ -66,6 +69,12 @@ def updateIndicators(argv):
 
             emaIndicator = IndicatorEMA(equityDataFrame, tickerCode)
             emaIndicator.updateIndicator()
+
+            bbIndicator = IndicatorBB20(equityDataFrame, tickerCode)
+            bbIndicator.updateIndicator()
+
+            momIndicator = IndicatorMOM(equityDataFrame, tickerCode)
+            momIndicator.updateIndicator()
 
         # TODO: Implement Integrety Checks for Data and Report Status (e.g. ?)
         TeamCity.setBuildResultText("Updated Indicators")

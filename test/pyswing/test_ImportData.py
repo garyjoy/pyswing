@@ -38,9 +38,7 @@ class TestImportData(unittest.TestCase):
         pass
 
 
-    def test_HelloWorld(self):
-
-        forceWorkingDirectory()
+    def test_ImportData(self):
 
         pretendDate = datetime.datetime(2015, 5, 1)
         with patch.object(Equity, '_getTodaysDate', return_value=pretendDate) as mock_method:

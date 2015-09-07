@@ -41,8 +41,11 @@ def deleteFile(relativeFilePath):
 
     try:
         if os.path.exists(relativeFilePath):
-            Logger.log(logging.INFO, "Delete File", {"scope":__name__, "file":relativeFilePath})
-            os.remove(relativeFilePath)
+            if ("pyswing.db" not in relativeFilePath):
+                Logger.log(logging.INFO, "Delete File", {"scope":__name__, "file":relativeFilePath})
+                os.remove(relativeFilePath)
+            else:
+                Logger.log(logging.WARN, "Do You Want To Delete This Database?", {"scope":__name__, "file":relativeFilePath})
     except OSError as osError:
         Logger.log(logging.ERROR, "Cannot Delete File", {"scope":__name__, "directory":relativeFilePath})
         Logger.log(logging.DEBUG, "Caught Exception", {"scope":__name__, "exception":str(osError)})

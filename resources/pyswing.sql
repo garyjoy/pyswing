@@ -1,4 +1,11 @@
 
+--DROP TABLE "Equities";
+--DROP TABLE Indicator_SMA;
+--DROP TABLE Indicator_EMA;
+--DROP TABLE Indicator_BB20;
+--DROP TABLE Indicator_ROC;
+
+
 CREATE TABLE IF NOT EXISTS "Equities" (
 "Date" TIMESTAMP,
   "Open" REAL,
@@ -48,20 +55,20 @@ CREATE TABLE IF NOT EXISTS Indicator_BB20
     lowerband REAL,
     middleband REAL,
     upperband REAL,
-    lowerbandmom REAL,
-    middlebandmom REAL,
-    upperbandmom REAL
+    lowerbandroc REAL,
+    middlebandroc REAL,
+    upperbandroc REAL
 );
 
 CREATE INDEX IF NOT EXISTS ix_Indicator_BB20_Date ON Indicator_BB20 (Date);
 
-CREATE TABLE IF NOT EXISTS Indicator_MOM
+CREATE TABLE IF NOT EXISTS Indicator_ROC
 (
     Date TEXT,
     Code TEXT,
-    MOM_5 REAL,
-    MOM_10 REAL,
-    MOM_20 REAL
+    ROC_5 REAL,
+    ROC_10 REAL,
+    ROC_20 REAL
 );
 
-CREATE INDEX IF NOT EXISTS ix_Indicator_MOM_Date ON Indicator_MOM (Date);
+CREATE INDEX IF NOT EXISTS ix_Indicator_ROC_Date ON Indicator_ROC (Date);

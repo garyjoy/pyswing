@@ -1,9 +1,14 @@
 
---DROP TABLE "Equities";
+--DROP TABLE 'Equities';
+
 --DROP TABLE Indicator_SMA;
 --DROP TABLE Indicator_EMA;
 --DROP TABLE Indicator_BB20;
 --DROP TABLE Indicator_ROC;
+
+--DROP TABLE 'Rule Indicator_ROC ROC_5 > 20';
+--DROP TABLE 'Rule Indicator_ROC ROC_5 > 15';
+--DROP TABLE 'Rule Indicator_ROC ROC_5 > 10';
 
 
 CREATE TABLE IF NOT EXISTS "Equities" (
@@ -16,7 +21,6 @@ CREATE TABLE IF NOT EXISTS "Equities" (
   "Code" TEXT,
   PRIMARY KEY ("Code", "Date")
 );
-
 CREATE INDEX IF NOT EXISTS "ix_Equities_Date"ON "Equities" ("Date");
 
 
@@ -31,7 +35,6 @@ CREATE TABLE IF NOT EXISTS Indicator_SMA
     SMA_50 REAL,
     SMA_200 REAL
 );
-
 CREATE INDEX IF NOT EXISTS ix_Indicator_SMA_Date ON Indicator_SMA (Date);
 
 CREATE TABLE IF NOT EXISTS Indicator_EMA
@@ -45,7 +48,6 @@ CREATE TABLE IF NOT EXISTS Indicator_EMA
     EMA_50 REAL,
     EMA_200 REAL
 );
-
 CREATE INDEX IF NOT EXISTS ix_Indicator_EMA_Date ON Indicator_EMA (Date);
 
 CREATE TABLE IF NOT EXISTS Indicator_BB20
@@ -59,7 +61,6 @@ CREATE TABLE IF NOT EXISTS Indicator_BB20
     middlebandroc REAL,
     upperbandroc REAL
 );
-
 CREATE INDEX IF NOT EXISTS ix_Indicator_BB20_Date ON Indicator_BB20 (Date);
 
 CREATE TABLE IF NOT EXISTS Indicator_ROC
@@ -70,5 +71,29 @@ CREATE TABLE IF NOT EXISTS Indicator_ROC
     ROC_10 REAL,
     ROC_20 REAL
 );
-
 CREATE INDEX IF NOT EXISTS ix_Indicator_ROC_Date ON Indicator_ROC (Date);
+
+
+CREATE TABLE 'Rule Indicator_ROC ROC_5 > 20'
+(
+    Date TEXT,
+    Code TEXT,
+    Match INT
+);
+CREATE INDEX 'ix_Rule Indicator_ROC ROC_5 > 20_Date' ON 'Rule Indicator_ROC ROC_5 > 20' (Date);
+
+CREATE TABLE 'Rule Indicator_ROC ROC_5 > 15'
+(
+    Date TEXT,
+    Code TEXT,
+    Match INT
+);
+CREATE INDEX 'ix_Rule Indicator_ROC ROC_5 > 15_Date' ON 'Rule Indicator_ROC ROC_5 > 15' (Date);
+
+CREATE TABLE 'Rule Indicator_ROC ROC_5 > 10'
+(
+    Date TEXT,
+    Code TEXT,
+    Match INT
+);
+CREATE INDEX 'ix_Rule Indicator_ROC ROC_5 > 10_Date' ON 'Rule Indicator_ROC ROC_5 > 10' (Date);

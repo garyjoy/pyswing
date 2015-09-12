@@ -4,19 +4,13 @@ import sys
 
 from utils.Logger import Logger
 from pyswing.objects.market import Market
-from pyswing.objects.equity import Equity
-
-from pyswing.objects.indicatorSMA import IndicatorSMA
-from pyswing.objects.indicatorEMA import IndicatorEMA
-from pyswing.objects.indicatorBB20 import IndicatorBB20
-from pyswing.objects.indicatorROC import IndicatorROC
-
+from pyswing.objects.simpleRule import SimpleRule
 from utils.TeamCity import TeamCity
 
 
-def updateIndicators(argv):
+def evaluateRules(argv):
     """
-    Update Indicators.
+    Evaluate Rules.
 
     :param argv: Command Line Parameters.
 
@@ -24,7 +18,7 @@ def updateIndicators(argv):
 
     Example:
 
-    python -m pyswing.UpdateIndicators -n asx
+    python -m pyswing.EvaluateRules -n asx
     """
 
     Logger.log(logging.INFO, "Log Script Call", {"scope":__name__, "arguments":" ".join(argv)})
@@ -53,28 +47,23 @@ def updateIndicators(argv):
 
     if marketName != "":
 
-        Logger.log(logging.INFO, "Update Indicators", {"scope":__name__, "market":marketName})
+        Logger.log(logging.INFO, "Evaluate Rules", {"scope":__name__, "market":marketName})
 
         tickerCodesRelativeFilePath = "resources/%s.txt" % (marketName)
 
         market = Market(tickerCodesRelativeFilePath)
 
+        rules = []
+        rules.append(SimpleRule("Indicator_ROC", "ROC_5 > 20"))
+        rules.append(SimpleRule("Indicator_ROC", "ROC_5 > 15"))
+        rules.append(SimpleRule("Indicator_ROC", "ROC_5 > 10"))
+
         for index, row in market.tickers.iterrows():
+
             tickerCode = row[0]
-            equity = Equity(tickerCode)
-            equityDataFrame = equity.dataFrame()
 
-            smaIndicator = IndicatorSMA(equityDataFrame, tickerCode)
-            smaIndicator.updateIndicator()
-
-            emaIndicator = IndicatorEMA(equityDataFrame, tickerCode)
-            emaIndicator.updateIndicator()
-
-            bbIndicator = IndicatorBB20(equityDataFrame, tickerCode)
-            bbIndicator.updateIndicator()
-
-            rocIndicator = IndicatorROC(equityDataFrame, tickerCode)
-            rocIndicator.updateIndicator()
+            for rule in rules:
+                rule.evaluateRule(tickerCode)
 
         # TODO: Implement Integrity Checks for Data and Report Status (e.g. ?)
         TeamCity.setBuildResultText("Updated Indicators")
@@ -99,4 +88,4 @@ def usage():
 
 
 if __name__ == "__main__":
-    updateIndicators(sys.argv[1:])
+    evaluateRules(sys.argv[1:])

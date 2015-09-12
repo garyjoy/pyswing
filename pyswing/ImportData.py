@@ -57,7 +57,7 @@ def importData(argv):
             equity = Equity(row[0])
             equity.importData()
 
-        # TODO: Implement Integrety Checks for Data and Report Status (e.g. 74 Shares Populated up to 01.01.2015)
+        # TODO: Implement Integrity Checks for Data and Report Status (e.g. 74 Shares Populated up to 01.01.2015)
         TeamCity.setBuildResultText("Imported Data from Yahoo")
 
     else:

@@ -8,6 +8,8 @@ class IndicatorROC(Indicator):
     Rate of Change Indicator(s).
     """
 
+    tableName = "Indicator_ROC"
+
     def __init__(self, equityDataFrame, tickerCode):
         """
         Create the Rate of Change-specific logic. Everything else lives in the Indicator Base Class.
@@ -16,10 +18,9 @@ class IndicatorROC(Indicator):
         :param tickerCode: Ticker Code (String).
         """
 
-        tableName = "Indicator_ROC"
         tickerCode = tickerCode
 
-        insertQuery = "insert or replace into %s (Date, Code, ROC_5, ROC_10, ROC_20) values (?,?,?,?,?)" % (tableName)
+        insertQuery = "insert or replace into %s (Date, Code, ROC_5, ROC_10, ROC_20) values (?,?,?,?,?)" % (IndicatorROC.tableName)
 
         equityDataFrame = equityDataFrame
 
@@ -31,4 +32,4 @@ class IndicatorROC(Indicator):
         indicatorDataFrame['ROC_10'] = abstract.ROC(equityDataFrame, timeperiod=10, price='Close')
         indicatorDataFrame['ROC_20'] = abstract.ROC(equityDataFrame, timeperiod=20, price='Close')
 
-        Indicator.__init__(self, tableName, tickerCode, insertQuery, equityDataFrame, indicatorDataFrame)
+        Indicator.__init__(self, IndicatorROC.tableName, tickerCode, insertQuery, equityDataFrame, indicatorDataFrame)

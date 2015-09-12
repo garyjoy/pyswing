@@ -75,7 +75,3 @@ class Indicator(object):
             date = datetime.datetime.strptime(dateString, "%Y-%m-%d %H:%M:%S")
 
         return date
-
-    def _getTodaysDate(self):
-
-        return datetime.datetime.now()

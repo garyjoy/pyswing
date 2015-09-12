@@ -66,7 +66,7 @@ def evaluateRules(argv):
                 rule.evaluateRule(tickerCode)
 
         # TODO: Implement Integrity Checks for Data and Report Status (e.g. ?)
-        TeamCity.setBuildResultText("Updated Indicators")
+        TeamCity.setBuildResultText("Evaluated Rules")
 
     else:
         Logger.log(logging.ERROR, "Missing Options", {"scope": __name__, "options": str(argv)})

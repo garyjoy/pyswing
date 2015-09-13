@@ -74,8 +74,8 @@ def evaluateRules(argv):
         rules.append(RelativeRule("Equities", "Close", -5, Comparison.GreaterThan, 1.10))
         rules.append(RelativeRule("Equities", "Close", -5, Comparison.LessThan, 0.90))
 
-        rules.append(RelativeRule("Equities", "Close", -5, Comparison.GreaterThan, 1.10))
-        rules.append(RelativeRule("Equities", "Close", -5, Comparison.LessThan, 0.90))
+        rules.append(RelativeRule("Equities", "Close", -5, Comparison.GreaterThan, 1.20))
+        rules.append(RelativeRule("Equities", "Close", -5, Comparison.LessThan, 0.80))
 
         for index, row in market.tickers.iterrows():
 

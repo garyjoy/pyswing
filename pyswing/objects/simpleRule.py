@@ -51,27 +51,3 @@ class SimpleRule(Rule):
         connection.commit()
 
         connection.close()
-
-
-    def _getLatestDate(self):
-
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
-
-        query = "select max(Date) from '%s' where Code = '%s'" % (self._ruleTableName, self._tickerCode)
-
-        cursor = connection.cursor()
-
-        dateString = None
-        try:
-            cursor.execute(query)
-            dateString = cursor.fetchone()[0]
-        except sqlite3.OperationalError:
-            Logger.log(logging.INFO, "Table Does Not Exist", {"scope":__name__, "table":self._ruleTableName})
-
-        connection.close()
-
-        date = pyswing.constants.pySwingStartDate
-        if dateString:
-            date = datetime.datetime.strptime(dateString, "%Y-%m-%d %H:%M:%S")
-
-        return date

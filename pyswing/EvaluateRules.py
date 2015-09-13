@@ -5,6 +5,7 @@ import sys
 from utils.Logger import Logger
 from pyswing.objects.market import Market
 from pyswing.objects.simpleRule import SimpleRule
+from pyswing.objects.relativeRule import RelativeRule, Comparison
 from utils.TeamCity import TeamCity
 
 
@@ -57,6 +58,9 @@ def evaluateRules(argv):
         rules.append(SimpleRule("Indicator_ROC", "ROC_5 > 20"))
         rules.append(SimpleRule("Indicator_ROC", "ROC_5 > 15"))
         rules.append(SimpleRule("Indicator_ROC", "ROC_5 > 10"))
+
+        rules.append(RelativeRule("Equities", "Close", -1, Comparison.GreaterThan, 1.01))
+        rules.append(RelativeRule("Equities", "Close", -1, Comparison.LessThan, 0.99))
 
         for index, row in market.tickers.iterrows():
 

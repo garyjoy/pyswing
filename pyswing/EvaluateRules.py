@@ -59,6 +59,26 @@ def evaluateRules(argv):
         rules.append(SimpleRule("Indicator_ROC", "ROC_5 > 15"))
         rules.append(SimpleRule("Indicator_ROC", "ROC_5 > 10"))
 
+        rules.append(SimpleRule("Indicator_ROC", "ROC_5 < -20"))
+        rules.append(SimpleRule("Indicator_ROC", "ROC_5 < -15"))
+        rules.append(SimpleRule("Indicator_ROC", "ROC_5 < -10"))
+
+        rules.append(SimpleRule("Indicator_ROC", "ROC_10 > 25"))
+        rules.append(SimpleRule("Indicator_ROC", "ROC_10 > 20"))
+        rules.append(SimpleRule("Indicator_ROC", "ROC_10 > 15"))
+
+        rules.append(SimpleRule("Indicator_ROC", "ROC_10 < -25"))
+        rules.append(SimpleRule("Indicator_ROC", "ROC_10 < -20"))
+        rules.append(SimpleRule("Indicator_ROC", "ROC_10 < -15"))
+
+        rules.append(SimpleRule("Indicator_ROC", "ROC_20 > 35"))
+        rules.append(SimpleRule("Indicator_ROC", "ROC_20 > 30"))
+        rules.append(SimpleRule("Indicator_ROC", "ROC_20 > 20"))
+
+        rules.append(SimpleRule("Indicator_ROC", "ROC_20 < -35"))
+        rules.append(SimpleRule("Indicator_ROC", "ROC_20 < -30"))
+        rules.append(SimpleRule("Indicator_ROC", "ROC_20 < -20"))
+
         rules.append(RelativeRule("Equities", "Close", -1, Comparison.GreaterThan, 1.01))
         rules.append(RelativeRule("Equities", "Close", -1, Comparison.LessThan, 0.99))
 

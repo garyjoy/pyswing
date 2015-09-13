@@ -73,43 +73,39 @@ CREATE TABLE IF NOT EXISTS Indicator_ROC
 );
 CREATE INDEX IF NOT EXISTS ix_Indicator_ROC_Date ON Indicator_ROC (Date);
 
+-- Rules
 
-CREATE TABLE 'Rule Indicator_ROC ROC_5 > 20'
-(
-    Date TEXT,
-    Code TEXT,
-    Match INT
-);
-CREATE INDEX 'ix_Rule Indicator_ROC ROC_5 > 20_Date' ON 'Rule Indicator_ROC ROC_5 > 20' (Date);
-
-CREATE TABLE 'Rule Indicator_ROC ROC_5 > 15'
-(
-    Date TEXT,
-    Code TEXT,
-    Match INT
-);
-CREATE INDEX 'ix_Rule Indicator_ROC ROC_5 > 15_Date' ON 'Rule Indicator_ROC ROC_5 > 15' (Date);
-
-CREATE TABLE 'Rule Indicator_ROC ROC_5 > 10'
-(
-    Date TEXT,
-    Code TEXT,
-    Match INT
-);
-CREATE INDEX 'ix_Rule Indicator_ROC ROC_5 > 10_Date' ON 'Rule Indicator_ROC ROC_5 > 10' (Date);
-
-CREATE TABLE 'Rule Equities Close -1 Comparison.GreaterThan 1.01'
-(
-    Date TEXT,
-    Code TEXT,
-    Match INT
-);
-CREATE INDEX 'ix_Rule Equities Close -1 Comparison.GreaterThan 1.01_Date' ON 'Rule Equities Close -1 Comparison.GreaterThan 1.01' (Date);
-
-CREATE TABLE 'Rule Equities Close -1 Comparison.LessThan 0.99'
-(
-    Date TEXT,
-    Code TEXT,
-    Match INT
-);
-CREATE INDEX 'ix_Rule Equities Close -1 Comparison.LessThan 0.99_Date' ON 'Rule Equities Close -1 Comparison.LessThan 0.99' (Date);
+--CREATE TABLE 'Rule Indicator_ROC ROC_5 > 20'
+--(
+--    Date TEXT,
+--    Code TEXT,
+--    Match INT
+--);
+--CREATE INDEX 'ix_Rule Indicator_ROC ROC_5 > 20_Date' ON 'Rule Indicator_ROC ROC_5 > 20' (Date);
+--
+--CREATE TABLE 'Rule Indicator_ROC ROC_5 > 15'
+--(
+--    Date TEXT,
+--    Code TEXT,
+--    Match INT
+--);
+--CREATE INDEX 'ix_Rule Indicator_ROC ROC_5 > 15_Date' ON 'Rule Indicator_ROC ROC_5 > 15' (Date);
+--
+--CREATE TABLE 'Rule Indicator_ROC ROC_5 > 10'
+--(
+--    Date TEXT,
+--    Code TEXT,
+--    Match INT
+--);
+--CREATE INDEX 'ix_Rule Indicator_ROC ROC_5 > 10_Date' ON 'Rule Indicator_ROC ROC_5 > 10' (Date);
+--
+--CREATE TABLE 'Rule Equities Close -1 Comparison.GreaterThan 1.01'
+--(
+--    Date TEXT,
+--    Code TEXT,
+--    Match INT
+--);
+--CREATE INDEX 'ix_Rule Equities Close -1 Comparison.GreaterThan 1.01_Date' ON 'Rule Equities Close -1 Comparison.GreaterThan 1.01' (Date);
+--
+--CREATE TABLE IF NOT EXISTS 'Rule Equities Close -1 Comparison.LessThan 0.99' (Date TEXT, Code TEXT, Match INT);
+--CREATE INDEX IF NOT EXISTS 'ix_Rule Equities Close -1 Comparison.LessThan 0.99_Date' ON 'Rule Equities Close -1 Comparison.LessThan 0.99' (Date);

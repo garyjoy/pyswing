@@ -62,6 +62,21 @@ def evaluateRules(argv):
         rules.append(RelativeRule("Equities", "Close", -1, Comparison.GreaterThan, 1.01))
         rules.append(RelativeRule("Equities", "Close", -1, Comparison.LessThan, 0.99))
 
+        rules.append(RelativeRule("Equities", "Close", -1, Comparison.GreaterThan, 1.02))
+        rules.append(RelativeRule("Equities", "Close", -1, Comparison.LessThan, 0.98))
+
+        rules.append(RelativeRule("Equities", "Close", -1, Comparison.GreaterThan, 1.03))
+        rules.append(RelativeRule("Equities", "Close", -1, Comparison.LessThan, 0.97))
+
+        rules.append(RelativeRule("Equities", "Close", -1, Comparison.GreaterThan, 1.05))
+        rules.append(RelativeRule("Equities", "Close", -1, Comparison.LessThan, 0.95))
+
+        rules.append(RelativeRule("Equities", "Close", -5, Comparison.GreaterThan, 1.10))
+        rules.append(RelativeRule("Equities", "Close", -5, Comparison.LessThan, 0.90))
+
+        rules.append(RelativeRule("Equities", "Close", -5, Comparison.GreaterThan, 1.10))
+        rules.append(RelativeRule("Equities", "Close", -5, Comparison.LessThan, 0.90))
+
         for index, row in market.tickers.iterrows():
 
             tickerCode = row[0]

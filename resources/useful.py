@@ -26,7 +26,7 @@ import pyswing.constants
 import sqlite3
 from pandas.io.sql import read_sql_query
 connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
-query = "select * from Indicator_ROC where Code = 'TLS.AX'"
+query = "select * from Indicator_SMA where Code = 'WOR.AX'"
 cbaEquityData = read_sql_query(query, connection, 'Date')
 connection.close()
-cbaEquityData.query("Date > '2005-01-01 00:00:00'").plot(y=['ROC_5'], title='TLS ROC_5')
+cbaEquityData.query("Date > '2015-08-25 00:00:00'").plot(y=['SMA_5','SMA_10'], title='Testing')

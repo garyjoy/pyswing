@@ -37,9 +37,7 @@ class RelativeRule(Rule):
         ruleTableName = "Rule %s %s %s %s %s" % (indicatorTable, indicatorColumn, relativeIndex, comparison, multiplier)
         Rule.__init__(self, ruleTableName)
 
-        self._insertQuery = "insert or replace into '%s' (Date, Code, Match) values (?,?,?)" % (self._ruleTableName)
-
-        self._selectQuery = "select Date, Code, %s from %s as Match" % (indicatorColumn, indicatorTable)
+        self._selectQuery = "select Date, Code, %s from %s" % (indicatorColumn, indicatorTable)
 
         self._indicatorColumn = indicatorColumn
         self._relativeIndex = relativeIndex
@@ -70,11 +68,11 @@ class RelativeRule(Rule):
         self._ruleData['Relative'] = self._ruleData[self._indicatorColumn].shift(self._relativeIndex * -1)
 
         if self._comparison == Comparison.GreaterThan :
-            self._ruleData['Matches'] = self._ruleData[self._indicatorColumn] > self._multiplier * self._ruleData['Relative']
+            self._ruleData['Match'] = self._ruleData[self._indicatorColumn] > self._multiplier * self._ruleData['Relative']
         else:
-            self._ruleData['Matches'] = self._ruleData[self._indicatorColumn] < self._multiplier * self._ruleData['Relative']
+            self._ruleData['Match'] = self._ruleData[self._indicatorColumn] < self._multiplier * self._ruleData['Relative']
 
-        self._ruleData['Matches'] = self._ruleData['Matches'].astype(float)
+        self._ruleData['Match'] = self._ruleData['Match'].astype(float)
 
         self._ruleData.drop('Relative', axis=1, inplace=True)
         self._ruleData.drop(self._indicatorColumn, axis=1, inplace=True)

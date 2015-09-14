@@ -26,9 +26,7 @@ class SimpleRule(Rule):
         ruleTableName = "Rule %s %s" % (indicatorTable, indicatorRule)
         Rule.__init__(self, ruleTableName)
 
-        self._insertQuery = "insert or replace into '%s' (Date, Code, Match) values (?,?,?)" % (self._ruleTableName)
-
-        self._selectQuery = "select Date, Code, %s from %s as Match" % (indicatorRule, indicatorTable)
+        self._selectQuery = "select Date, Code, %s as Match from %s" % (indicatorRule, indicatorTable)
 
 
     def evaluateRule(self, tickerCode):

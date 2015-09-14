@@ -2,11 +2,10 @@ import datetime
 import logging
 import unittest
 import sqlite3
-
 from unittest.mock import patch
+
 from utils.FileHelper import forceWorkingDirectory, deleteFile
 from utils.Logger import Logger
-from pyswing.objects.simpleRule import SimpleRule
 from pyswing.objects.equity import Equity
 from pyswing.objects.relativeRule import RelativeRule, Comparison
 import pyswing.constants
@@ -48,16 +47,16 @@ class TestRelativeRule(unittest.TestCase):
         pass
 
 
-    def test_IndicatorSMA(self):
+    def test_RelativeRule(self):
 
         rule = RelativeRule("Equities", "Close", -1, Comparison.GreaterThan, 1.01)
         rule.evaluateRule("WOR.AX")
 
         dataPointMatch = rule._ruleData.ix['2015-08-28 00:00:00']
-        self.assertEqual(dataPointMatch['Matches'], 1)
+        self.assertEqual(dataPointMatch['Match'], 1)
 
         dataPointMatch = rule._ruleData.ix['2015-08-31 00:00:00']
-        self.assertEqual(dataPointMatch['Matches'], 0)
+        self.assertEqual(dataPointMatch['Match'], 0)
 
 
 if __name__ == '__main__':

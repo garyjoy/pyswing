@@ -2,17 +2,17 @@ import datetime
 import logging
 import unittest
 import sqlite3
-
 from unittest.mock import patch
+
 from utils.FileHelper import forceWorkingDirectory, deleteFile
 from utils.Logger import Logger
-from pyswing.objects.simpleRule import SimpleRule
 from pyswing.objects.equity import Equity
-from pyswing.objects.indicatorROC import IndicatorROC
+from pyswing.objects.crossingRule import CrossingRule
+from pyswing.objects.indicatorSMA import IndicatorSMA
 import pyswing.constants
 
 
-class TestSimpleRule(unittest.TestCase):
+class TestCrossingRule(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
@@ -20,8 +20,8 @@ class TestSimpleRule(unittest.TestCase):
         Logger.pushLogData("unitTesting", __name__)
         forceWorkingDirectory()
 
-        pyswing.constants.pySwingDatabase = "output/TestSimpleRule.db"
-        pyswing.constants.pySwingStartDate = datetime.datetime(2014, 1, 1)
+        pyswing.constants.pySwingDatabase = "output/TestCrossingRule.db"
+        pyswing.constants.pySwingStartDate = datetime.datetime(2015, 1, 1)
 
         deleteFile(pyswing.constants.pySwingDatabase)
 
@@ -41,8 +41,8 @@ class TestSimpleRule(unittest.TestCase):
             self._equityCBA = Equity("WOR.AX")
             self._equityCBA.importData()
 
-        indicatorROC = IndicatorROC(self._equityCBA.dataFrame(), "WOR.AX")
-        indicatorROC.updateIndicator()
+        indicatorSMA = IndicatorSMA(self._equityCBA.dataFrame(), "WOR.AX")
+        indicatorSMA.updateIndicator()
 
 
     @classmethod
@@ -51,17 +51,16 @@ class TestSimpleRule(unittest.TestCase):
         pass
 
 
-    def test_IndicatorSMA(self):
+    def test_CrossingRule(self):
 
-        rule = SimpleRule("Indicator_ROC", "ROC_5 > 10")
-
+        rule = CrossingRule("Indicator_SMA","SMA_5","Indicator_SMA","SMA_10")
         rule.evaluateRule("WOR.AX")
 
-        dataPointMatch = rule._ruleData.ix['2015-04-27 00:00:00']
+        dataPointMatch = rule._ruleData.ix['2015-08-28 00:00:00']
         self.assertEqual(dataPointMatch['Match'], 1)
 
-        dataPointNoMatch = rule._ruleData.ix['2015-04-28 00:00:00']
-        self.assertEqual(dataPointNoMatch['Match'], 0)
+        dataPointMatch = rule._ruleData.ix['2015-08-31 00:00:00']
+        self.assertEqual(dataPointMatch['Match'], 0)
 
 
 if __name__ == '__main__':

@@ -26,6 +26,8 @@ class Rule(object):
         self._ruleTableName = ruleTableName
         self._createTable()
 
+        self._insertQuery = "insert or replace into '%s' (Date, Code, Match) values (?,?,?)" % (self._ruleTableName)
+
 
     def evaluateRule(self, tickerCode):
         """

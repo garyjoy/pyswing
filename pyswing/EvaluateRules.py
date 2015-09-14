@@ -6,6 +6,7 @@ from utils.Logger import Logger
 from pyswing.objects.market import Market
 from pyswing.objects.simpleRule import SimpleRule
 from pyswing.objects.relativeRule import RelativeRule, Comparison
+from pyswing.objects.crossingRule import CrossingRule
 from utils.TeamCity import TeamCity
 
 
@@ -96,6 +97,11 @@ def evaluateRules(argv):
 
         rules.append(RelativeRule("Equities", "Close", -5, Comparison.GreaterThan, 1.20))
         rules.append(RelativeRule("Equities", "Close", -5, Comparison.LessThan, 0.80))
+
+        rules.append(CrossingRule("Indicator_SMA","SMA_5","Indicator_SMA","SMA_20"))
+        rules.append(CrossingRule("Indicator_SMA","SMA_10","Indicator_SMA","SMA_50"))
+        rules.append(CrossingRule("Indicator_SMA","SMA_10","Indicator_SMA","SMA_200"))
+        rules.append(CrossingRule("Indicator_SMA","SMA_20","Indicator_SMA","SMA_200"))
 
         for index, row in market.tickers.iterrows():
 

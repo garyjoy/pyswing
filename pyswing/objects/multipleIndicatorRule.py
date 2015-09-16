@@ -40,7 +40,10 @@ class MultipleIndicatorRule(Rule):
 
         Logger.log(logging.INFO, "Evaluating Rule", {"scope":__name__, "Rule":self._ruleTableName, "code":self._tickerCode, "start":str(start)})
 
-        self._restrictedSelectQuery = "%s where t1.Code = '%s' and t1.Date > '%s'" % (self._selectQuery, self._tickerCode, start)
+        if start == pyswing.constants.pySwingStartDate:
+            self._restrictedSelectQuery = "%s where t1.Code = '%s'" % (self._selectQuery, self._tickerCode)
+        else:
+            self._restrictedSelectQuery = "%s where t1.Code = '%s' and t1.Date > '%s'" % (self._selectQuery, self._tickerCode, start)
 
         connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
 

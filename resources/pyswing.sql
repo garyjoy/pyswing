@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS "Equities" (
   "Code" TEXT,
   PRIMARY KEY ("Code", "Date")
 );
-CREATE INDEX IF NOT EXISTS "ix_Equities_Date"ON "Equities" ("Date");
-
+CREATE INDEX IF NOT EXISTS "ix_Equities_Date" ON "Equities" ("Date");
+CREATE INDEX IF NOT EXISTS "ix_Equities_Code" ON "Equities" ("Code");
 
 CREATE TABLE IF NOT EXISTS Indicator_SMA
 (
@@ -34,6 +34,7 @@ CREATE TABLE IF NOT EXISTS Indicator_SMA
     SMA_200 REAL
 );
 CREATE INDEX IF NOT EXISTS ix_Indicator_SMA_Date ON Indicator_SMA (Date);
+CREATE INDEX IF NOT EXISTS ix_Indicator_SMA_Code ON Indicator_SMA (Code);
 
 CREATE TABLE IF NOT EXISTS Indicator_EMA
 (

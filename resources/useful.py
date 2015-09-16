@@ -25,8 +25,8 @@ cbaEquityData.query("Date > '2015-01-01 00:00:00'").plot(y=['upperband','middleb
 import pyswing.constants
 import sqlite3
 from pandas.io.sql import read_sql_query
-connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
-query = "select * from Indicator_SMA where Code = 'WOR.AX'"
+connection = sqlite3.connect("output/TestMultipleIndicatorRule.db")
+query = "select e.Date, Close, SMA_200 from Equities e inner join Indicator_SMA i on e.Date = i.Date and e.Code = i.Code"
 cbaEquityData = read_sql_query(query, connection, 'Date')
 connection.close()
-cbaEquityData.query("Date > '2015-08-25 00:00:00'").plot(y=['SMA_5','SMA_10'], title='Testing')
+cbaEquityData.query("Date > '2015-06-01 00:00:00'").plot(y=['Close','SMA_200'], title='Testing')

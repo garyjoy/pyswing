@@ -7,6 +7,7 @@ from pyswing.objects.market import Market
 from pyswing.objects.simpleRule import SimpleRule
 from pyswing.objects.relativeRule import RelativeRule, Comparison
 from pyswing.objects.crossingRule import CrossingRule
+from pyswing.objects.multipleIndicatorRule import MultipleIndicatorRule
 from utils.TeamCity import TeamCity
 
 
@@ -102,6 +103,14 @@ def evaluateRules(argv):
         rules.append(CrossingRule("Indicator_SMA","SMA_10","Indicator_SMA","SMA_50"))
         rules.append(CrossingRule("Indicator_SMA","SMA_10","Indicator_SMA","SMA_200"))
         rules.append(CrossingRule("Indicator_SMA","SMA_20","Indicator_SMA","SMA_200"))
+
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_SMA", "t1.Close > t2.SMA_200"))
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_SMA", "t1.Close > 1.1 * t2.SMA_200"))
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_SMA", "t1.Close > 1.2 * t2.SMA_200"))
+
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_SMA", "t1.Close < t2.SMA_200"))
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_SMA", "t1.Close < 0.9 * t2.SMA_200"))
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_SMA", "t1.Close < 0.8 * t2.SMA_200"))
 
         for index, row in market.tickers.iterrows():
 

@@ -119,7 +119,6 @@ def evaluateRules(argv):
             for rule in rules:
                 rule.evaluateRule(tickerCode)
 
-        # TODO: Implement Integrity Checks for Data and Report Status (e.g. ?)
         TeamCity.setBuildResultText("Evaluated Rules")
 
     else:

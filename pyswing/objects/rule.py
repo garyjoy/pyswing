@@ -11,8 +11,9 @@ class Rule(object):
     Rule Base Class.
     """
 
-    CreateTableCommand = "CREATE TABLE IF NOT EXISTS '%s' (Date TEXT, Code TEXT, Match INT);"
-    CreateIndexCommand = "CREATE INDEX IF NOT EXISTS 'ix_%s_Date' ON '%s' (Date);"
+    CreateTableCommand = "CREATE TABLE IF NOT EXISTS '%s' (Date TEXT, Code TEXT, Match INT, PRIMARY KEY (Date, Code));"
+    CreateDateIndexCommand = "CREATE INDEX IF NOT EXISTS 'ix_%s_Date' ON '%s' (Date);"
+    CreateCodeIndexCommand = "CREATE INDEX IF NOT EXISTS 'ix_%s_Code' ON '%s' (Code);"
 
     def __init__(self, ruleTableName):
         """
@@ -65,7 +66,8 @@ class Rule(object):
         connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
         c = connection.cursor()
         c.executescript(Rule.CreateTableCommand % (self._ruleTableName))
-        c.executescript(Rule.CreateIndexCommand % (self._ruleTableName, self._ruleTableName))
+        c.executescript(Rule.CreateDateIndexCommand % (self._ruleTableName, self._ruleTableName))
+        c.executescript(Rule.CreateCodeIndexCommand % (self._ruleTableName, self._ruleTableName))
         connection.commit()
         c.close()
         connection.close()

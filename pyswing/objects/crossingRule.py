@@ -1,14 +1,12 @@
 import logging
-import datetime
 import sqlite3
+from enum import Enum
 
 from pandas.io.sql import read_sql_query
-from pyswing.objects.rule import Rule
 
+from pyswing.objects.rule import Rule
 from utils.Logger import Logger
 import pyswing.constants
-
-from enum import Enum
 
 
 class Comparison(Enum):
@@ -67,9 +65,14 @@ class CrossingRule(Rule):
         self._ruleData['LastCrosser'] = self._ruleData['Crosser'].shift(1)
         self._ruleData['LastCrossee'] = self._ruleData['Crossee'].shift(1)
 
-        self._ruleData['Match'] = (self._ruleData['Crosser'] > self._ruleData['Crossee']) & (self._ruleData['LastCrossee'] > self._ruleData['LastCrosser'])
-
-        self._ruleData['Match'] = self._ruleData['Match'].astype(float)
+        try:
+            self._ruleData['Match'] = (self._ruleData['Crosser'] > self._ruleData['Crossee']) & (self._ruleData['LastCrossee'] > self._ruleData['LastCrosser'])
+            self._ruleData['Match'] = self._ruleData['Match'].astype(float)
+        except TypeError as e:
+            # NOTE:  Throws "TypeError: unorderable types: float() > NoneType()" if there is no data (e.g. SMA_200 for datasets smaller than 200)
+            Logger.log(logging.ERROR, "Error Evaluating Rule", {"scope": __name__, "Rule":self._ruleTableName, "exception": str(e)})
+            self._ruleData['Match'] = 0.0
+            self._ruleData['Match'] = self._ruleData['Match'].astype(float)
 
         self._ruleData.drop('Crosser', axis=1, inplace=True)
         self._ruleData.drop('Crossee', axis=1, inplace=True)

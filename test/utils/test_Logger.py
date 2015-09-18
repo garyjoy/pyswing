@@ -1,8 +1,8 @@
 import logging
 import unittest
+from unittest.mock import patch
 
 from utils.Logger import Logger
-from unittest.mock import patch
 from utils.FileHelper import forceWorkingDirectory
 
 

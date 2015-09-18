@@ -1,6 +1,5 @@
 import unittest
 
-from utils.Logger import Logger
 from utils.FileHelper import *
 
 

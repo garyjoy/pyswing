@@ -1,7 +1,5 @@
 import datetime
-import logging
 import unittest
-import sqlite3
 from unittest.mock import patch
 
 from utils.FileHelper import forceWorkingDirectory, deleteFile
@@ -9,6 +7,7 @@ from utils.Logger import Logger
 from pyswing.objects.equity import Equity
 from pyswing.objects.relativeRule import RelativeRule, Comparison
 import pyswing.constants
+from pyswing.CreateDatabase import createDatabase
 
 
 class TestRelativeRule(unittest.TestCase):
@@ -24,15 +23,8 @@ class TestRelativeRule(unittest.TestCase):
 
         deleteFile(pyswing.constants.pySwingDatabase)
 
-        # TODO:  Move this into another class / function (with UNit Test etc.)
-        Logger.log(logging.INFO, "Creating Test Database", {"scope":__name__, "database":pyswing.constants.pySwingDatabase})
-        query = open('resources/pyswing.sql', 'r').read()
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
-        c = connection.cursor()
-        c.executescript(query)
-        connection.commit()
-        c.close()
-        connection.close()
+        args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
+        createDatabase(args.split())
 
         pretendDate = datetime.datetime(2015, 9, 1)
         with patch.object(Equity, '_getTodaysDate', return_value=pretendDate) as mock_method:
@@ -44,7 +36,6 @@ class TestRelativeRule(unittest.TestCase):
     @classmethod
     def tearDownClass(self):
         deleteFile(pyswing.constants.pySwingDatabase)
-        pass
 
 
     def test_RelativeRule(self):

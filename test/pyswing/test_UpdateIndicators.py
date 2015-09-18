@@ -1,15 +1,15 @@
 import datetime
-import logging
 import unittest
 import sqlite3
+from unittest.mock import patch
 
 from utils.FileHelper import forceWorkingDirectory, deleteFile
 from utils.Logger import Logger
 import pyswing.constants
 from pyswing.ImportData import importData
 from pyswing.UpdateIndicators import updateIndicators
-from unittest.mock import patch
 from pyswing.objects.equity import Equity
+from pyswing.CreateDatabase import createDatabase
 
 
 class TestUpdateIndicators(unittest.TestCase):
@@ -24,19 +24,12 @@ class TestUpdateIndicators(unittest.TestCase):
 
         deleteFile(pyswing.constants.pySwingDatabase)
 
-        Logger.log(logging.INFO, "Creating Test Database", {"scope":__name__, "database":pyswing.constants.pySwingDatabase})
-        query = open('resources/pyswing.sql', 'r').read()
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
-        c = connection.cursor()
-        c.executescript(query)
-        connection.commit()
-        c.close()
-        connection.close()
+        args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
+        createDatabase(args.split())
 
     @classmethod
     def tearDownClass(self):
         deleteFile(pyswing.constants.pySwingDatabase)
-        pass
 
 
     def test_UpdateIndicators(self):
@@ -49,13 +42,11 @@ class TestUpdateIndicators(unittest.TestCase):
         args = "-n unitTest".split()
         updateIndicators(args)
 
-        # TODO: Check that these numbers (i.e. 321) are correct...
-
         rowCount = self._countRows("Indicator_SMA")
-        self.assertEqual(rowCount, 321)
+        anotherRowCount = self._countRows("Indicator_ROC")
 
-        rowCount = self._countRows("Indicator_EMA")
         self.assertEqual(rowCount, 321)
+        self.assertEqual(rowCount, anotherRowCount)
 
 
     def _countRows(self, tableName):

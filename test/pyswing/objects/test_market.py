@@ -14,10 +14,6 @@ class TestMarket(unittest.TestCase):
 
         self._market = Market("resources/asx.txt")
 
-    @classmethod
-    def tearDown(self):
-        pass
-
 
     def test_tickers(self):
 

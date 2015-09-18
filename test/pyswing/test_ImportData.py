@@ -1,14 +1,14 @@
 import datetime
-import logging
 import unittest
 import sqlite3
+from unittest.mock import patch
 
 from utils.FileHelper import forceWorkingDirectory, deleteFile
 from utils.Logger import Logger
 import pyswing.constants
 from pyswing.ImportData import importData
-from unittest.mock import patch
 from pyswing.objects.equity import Equity
+from pyswing.CreateDatabase import createDatabase
 
 
 class TestImportData(unittest.TestCase):
@@ -23,18 +23,12 @@ class TestImportData(unittest.TestCase):
 
         deleteFile(pyswing.constants.pySwingDatabase)
 
-        Logger.log(logging.INFO, "Creating Test Database", {"scope":__name__, "database":pyswing.constants.pySwingDatabase})
-        query = open('resources/pyswing.sql', 'r').read()
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
-        c = connection.cursor()
-        c.executescript(query)
-        connection.commit()
-        c.close()
-        connection.close()
+        args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
+        createDatabase(args.split())
 
     @classmethod
     def tearDownClass(self):
-        deleteFile(pyswing.constants.pySwingDatabase)
+        # deleteFile(pyswing.constants.pySwingDatabase)
         pass
 
 

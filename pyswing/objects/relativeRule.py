@@ -1,14 +1,12 @@
 import logging
-import datetime
 import sqlite3
+from enum import Enum
 
 from pandas.io.sql import read_sql_query
-from pyswing.objects.rule import Rule
 
+from pyswing.objects.rule import Rule
 from utils.Logger import Logger
 import pyswing.constants
-
-from enum import Enum
 
 
 class Comparison(Enum):

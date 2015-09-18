@@ -1,6 +1,3 @@
-
-# TODO: Create Unit Tests for this Class
-
 class TeamCity(object):
     """
     The (Static) TeamCity class provides an interface to the TeamCity Build Script Interaction.

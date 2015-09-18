@@ -1,13 +1,12 @@
 import datetime
-import logging
 import unittest
-import sqlite3
-
 from unittest.mock import patch
+
 from utils.FileHelper import forceWorkingDirectory, deleteFile
 from utils.Logger import Logger
 from pyswing.objects.equity import Equity
 import pyswing.constants
+from pyswing.CreateDatabase import createDatabase
 
 
 class TestEquity(unittest.TestCase):
@@ -22,14 +21,8 @@ class TestEquity(unittest.TestCase):
 
         deleteFile(pyswing.constants.pySwingDatabase)
 
-        Logger.log(logging.INFO, "Creating Test Database", {"scope":__name__, "database":pyswing.constants.pySwingDatabase})
-        query = open('resources/pyswing.sql', 'r').read()
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
-        c = connection.cursor()
-        c.executescript(query)
-        connection.commit()
-        c.close()
-        connection.close()
+        args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
+        createDatabase(args.split())
 
         pretendDate = datetime.datetime(2015, 4, 1)
         with patch.object(Equity, '_getTodaysDate', return_value=pretendDate) as mock_method:
@@ -43,7 +36,6 @@ class TestEquity(unittest.TestCase):
     @classmethod
     def tearDownClass(self):
         deleteFile(pyswing.constants.pySwingDatabase)
-        pass
 
 
     def test_importData(self):
@@ -87,7 +79,7 @@ class TestEquity(unittest.TestCase):
         self.assertAlmostEqual(open, 87.84, 2) # 91.40 * (88.46 / 92.05)
         self.assertAlmostEqual(close, 88.46, 2)
 
-        self.assertEqual(int.from_bytes(volume, byteorder='little'), 2130100)
+        self.assertEqual(volume, 2130100)
 
 
 if __name__ == '__main__':

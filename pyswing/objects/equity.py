@@ -1,11 +1,11 @@
 import datetime
 import logging
-
 import sqlite3
 
-from utils.Logger import Logger
 from pandas.io.data import DataReader
 from pandas.io.sql import read_sql_query
+
+from utils.Logger import Logger
 import pyswing.constants
 
 
@@ -51,6 +51,7 @@ class Equity(object):
 
         self._data.drop('Close', axis=1, inplace=True)
         self._data.rename(columns={'Adj Close':'Close'}, inplace=True)
+        self._data['Volume'] = self._data['Volume'].astype(float)
 
         connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
 
@@ -64,8 +65,6 @@ class Equity(object):
 
         connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
         query = "select * from Equities where Code = '%s'" % (self._tickerCode)
-
-        # equityData = connection.select_dataframe(query)
         equityData = read_sql_query(query, connection, 'Date')
         connection.close()
 

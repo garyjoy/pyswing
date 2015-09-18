@@ -1,14 +1,13 @@
 import datetime
-import logging
 import unittest
-import sqlite3
-
 from unittest.mock import patch
+
 from utils.FileHelper import forceWorkingDirectory, deleteFile
 from utils.Logger import Logger
 from pyswing.objects.indicatorSMA import IndicatorSMA
 from pyswing.objects.equity import Equity
 import pyswing.constants
+from pyswing.CreateDatabase import createDatabase
 
 
 class TestIndicatorSMA(unittest.TestCase):
@@ -24,15 +23,8 @@ class TestIndicatorSMA(unittest.TestCase):
 
         deleteFile(pyswing.constants.pySwingDatabase)
 
-        # TODO:  Move this into another class / function (with UNit Test etc.)
-        Logger.log(logging.INFO, "Creating Test Database", {"scope":__name__, "database":pyswing.constants.pySwingDatabase})
-        query = open('resources/pyswing.sql', 'r').read()
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
-        c = connection.cursor()
-        c.executescript(query)
-        connection.commit()
-        c.close()
-        connection.close()
+        args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
+        createDatabase(args.split())
 
         pretendDate = datetime.datetime(2015, 9, 1)
         with patch.object(Equity, '_getTodaysDate', return_value=pretendDate) as mock_method:
@@ -43,7 +35,6 @@ class TestIndicatorSMA(unittest.TestCase):
     @classmethod
     def tearDownClass(self):
         deleteFile(pyswing.constants.pySwingDatabase)
-        pass
 
 
     def test_IndicatorSMA(self):
@@ -51,10 +42,6 @@ class TestIndicatorSMA(unittest.TestCase):
         cbaIndicatorSMA = IndicatorSMA(self._equityCBA.dataFrame(), "CBA.AX")
 
         dataPoint = cbaIndicatorSMA._indicatorDataFrame.ix['2015-08-31 00:00:00']
-
-        # print(dataPoint)
-
-        # TODO:  These Values Reconcile with the Data but NOT the Same Values in Yahoo
 
         self.assertAlmostEqual(dataPoint['SMA_5'], 75.82, 2)
         self.assertAlmostEqual(dataPoint['SMA_10'], 75.85, 2)

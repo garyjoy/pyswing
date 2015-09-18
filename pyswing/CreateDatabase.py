@@ -26,8 +26,8 @@ def createDatabase(argv):
     Logger.log(logging.INFO, "Log Script Call", {"scope":__name__, "arguments":" ".join(argv)})
     Logger.pushLogData("script", __name__)
 
-    databaseFilePath = ""
-    scriptFilePath = ""
+    databaseFilePath = pyswing.constants.pySwingDatabase
+    scriptFilePath = pyswing.constants.pySwingDatabaseScript
 
     try:
         shortOptions = "D:s:dh"
@@ -50,27 +50,21 @@ def createDatabase(argv):
         elif opt in ("-s", "--scriptFilePath"):
             scriptFilePath = arg
 
-    if databaseFilePath != "" and scriptFilePath != "":
+    Logger.log(logging.INFO, "Creating Database", {"scope":__name__, "databaseFilePath":databaseFilePath, "scriptFilePath":scriptFilePath})
 
-        Logger.log(logging.INFO, "Creating Database", {"scope":__name__, "databaseFilePath":databaseFilePath, "scriptFilePath":scriptFilePath})
-
-        if not os.path.exists(databaseFilePath):
-            query = open(pyswing.constants.pySwingDatabaseScript, 'r').read()
-            connection = sqlite3.connect(databaseFilePath)
-            c = connection.cursor()
-            c.executescript(query)
-            connection.commit()
-            c.close()
-            connection.close()
-        else:
-            Logger.log(logging.INFO, "Database File Already Exists", {"scope":__name__, "databaseFilePath":databaseFilePath})
-
+    if not os.path.exists(databaseFilePath):
+        query = open(pyswing.constants.pySwingDatabaseScript, 'r').read()
+        connection = sqlite3.connect(databaseFilePath)
+        c = connection.cursor()
+        c.executescript(query)
+        connection.commit()
+        c.close()
+        connection.close()
         TeamCity.setBuildResultText("Created Database")
-
     else:
-        Logger.log(logging.ERROR, "Missing Options", {"scope": __name__, "options": str(argv)})
-        usage()
-        sys.exit(2)
+        Logger.log(logging.INFO, "Database File Already Exists", {"scope":__name__, "databaseFilePath":databaseFilePath})
+        TeamCity.setBuildResultText("Database Already Exists")
+        sys.exit(1)
 
 
 def usage():

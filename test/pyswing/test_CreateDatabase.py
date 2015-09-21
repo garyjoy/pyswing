@@ -29,6 +29,9 @@ class TestCreateDatabase(unittest.TestCase):
 
     def test_CreateDatabase(self):
 
+        # TODO:  Hard-coding the User is not good...
+        # "/Users/garyjoy/pyswing.db" will not work on my Macbook Air (it's just "Gary")
+
         pyswing.constants.pySwingDatabase = "/Users/garyjoy/pyswing.db"
 
         with self.assertRaises(SystemExit) as myThing:

@@ -29,7 +29,6 @@ class TestImportData(unittest.TestCase):
     @classmethod
     def tearDownClass(self):
         deleteFile(pyswing.constants.pySwingDatabase)
-        pass
 
 
     def test_ImportData(self):

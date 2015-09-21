@@ -33,7 +33,6 @@ class TestEvaluateRules(unittest.TestCase):
     def tearDownClass(self):
         deleteFile(pyswing.constants.pySwingDatabase)
 
-
     def test_EvaluateRules(self):
 
         pretendDate = datetime.datetime(2015, 7, 1)

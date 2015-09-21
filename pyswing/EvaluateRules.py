@@ -112,6 +112,57 @@ def evaluateRules(argv):
         rules.append(MultipleIndicatorRule("Equities", "Indicator_SMA", "t1.Close < 0.9 * t2.SMA_200"))
         rules.append(MultipleIndicatorRule("Equities", "Indicator_SMA", "t1.Close < 0.8 * t2.SMA_200"))
 
+        rules.append(CrossingRule("Indicator_EMA","EMA_5","Indicator_EMA","EMA_20"))
+        rules.append(CrossingRule("Indicator_EMA","EMA_10","Indicator_EMA","EMA_50"))
+        rules.append(CrossingRule("Indicator_EMA","EMA_10","Indicator_EMA","EMA_200"))
+        rules.append(CrossingRule("Indicator_EMA","EMA_20","Indicator_EMA","EMA_200"))
+
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_EMA", "t1.Close > t2.EMA_200"))
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_EMA", "t1.Close > 1.1 * t2.EMA_200"))
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_EMA", "t1.Close > 1.2 * t2.EMA_200"))
+
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_EMA", "t1.Close < t2.EMA_200"))
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_EMA", "t1.Close < 0.9 * t2.EMA_200"))
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_EMA", "t1.Close < 0.8 * t2.EMA_200"))
+
+        rules.append(CrossingRule("Indicator_SMA","SMA_5","Indicator_EMA","EMA_20"))
+        rules.append(CrossingRule("Indicator_SMA","SMA_5","Indicator_EMA","EMA_50"))
+        rules.append(CrossingRule("Indicator_SMA","SMA_10","Indicator_EMA","EMA_50"))
+        rules.append(CrossingRule("Indicator_SMA","SMA_20","Indicator_EMA","EMA_200"))
+
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_BB20", "t1.Close > t2.upperband"))
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_BB20", "abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)"))
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_BB20", "t1.Close < t2.lowerband"))
+        rules.append(MultipleIndicatorRule("Equities", "Indicator_BB20", "abs(t1.Close - t2.lowerband) < abs(t1.Close - t2.middleband)"))
+
+        # TODO:  Check the Values...
+        rules.append(SimpleRule("Indicator_BB20", "upperbandroc < -1 and lowerbandroc > 1"))
+        rules.append(SimpleRule("Indicator_BB20", "upperbandroc > 1 and lowerbandroc <- 1"))
+
+        # TODO:  Check the Values...
+        rules.append(SimpleRule("Indicator_BB20", "upperbandroc > 2"))
+        rules.append(SimpleRule("Indicator_BB20", "upperbandroc > 3"))
+        rules.append(SimpleRule("Indicator_BB20", "upperbandroc > 5"))
+        rules.append(SimpleRule("Indicator_BB20", "upperbandroc < -2"))
+        rules.append(SimpleRule("Indicator_BB20", "upperbandroc < -3"))
+        rules.append(SimpleRule("Indicator_BB20", "upperbandroc < -5"))
+
+        rules.append(SimpleRule("Indicator_BB20", "lowerbandroc > 2"))
+        rules.append(SimpleRule("Indicator_BB20", "lowerbandroc > 3"))
+        rules.append(SimpleRule("Indicator_BB20", "lowerbandroc > 5"))
+        rules.append(SimpleRule("Indicator_BB20", "lowerbandroc < -2"))
+        rules.append(SimpleRule("Indicator_BB20", "lowerbandroc < -3"))
+        rules.append(SimpleRule("Indicator_BB20", "lowerbandroc < -5"))
+
+        rules.append(SimpleRule("Equities", "abs(Close - High) * 2 < abs(Close - Low)"))
+        rules.append(SimpleRule("Equities", "abs(Close - High) * 5 < abs(Close - Low)"))
+        rules.append(SimpleRule("Equities", "abs(Close - High) * 10 < abs(Close - Low)"))
+
+        rules.append(SimpleRule("Equities", "abs(Close - High) > 2 * abs(Close - Low)"))
+        rules.append(SimpleRule("Equities", "abs(Close - High) > 5 * abs(Close - Low)"))
+        rules.append(SimpleRule("Equities", "abs(Close - High) > 10 * abs(Close - Low)"))
+
+
         for index, row in market.tickers.iterrows():
 
             tickerCode = row[0]

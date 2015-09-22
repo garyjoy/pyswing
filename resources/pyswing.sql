@@ -79,5 +79,11 @@ CREATE TABLE IF NOT EXISTS Indicator_ROC
 CREATE INDEX IF NOT EXISTS ix_Indicator_ROC_Date ON Indicator_ROC (Date);
 CREATE INDEX IF NOT EXISTS ix_Indicator_ROC_Code ON Indicator_ROC (Code);
 
+CREATE TABLE IF NOT EXISTS Rules
+(
+    Rule TEXT,
+    MatchesPerDay REAL,
+    PRIMARY KEY (Rule)
+);
 
 -- Rule Tables (and Indices) are Created 'On Demand'

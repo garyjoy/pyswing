@@ -44,6 +44,8 @@ class SimpleRule(Rule):
 
         self._ruleData = read_sql_query(self._restrictedSelectQuery, connection, 'Date')
 
+        self._ruleData['Match'] = self._ruleData['Match'].astype(float)
+
         connection.executemany(self._insertQuery, self._ruleData.to_records(index=True))
         connection.commit()
 

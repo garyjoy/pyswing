@@ -6,6 +6,26 @@ from utils.Logger import Logger
 import pyswing.constants
 
 
+def getRules():
+
+    connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+
+    query = "SELECT name FROM sqlite_master WHERE type = 'table' and name like 'Rule %'"
+
+    rules = None
+
+    cursor = connection.cursor()
+    try:
+        cursor.execute(query)
+        rules = cursor.fetchall()
+    except sqlite3.OperationalError:
+        Logger.log(logging.INFO, "Error Getting Rules", {"scope":__name__})
+
+    connection.close()
+
+    return [(rule[0]) for rule in rules]
+
+
 class Rule(object):
     """
     Rule Base Class.

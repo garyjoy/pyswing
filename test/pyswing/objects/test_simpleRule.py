@@ -8,6 +8,7 @@ from pyswing.objects.simpleRule import SimpleRule
 from pyswing.objects.equity import Equity
 from pyswing.objects.indicatorROC import IndicatorROC
 import pyswing.constants
+import pyswing.globals
 from pyswing.CreateDatabase import createDatabase
 
 
@@ -18,6 +19,9 @@ class TestSimpleRule(unittest.TestCase):
 
         Logger.pushLogData("unitTesting", __name__)
         forceWorkingDirectory()
+
+        pyswing.globals.potentialRuleMatches = None
+        pyswing.globals.equityCount = None
 
         pyswing.constants.pySwingDatabase = "output/TestSimpleRule.db"
         pyswing.constants.pySwingStartDate = datetime.datetime(2014, 1, 1)
@@ -36,6 +40,9 @@ class TestSimpleRule(unittest.TestCase):
         indicatorROC = IndicatorROC(self._equityCBA.dataFrame(), "WOR.AX")
         indicatorROC.updateIndicator()
 
+        self.rule = SimpleRule("Indicator_ROC", "ROC_5 > 10")
+        self.rule.evaluateRule("WOR.AX")
+
 
     @classmethod
     def tearDownClass(self):
@@ -44,15 +51,25 @@ class TestSimpleRule(unittest.TestCase):
 
     def test_IndicatorSMA(self):
 
-        rule = SimpleRule("Indicator_ROC", "ROC_5 > 10")
-
-        rule.evaluateRule("WOR.AX")
-
-        dataPointMatch = rule._ruleData.ix['2015-04-27 00:00:00']
+        dataPointMatch = self.rule._ruleData.ix['2015-04-27 00:00:00']
         self.assertEqual(dataPointMatch['Match'], 1)
 
-        dataPointNoMatch = rule._ruleData.ix['2015-04-28 00:00:00']
+        dataPointNoMatch = self.rule._ruleData.ix['2015-04-28 00:00:00']
         self.assertEqual(dataPointNoMatch['Match'], 0)
+
+    def test_getEquityCount(self):
+
+        equityCount = self.rule._getEquityCount()
+        self.assertEqual(equityCount, 1)
+
+        potentialRuleMatches = self.rule._getPotentialRuleMatches()
+        self.assertEqual(potentialRuleMatches, 434)
+
+    def test_analyseRule(self):
+
+        self.rule.analyseRule()
+
+        self.assertAlmostEqual(self.rule._matchesPerDay, 0.032, 3)
 
 
 if __name__ == '__main__':

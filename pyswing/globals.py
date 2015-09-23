@@ -1,0 +1,2 @@
+equityCount = None
+potentialRuleMatches = None

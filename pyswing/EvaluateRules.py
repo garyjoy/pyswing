@@ -185,7 +185,7 @@ def evaluateRules(argv):
 def usage():
     print("")
     print("usage:")
-    print("  UpdateIndicators.py -n name [-d] [-h]")
+    print("  EvaluateRules.py -n name [-d] [-h]")
     print("")
     print("arguments:")
     print("  -n, --name        Name")

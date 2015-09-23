@@ -4,6 +4,7 @@ import sqlite3
 
 from utils.Logger import Logger
 import pyswing.constants
+import pyswing.globals
 
 
 def getRules():
@@ -57,6 +58,40 @@ class Rule(object):
 
         raise NotImplementedError("")
 
+    def analyseRule(self):
+        """
+        ?
+        """
+
+        Logger.log(logging.INFO, "Analysing Rule", {"scope":__name__, "Rule":self._ruleTableName})
+
+        equityCount = self._getEquityCount()
+        potentialRuleMatches = self._getPotentialRuleMatches()
+
+        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+
+        cursor = connection.cursor()
+
+        try:
+            query = "select count(1) from '%s' where Match = 1;" % self._ruleTableName
+            cursor.execute(query)
+            actualRuleMatches = int(cursor.fetchone()[0])
+
+            query = "delete from Rules where Rule = '%s'" % self._ruleTableName
+            cursor.execute(query)
+
+            # Unit Testing is easier if the value is stored...
+            self._matchesPerDay = actualRuleMatches / potentialRuleMatches * equityCount
+            query = "insert into Rules values('%s',%s)" % (self._ruleTableName, self._matchesPerDay)
+            cursor.execute(query)
+
+        except sqlite3.OperationalError:
+            Logger.log(logging.INFO, "Error Analysing Rule", {"scope":__name__, "Rule":self._ruleTableName})
+
+        connection.commit()
+
+        connection.close()
+
 
     def _getLatestDate(self):
 
@@ -91,3 +126,43 @@ class Rule(object):
         connection.commit()
         c.close()
         connection.close()
+
+    def _getEquityCount(self):
+
+        if not pyswing.globals.equityCount:
+
+            connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+
+            query = "select count(distinct Code) from Equities"
+
+            cursor = connection.cursor()
+
+            try:
+                cursor.execute(query)
+                pyswing.globals.equityCount = int(cursor.fetchone()[0])
+            except sqlite3.OperationalError:
+                Logger.log(logging.INFO, "Error Getting Equity Count", {"scope":__name__})
+
+            connection.close()
+
+        return pyswing.globals.equityCount
+
+    def _getPotentialRuleMatches(self):
+
+        if not pyswing.globals.potentialRuleMatches:
+
+            connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+
+            query = "select count(1) from '%s'" % self._ruleTableName
+
+            cursor = connection.cursor()
+
+            try:
+                cursor.execute(query)
+                pyswing.globals.potentialRuleMatches = int(cursor.fetchone()[0])
+            except sqlite3.OperationalError:
+                Logger.log(logging.INFO, "Error Getting Potential Rule Matches", {"scope":__name__, "rule":self._ruleTableName})
+
+            connection.close()
+
+        return pyswing.globals.potentialRuleMatches

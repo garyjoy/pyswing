@@ -87,3 +87,14 @@ CREATE TABLE IF NOT EXISTS Rules
 );
 
 -- Rule Tables (and Indices) are Created 'On Demand'
+
+CREATE TABLE IF NOT EXISTS TwoRuleStrategy
+(
+    strategy INT,
+    rule1 TEXT,
+    rule2 TEXT,
+    exit TEXT,
+    resultPerTrade REAL,
+    numberOfTrades INT,
+    type TEXT
+);

@@ -51,6 +51,24 @@ def deleteFile(relativeFilePath):
         Logger.log(logging.DEBUG, "Caught Exception", {"scope":__name__, "exception":str(osError)})
 
 
+def copyFile(relativeSourceFilePath, relativeTargetFilePath):
+    """
+    Copy the specified file.
+
+    :param relativeSourceFilePath: Relative (from the working directory) path to a file (i.e. source).
+    :param relativeTargetFilePath: Relative (from the working directory) path to a file (i.e. target).
+    """
+
+    try:
+        shutil.copy(relativeSourceFilePath, relativeTargetFilePath)
+    except shutil.Error as e:
+        Logger.log(logging.ERROR, "Cannot Copy File", {"scope":__name__, "relativeSourceFilePath":relativeSourceFilePath,"relativeTargetFilePath":relativeTargetFilePath})
+        Logger.log(logging.DEBUG, "Caught Exception", {"scope":__name__, "exception":str(e)})
+    except IOError as e:
+        Logger.log(logging.ERROR, "Cannot Copy File", {"scope":__name__, "relativeSourceFilePath":relativeSourceFilePath,"relativeTargetFilePath":relativeTargetFilePath})
+        Logger.log(logging.DEBUG, "Caught Exception", {"scope":__name__, "exception":str(e)})
+
+
 def forceWorkingDirectory():
     """
     forceWorkingDirectory() will ensure that the working directory is set to the project root (i.e. /Users/Gary/PycharmProjects/pyswing).

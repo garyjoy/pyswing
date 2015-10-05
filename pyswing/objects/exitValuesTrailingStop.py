@@ -135,8 +135,17 @@ class ExitValuesTrailingStop(ExitValues):
             numberOfDays = numberOfDays + 1
 
         if ended:
+            exitValueAsPercent = ((fillValue - exitValue) / fillValue * 100)
+
+            if exitValueAsPercent > 10:
+                exitValueAsPercent = 10.0
+                exitDetail = exitDetail + " (Modified)"
+
+            if exitValueAsPercent < -10:
+                exitValueAsPercent = -10.0
+                exitDetail = exitDetail + " (Modified)"
 
             self._sellExitValueDataFrame.loc[fillDay.name, "Type"] = "Sell"
-            self._sellExitValueDataFrame.loc[fillDay.name, "ExitValue"] = ((fillValue - exitValue) / fillValue * 100)
+            self._sellExitValueDataFrame.loc[fillDay.name, "ExitValue"] = exitValueAsPercent
             self._sellExitValueDataFrame.loc[fillDay.name, "NumberOfDays"] = numberOfDays
             self._sellExitValueDataFrame.loc[fillDay.name, "ExitDetail"] = exitDetail

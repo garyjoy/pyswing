@@ -18,30 +18,31 @@ class TestExitValuesTrailingStop(unittest.TestCase):
         Logger.pushLogData("unitTesting", __name__)
         forceWorkingDirectory()
 
-        pyswing.constants.pySwingDatabase = "output/TestExitValuesTrailingStop.db"
-        pyswing.constants.pySwingStartDate = datetime.datetime(2013, 1, 1)
-
-        deleteFile(pyswing.constants.pySwingDatabase)
-
-        args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
-        createDatabase(args.split())
-
-        pretendDate = datetime.datetime(2015, 9, 1)
-        with patch.object(Equity, '_getTodaysDate', return_value=pretendDate) as mock_method:
-
-            self._equityWOR = Equity("WOR.AX")
-            self._equityWOR.importData()
+        # pyswing.constants.pySwingDatabase = "output/TestExitValuesTrailingStop.db"
+        # pyswing.constants.pySwingStartDate = datetime.datetime(2013, 1, 1)
+        #
+        # deleteFile(pyswing.constants.pySwingDatabase)
+        #
+        # args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
+        # createDatabase(args.split())
+        #
+        # pretendDate = datetime.datetime(2015, 9, 1)
+        # with patch.object(Equity, '_getTodaysDate', return_value=pretendDate) as mock_method:
+        #
+        #     self._equityWOR = Equity("WOR.AX")
+        #     self._equityWOR.importData()
 
 
     @classmethod
     def tearDownClass(self):
-        deleteFile(pyswing.constants.pySwingDatabase)
+        # deleteFile(pyswing.constants.pySwingDatabase)
+        pass
 
 
     def test_ExitValues(self):
 
-        exitValues = ExitValuesTrailingStop("WOR.AX", 0.03, 2)
-
+        # exitValues = ExitValuesTrailingStop("WOR.AX", 0.03, 2)
+        exitValues = ExitValuesTrailingStop("SHL.AX", 0.03, 2)
         exitValues.calculateExitValues()
 
         dataPointBuyWin = exitValues._buyExitValueDataFrame.ix['2015-07-02 00:00:00']

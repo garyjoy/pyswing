@@ -12,7 +12,7 @@ class ExitValues(object):
     Exit Values Base Class.
     """
 
-    CreateTableCommand = "CREATE TABLE IF NOT EXISTS '%s' (Date TEXT, Code TEXT, Type TEXT, ExitValue REAL, NumberOfDays INT, ExitDetail TEXT, MatchDate TEXT, PRIMARY KEY (Date, Code, Type));"
+    CreateTableCommand = "CREATE TABLE IF NOT EXISTS '%s' (Date TEXT, Code TEXT, Type TEXT, ExitValue REAL, NumberOfDays INT, ExitDetail TEXT, MatchDate TEXT, PRIMARY KEY (MatchDate, Code, Type));"
     CreateDateIndexCommand = "CREATE INDEX IF NOT EXISTS 'ix_%s_Date' ON '%s' (Date);"
     CreateMatchDateIndexCommand = "CREATE INDEX IF NOT EXISTS 'ix_%s_MatchDate' ON '%s' (MatchDate);"
     CreateCodeIndexCommand = "CREATE INDEX IF NOT EXISTS 'ix_%s_Code' ON '%s' (Code);"

@@ -45,7 +45,7 @@ class Strategy(object):
                    " '%s' as type\n"
                    "from '%s' r1\n"
                    " inner join '%s' r2 on r1.Date = r2.Date and r1.Code = r2.Code and r2.Match = 1\n"
-                   " inner join '%s' evb on evb.Date = r1.Date and evb.Code = r1.Code and evb.Type = '%s'\n"
+                   " inner join '%s' evb on evb.MatchDate = r1.Date and evb.Code = r1.Code and evb.Type = '%s'\n"
                    "where\n"
                    " r1.Match = 1")
 
@@ -74,7 +74,9 @@ class Strategy(object):
 
         connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
         c = connection.cursor()
-        c.executescript(self.evaluateSql % (pyswing.constants.pySwingStrategy, self._rule1, self._rule2, self._exit, self._type, self._rule1, self._rule2, self._exit, self._type))
+        sql = self.evaluateSql % (pyswing.constants.pySwingStrategy, self._rule1, self._rule2, self._exit, self._type, self._rule1, self._rule2, self._exit, self._type)
+        # print(sql)
+        c.executescript(sql)
         connection.commit()
         c.close()
         connection.close()

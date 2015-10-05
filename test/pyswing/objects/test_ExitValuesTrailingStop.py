@@ -47,6 +47,7 @@ class TestExitValuesTrailingStop(unittest.TestCase):
         dataPointBuyWin = exitValues._buyExitValueDataFrame.ix['2015-07-02 00:00:00']
         self.assertAlmostEqual(dataPointBuyWin['ExitValue'], 1.581, 3)
 
+        # TODO:  Work out why this fails sometimes (e.g. when I run all the tests)
         dataPointBuyLose = exitValues._buyExitValueDataFrame.ix['2015-07-13 00:00:00']
         self.assertAlmostEqual(dataPointBuyLose['ExitValue'], -1.741, 3)
 

@@ -52,9 +52,9 @@ def evaluateTwoRuleStrategies(argv):
         inverseStrategies = set()
         for rules in strategies:
             if rules not in inverseStrategies:
-                buyStrategy = Strategy(rules[0], rules[1], "TrailingStop3.0RiskRatio2", 'Buy')
+                buyStrategy = Strategy(rules[0], rules[1], "Exit TrailingStop3.0 RiskRatio2", 'Buy')
                 buyStrategy.evaluateStrategy()
-                sellStrategy = Strategy(rules[0], rules[1], "TrailingStop3.0RiskRatio2", 'Sell')
+                sellStrategy = Strategy(rules[0], rules[1], "Exit TrailingStop3.0 RiskRatio2", 'Sell')
                 sellStrategy.evaluateStrategy()
                 inverseStrategies.add((rules[1], rules[0]))
 

@@ -42,7 +42,7 @@ class TestCalculateExitValues(unittest.TestCase):
         args = "-n unitTest".split()
         calculateExitValues(args)
 
-        rowCount = self._countRows("TrailingStop3.0RiskRatio2")
+        rowCount = self._countRows("Exit TrailingStop3.0 RiskRatio2")
 
         self.assertEqual(rowCount, 603)
 

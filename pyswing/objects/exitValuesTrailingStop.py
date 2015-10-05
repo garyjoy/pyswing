@@ -24,7 +24,7 @@ class ExitValuesTrailingStop(ExitValues):
 
         # Logger.log(logging.DEBUG, "Log Object Creation", {"scope":__name__, "arguments":" ".join({""})})
 
-        self._tableName = "TrailingStop%sRiskRatio%s" % (str(maximumLoss * 100), str(riskRatio))
+        self._tableName = "Exit TrailingStop%s RiskRatio%s" % (str(maximumLoss * 100), str(riskRatio))
 
         self._maximumLoss = maximumLoss
         self._riskRatio = riskRatio

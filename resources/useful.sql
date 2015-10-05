@@ -20,6 +20,6 @@ select r1.rule, r2.rule from Rules r1 inner join Rules r2 on 1 == 1 where r1.Mat
 
 select * from 'Rule Indicator_ROC ROC_5 > 20' r1
 inner join 'Rule Indicator_BB20 upperbandroc < -4 and lowerbandroc > 4' r2 on r1.Date = r2.Date and r1.Code = r2.Code and r2.Match = 1
-inner join 'TrailingStop3.0RiskRatio2' evb on evb.Date = r1.Date and evb.Code = r1.Code and evb.Type = 'Buy'
-inner join 'TrailingStop3.0RiskRatio2' evs on evs.Date = r1.Date and evs.Code = r1.Code and evs.Type = 'Sell'
+inner join 'Exit TrailingStop3.0 RiskRatio2' evb on evb.Date = r1.Date and evb.Code = r1.Code and evb.Type = 'Buy'
+inner join 'Exit TrailingStop3.0 RiskRatio2' evs on evs.Date = r1.Date and evs.Code = r1.Code and evs.Type = 'Sell'
 where r1.Match = 1

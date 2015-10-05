@@ -2,6 +2,15 @@ import datetime
 import unittest
 import sqlite3
 
+# from pyswing.AnalyseRules import analyseRules
+# from pyswing.CalculateExitValues import calculateExitValues
+# from pyswing.CreateDatabase import createDatabase
+# from pyswing.EvaluateRules import evaluateRules
+# from pyswing.ImportData import importData
+# from pyswing.UpdateIndicators import updateIndicators
+# from pyswing.objects.equity import Equity
+# from unittest.mock import patch
+
 from utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
 from utils.Logger import Logger
 import pyswing.constants
@@ -61,10 +70,10 @@ class TestStrategy(unittest.TestCase):
 
     def test_evaluateStrategy(self):
 
-        strategy = Strategy("Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)", "Rule Equities abs(Close - High) * 2 < abs(Close - Low)", "TrailingStop3.0RiskRatio2", "Buy")
+        strategy = Strategy("Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)", "Rule Equities abs(Close - High) * 2 < abs(Close - Low)", "Exit TrailingStop3.0 RiskRatio2", "Buy")
         strategy.evaluateStrategy()
         numberOfTrades = self._numberOfTrades('Buy')
-        self.assertEqual(numberOfTrades, 71)
+        self.assertEqual(numberOfTrades, 70)
 
 
     def _numberOfTrades(self, type):

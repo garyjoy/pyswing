@@ -14,7 +14,7 @@ class ExitValues(object):
 
     CreateTableCommand = "CREATE TABLE IF NOT EXISTS '%s' (Date TEXT, Code TEXT, Type TEXT, ExitValue REAL, NumberOfDays INT, ExitDetail TEXT, MatchDate TEXT);"
     CreateDateIndexCommand = "CREATE INDEX IF NOT EXISTS 'ix_%s_Date' ON '%s' (Date);"
-    CreateDateIndexCommand = "CREATE INDEX IF NOT EXISTS 'ix_%s_MatchDate' ON '%s' (MatchDate);"
+    CreateMatchDateIndexCommand = "CREATE INDEX IF NOT EXISTS 'ix_%s_MatchDate' ON '%s' (MatchDate);"
     CreateCodeIndexCommand = "CREATE INDEX IF NOT EXISTS 'ix_%s_Code' ON '%s' (Code);"
     CreateTypeIndexCommand = "CREATE INDEX IF NOT EXISTS 'ix_%s_Type' ON '%s' (Type);"
 
@@ -101,6 +101,7 @@ class ExitValues(object):
         c = connection.cursor()
         c.executescript(ExitValues.CreateTableCommand % (self._tableName))
         c.executescript(ExitValues.CreateDateIndexCommand % (self._tableName, self._tableName))
+        c.executescript(ExitValues.CreateMatchDateIndexCommand % (self._tableName, self._tableName))
         c.executescript(ExitValues.CreateCodeIndexCommand % (self._tableName, self._tableName))
         c.executescript(ExitValues.CreateTypeIndexCommand % (self._tableName, self._tableName))
         connection.commit()

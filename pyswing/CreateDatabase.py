@@ -67,6 +67,7 @@ def createDatabase(argv):
         sys.exit(1)
 
 
+
 def usage():
     print("")
     print("usage:")

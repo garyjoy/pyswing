@@ -90,11 +90,25 @@ CREATE TABLE IF NOT EXISTS Rules
 
 CREATE TABLE IF NOT EXISTS TwoRuleStrategy
 (
-    strategy INT,
+    strategy TEXT,
     rule1 TEXT,
     rule2 TEXT,
     exit TEXT,
     resultPerTrade REAL,
     numberOfTrades INT,
-    type TEXT
+    type TEXT,
+    Searched INT
+);
+
+CREATE TABLE IF NOT EXISTS ThreeRuleStrategy
+(
+    strategy TEXT,
+    rule1 TEXT,
+    rule2 TEXT,
+    rule3 TEXT,
+    exit TEXT,
+    resultPerTrade REAL,
+    numberOfTrades INT,
+    type TEXT,
+    Searched INT
 );

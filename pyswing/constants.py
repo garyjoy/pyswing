@@ -4,4 +4,8 @@ pySwingDatabase = "/Users/garyjoy/pyswing.db"
 pySwingStartDate = datetime.datetime(2005, 1, 1)
 pySwingDatabaseScript = "resources/pyswing.sql"
 
-pySwingStrategy = 4
+pySwingStrategy = None
+
+pySwingTestDatabase = "resources/TestDatabase.db"
+
+

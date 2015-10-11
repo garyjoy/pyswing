@@ -1,7 +1,6 @@
 import datetime
 import unittest
 import sqlite3
-from unittest.mock import patch
 
 from utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
 from utils.Logger import Logger
@@ -25,30 +24,7 @@ class TestEvaluateTwoRuleStrategies(unittest.TestCase):
 
         deleteFile(pyswing.constants.pySwingDatabase)
 
-        copyFile("resources/TestDatabase.db", pyswing.constants.pySwingDatabase)
-
-        # TestDatabase.db *should* be equivalent to running the following...
-
-        # args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
-        # createDatabase(args.split())
-        #
-        # pretendDate = datetime.datetime(2015, 7, 1)
-        # with patch.object(Equity, '_getTodaysDate', return_value=pretendDate) as mock_method:
-        #     args = "-n unitTest".split()
-        #     importData(args)
-        #
-        # args = "-n unitTest".split()
-        # updateIndicators(args)
-        #
-        # args = "-n unitTest".split()
-        # evaluateRules(args)
-        #
-        # args = "-n unitTest".split()
-        # analyseRules(args)
-        #
-        # args = "-n unitTest".split()
-        # calculateExitValues(args)
-
+        copyFile(pyswing.constants.pySwingTestDatabase, pyswing.constants.pySwingDatabase)
 
     @classmethod
     def tearDownClass(self):
@@ -57,7 +33,7 @@ class TestEvaluateTwoRuleStrategies(unittest.TestCase):
 
     def test_EvaluateTwoRuleStrategies(self):
 
-        args = "-n unitTest".split()
+        args = "-n unitTest -m 0.1 -s test_EvaluateTwoRuleStrategies".split()
         evaluateTwoRuleStrategies(args)
 
         rowCount = self._countRows("TwoRuleStrategy")

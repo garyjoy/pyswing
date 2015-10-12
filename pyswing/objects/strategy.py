@@ -58,27 +58,27 @@ def getBestUnprocessedTwoRuleStrategy(numberOfTrades):
     connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
 
     # TODO:  Implement Sell
-    query = "select rule1, rule2 from TwoRuleStrategy where numberOfTrades > %s and Searched = 0 and Type = 'Buy' order by resultPerTrade desc limit 1;" % numberOfTrades
+    query = "select rule1, rule2, type from TwoRuleStrategy where numberOfTrades > %s and Searched = 0 order by resultPerTrade desc limit 1;" % numberOfTrades
 
-    rules = None
+    rowData = None
 
     cursor = connection.cursor()
     try:
         cursor.execute(query)
-        rules = cursor.fetchall()
+        rowData = cursor.fetchall()
     except sqlite3.OperationalError:
         Logger.log(logging.INFO, "Error Getting Strategy", {"scope":__name__})
 
     connection.close()
 
-    return (rules[0][0], rules[0][1])
+    return (rowData[0][0], rowData[0][1], rowData[0][2])
 
 
-def markTwoRuleStrategyAsProcessed(rule1, rule2):
+def markTwoRuleStrategyAsProcessed(rule1, rule2, type):
 
     connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
 
-    query = "update TwoRuleStrategy set Searched = 1 where rule1 = '%s' and rule2 = '%s';" % (rule1, rule2)
+    query = "update TwoRuleStrategy set Searched = 1 where rule1 = '%s' and rule2 = '%s' and type = '%s';" % (rule1, rule2, type)
 
     cursor = connection.cursor()
     try:
@@ -183,7 +183,7 @@ class Strategy(object):
         ?
         """
 
-        Logger.log(logging.INFO, "Evaluating Three-Rule Strategy", {"scope":__name__, "Rule 1":self._rule1, "Rule 2":self._rule2, "Rule 3":self._rule3})
+        Logger.log(logging.INFO, "Evaluating Three-Rule Strategy", {"scope":__name__, "Rule 1":self._rule1, "Rule 2":self._rule2, "Rule 3":self._rule3, "Type":self._type})
 
         connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
         c = connection.cursor()

@@ -59,10 +59,10 @@ class TestStrategy(unittest.TestCase):
         numberOfTrades = self._numberOfTwoRuleTrades('Buy')
         self.assertEqual(numberOfTrades, 70)
 
-        bestStrategy = getBestUnprocessedTwoRuleStrategy(10)
+        rule1, rule2, type = getBestUnprocessedTwoRuleStrategy(10)
 
-        self.assertEqual(bestStrategy[0], "Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)")
-        self.assertEqual(bestStrategy[1], "Rule Equities abs(Close - High) * 2 < abs(Close - Low)")
+        self.assertEqual(rule1, "Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)")
+        self.assertEqual(rule2, "Rule Equities abs(Close - High) * 2 < abs(Close - Low)")
 
         threeRuleStrategy = Strategy("Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)", "Rule Equities abs(Close - High) * 2 < abs(Close - Low)", "Exit TrailingStop3.0 RiskRatio2", "Buy", "Rule Equities Close -1 Comparison.GreaterThan 1.01")
         threeRuleStrategy.evaluateThreeRuleStrategy()
@@ -71,7 +71,7 @@ class TestStrategy(unittest.TestCase):
 
         numberOfTrades = self._numberOfSearchedTwoRuleTrades()
         self.assertEqual(numberOfTrades, 0)
-        markTwoRuleStrategyAsProcessed(bestStrategy[0], bestStrategy[1])
+        markTwoRuleStrategyAsProcessed(rule1, rule2, type)
         numberOfTrades = self._numberOfSearchedTwoRuleTrades()
         self.assertEqual(numberOfTrades, 1)
 

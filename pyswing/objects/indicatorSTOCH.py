@@ -19,7 +19,7 @@ class IndicatorSTOCH(Indicator):
         tableName = "Indicator_STOCH"
         tickerCode = tickerCode
 
-        insertQuery = "insert or replace into %s (Date, Code, STOCH_K, STOCH_D, STOCH_K_ROC, STOCH_D_ROC) values (?,?,?,?,?,?)" % (tableName)
+        insertQuery = "insert or replace into %s (Date, STOCH_K, STOCH_D, STOCH_K_ROC, STOCH_D_ROC, Code) values (?,?,?,?,?,?)" % (tableName)
 
         # Stick the Indicator Values into the new DataFrame
         indicatorDataFrame = abstract.STOCH(equityDataFrame, fastk_period=5, slowk_period=3, slowk_matype=0, slowd_period=3, slowd_matype=0, prices=['High', 'Low', 'Close'])

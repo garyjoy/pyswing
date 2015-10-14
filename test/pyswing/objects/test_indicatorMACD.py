@@ -44,6 +44,7 @@ class TestIndicatorMACD(unittest.TestCase):
 
         dataPoint = cbaIndicatorMACD._indicatorDataFrame.ix['2015-08-31 00:00:00']
 
+        self.assertEqual(dataPoint['Code'], "CBA.AX")
         self.assertAlmostEqual(dataPoint['macd'], -1.66, 2)
         self.assertAlmostEqual(dataPoint['macdsignal'], -1.56, 2)
         self.assertAlmostEqual(dataPoint['macdhist'], -0.09, 2)

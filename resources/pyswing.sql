@@ -37,6 +37,18 @@ CREATE TABLE IF NOT EXISTS Indicator_SMA
 CREATE INDEX IF NOT EXISTS ix_Indicator_SMA_Date ON Indicator_SMA (Date);
 CREATE INDEX IF NOT EXISTS ix_Indicator_SMA_Code ON Indicator_SMA (Code);
 
+CREATE TABLE IF NOT EXISTS Indicator_MACD
+(
+    Date TEXT,
+    Code TEXT,
+    MACD_12_26 REAL,
+    MACD_12_26_9 REAL,
+    MACD_12_26_9_DIVERGENCE REAL,
+    PRIMARY KEY (Date, Code)
+);
+CREATE INDEX IF NOT EXISTS ix_Indicator_MACD_Date ON Indicator_MACD (Date);
+CREATE INDEX IF NOT EXISTS ix_Indicator_MACD_Code ON Indicator_MACD (Code);
+
 CREATE TABLE IF NOT EXISTS Indicator_EMA
 (
     Date TEXT,

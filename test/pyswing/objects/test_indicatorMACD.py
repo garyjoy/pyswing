@@ -37,7 +37,7 @@ class TestIndicatorMACD(unittest.TestCase):
         deleteFile(pyswing.constants.pySwingDatabase)
 
 
-    def test_IndicatorSMA(self):
+    def test_IndicatorMACD(self):
 
         cbaIndicatorMACD = IndicatorMACD(self._equityCBA.dataFrame(), "CBA.AX")
         cbaIndicatorMACD.updateIndicator()

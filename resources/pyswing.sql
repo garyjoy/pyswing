@@ -49,6 +49,19 @@ CREATE TABLE IF NOT EXISTS Indicator_MACD
 CREATE INDEX IF NOT EXISTS ix_Indicator_MACD_Date ON Indicator_MACD (Date);
 CREATE INDEX IF NOT EXISTS ix_Indicator_MACD_Code ON Indicator_MACD (Code);
 
+CREATE TABLE IF NOT EXISTS Indicator_STOCH
+(
+    Date TEXT,
+    Code TEXT,
+    STOCH_K REAL,
+    STOCH_D REAL,
+    STOCH_K_ROC REAL,
+    STOCH_D_ROC REAL,
+    PRIMARY KEY (Date, Code)
+);
+CREATE INDEX IF NOT EXISTS ix_Indicator_STOCH_Date ON Indicator_STOCH (Date);
+CREATE INDEX IF NOT EXISTS ix_Indicator_STOCH_Code ON Indicator_STOCH (Code);
+
 CREATE TABLE IF NOT EXISTS Indicator_EMA
 (
     Date TEXT,

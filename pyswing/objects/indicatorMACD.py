@@ -21,8 +21,6 @@ class IndicatorMACD(Indicator):
 
         insertQuery = "insert or replace into %s (Date, Code, MACD_12_26, MACD_12_26_9, MACD_12_26_9_DIVERGENCE) values (?,?,?,?,?)" % (tableName)
 
-        equityDataFrame = equityDataFrame
-
         # Stick the Indicator Values into the new DataFrame
         indicatorDataFrame = abstract.MACD(equityDataFrame, fastperiod=12, slowperiod=26, signalperiod=9, price='Close')
         indicatorDataFrame['Code'] = tickerCode

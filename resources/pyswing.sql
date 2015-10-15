@@ -92,6 +92,28 @@ CREATE TABLE IF NOT EXISTS Indicator_BB20
 CREATE INDEX IF NOT EXISTS ix_Indicator_BB20_Date ON Indicator_BB20 (Date);
 CREATE INDEX IF NOT EXISTS ix_Indicator_BB20_Code ON Indicator_BB20 (Code);
 
+CREATE TABLE IF NOT EXISTS Indicator_ADX
+(
+    Date TEXT,
+    Code TEXT,
+    ADX REAL,
+    ADX_ROC REAL,
+    PRIMARY KEY (Date, Code)
+);
+CREATE INDEX IF NOT EXISTS ix_Indicator_ADX_Date ON Indicator_ADX (Date);
+CREATE INDEX IF NOT EXISTS ix_Indicator_ADX_Code ON Indicator_ADX (Code);
+
+CREATE TABLE IF NOT EXISTS Indicator_DX
+(
+    Date TEXT,
+    Code TEXT,
+    DX REAL,
+    DX_ROC REAL,
+    PRIMARY KEY (Date, Code)
+);
+CREATE INDEX IF NOT EXISTS ix_Indicator_DX_Date ON Indicator_DX (Date);
+CREATE INDEX IF NOT EXISTS ix_Indicator_DX_Code ON Indicator_DX (Code);
+
 CREATE TABLE IF NOT EXISTS Indicator_ROC
 (
     Date TEXT,

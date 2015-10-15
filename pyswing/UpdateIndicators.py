@@ -11,6 +11,8 @@ from pyswing.objects.indicatorBB20 import IndicatorBB20
 from pyswing.objects.indicatorROC import IndicatorROC
 from pyswing.objects.indicatorMACD import IndicatorMACD
 from pyswing.objects.indicatorSTOCH import IndicatorSTOCH
+from pyswing.objects.indicatorADX import IndicatorADX
+from pyswing.objects.indicatorDX import IndicatorDX
 from utils.TeamCity import TeamCity
 
 
@@ -81,6 +83,12 @@ def updateIndicators(argv):
 
             stochIndicator = IndicatorSTOCH(equityDataFrame, tickerCode)
             stochIndicator.updateIndicator()
+
+            adxIndicator = IndicatorADX(equityDataFrame, tickerCode)
+            adxIndicator.updateIndicator()
+
+            dxIndicator = IndicatorDX(equityDataFrame, tickerCode)
+            dxIndicator.updateIndicator()
 
         TeamCity.setBuildResultText("Updated Indicators")
 

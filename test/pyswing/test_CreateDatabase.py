@@ -34,6 +34,12 @@ class TestCreateDatabase(unittest.TestCase):
 
         pyswing.constants.pySwingDatabase = "/Users/garyjoy/pyswing.db"
 
+        if not os.path.exists(pyswing.constants.pySwingDatabase):
+            pyswing.constants.pySwingDatabase = "/Users/gary/pyswing.db"
+
+        if not os.path.exists(pyswing.constants.pySwingDatabase):
+            self.assertTrue(os.path.exists(pyswing.constants.pySwingDatabase))
+
         with self.assertRaises(SystemExit) as myThing:
             createDatabase([])
 

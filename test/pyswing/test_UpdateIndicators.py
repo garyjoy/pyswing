@@ -29,7 +29,8 @@ class TestUpdateIndicators(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        deleteFile(pyswing.constants.pySwingDatabase)
+        # deleteFile(pyswing.constants.pySwingDatabase)
+        pass
 
 
     def test_UpdateIndicators(self):

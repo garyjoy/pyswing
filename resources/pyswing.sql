@@ -1,13 +1,5 @@
 
---DROP TABLE 'Equities';
-
---DROP TABLE Indicator_SMA;
---DROP TABLE Indicator_EMA;
---DROP TABLE Indicator_BB20;
---DROP TABLE Indicator_ROC;
-
---DROP TABLE 'Rule ?';
-
+-- It's very important that this script can run over an existing database with no detrimental effects...
 
 CREATE TABLE IF NOT EXISTS Equities (
     Date TEXT,
@@ -62,6 +54,17 @@ CREATE TABLE IF NOT EXISTS Indicator_STOCH
 CREATE INDEX IF NOT EXISTS ix_Indicator_STOCH_Date ON Indicator_STOCH (Date);
 CREATE INDEX IF NOT EXISTS ix_Indicator_STOCH_Code ON Indicator_STOCH (Code);
 
+CREATE TABLE IF NOT EXISTS Indicator_AROON
+(
+    Date TEXT,
+    Code TEXT,
+    AROON_UP REAL,
+    AROON_DOWN REAL,
+    PRIMARY KEY (Date, Code)
+);
+CREATE INDEX IF NOT EXISTS ix_Indicator_AROON_Date ON Indicator_AROON (Date);
+CREATE INDEX IF NOT EXISTS ix_Indicator_AROON_Code ON Indicator_AROON (Code);
+
 CREATE TABLE IF NOT EXISTS Indicator_EMA
 (
     Date TEXT,
@@ -103,6 +106,16 @@ CREATE TABLE IF NOT EXISTS Indicator_ADX
 CREATE INDEX IF NOT EXISTS ix_Indicator_ADX_Date ON Indicator_ADX (Date);
 CREATE INDEX IF NOT EXISTS ix_Indicator_ADX_Code ON Indicator_ADX (Code);
 
+CREATE TABLE IF NOT EXISTS Indicator_ADI
+(
+    Date TEXT,
+    ADI REAL,
+    ADI_ROC REAL,
+    ADI_EMA REAL,
+    PRIMARY KEY (Date)
+);
+CREATE INDEX IF NOT EXISTS ix_Indicator_ADI_Date ON Indicator_ADI (Date);
+
 CREATE TABLE IF NOT EXISTS Indicator_DX
 (
     Date TEXT,
@@ -125,6 +138,16 @@ CREATE TABLE IF NOT EXISTS Indicator_ROC
 );
 CREATE INDEX IF NOT EXISTS ix_Indicator_ROC_Date ON Indicator_ROC (Date);
 CREATE INDEX IF NOT EXISTS ix_Indicator_ROC_Code ON Indicator_ROC (Code);
+
+CREATE TABLE IF NOT EXISTS Indicator_RSI
+(
+    Date TEXT,
+    Code TEXT,
+    RSI REAL,
+    PRIMARY KEY (Date, Code)
+);
+CREATE INDEX IF NOT EXISTS ix_Indicator_RSI_Date ON Indicator_RSI (Date);
+CREATE INDEX IF NOT EXISTS ix_Indicator_RSI_Code ON Indicator_RSI (Code);
 
 CREATE TABLE IF NOT EXISTS Rules
 (

@@ -4,10 +4,10 @@ import sys
 
 from utils.Logger import Logger
 from pyswing.objects.market import Market
-from pyswing.objects.simpleRule import SimpleRule
-from pyswing.objects.relativeRule import RelativeRule, Comparison
-from pyswing.objects.crossingRule import CrossingRule
-from pyswing.objects.multipleIndicatorRule import MultipleIndicatorRule
+from pyswing.objects.rules.simpleRule import SimpleRule
+from pyswing.objects.rules.relativeRule import RelativeRule, Comparison
+from pyswing.objects.rules.crossingRule import CrossingRule
+from pyswing.objects.rules.multipleIndicatorRule import MultipleIndicatorRule
 from utils.TeamCity import TeamCity
 
 

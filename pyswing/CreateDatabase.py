@@ -52,20 +52,14 @@ def createDatabase(argv):
 
     Logger.log(logging.INFO, "Creating Database", {"scope":__name__, "databaseFilePath":databaseFilePath, "scriptFilePath":scriptFilePath})
 
-    if not os.path.exists(databaseFilePath):
-        query = open(pyswing.constants.pySwingDatabaseScript, 'r').read()
-        connection = sqlite3.connect(databaseFilePath)
-        c = connection.cursor()
-        c.executescript(query)
-        connection.commit()
-        c.close()
-        connection.close()
-        TeamCity.setBuildResultText("Created Database")
-    else:
-        Logger.log(logging.INFO, "Database File Already Exists", {"scope":__name__, "databaseFilePath":databaseFilePath})
-        TeamCity.setBuildResultText("Database Already Exists")
-        sys.exit(1)
-
+    query = open(pyswing.constants.pySwingDatabaseScript, 'r').read()
+    connection = sqlite3.connect(databaseFilePath)
+    c = connection.cursor()
+    c.executescript(query)
+    connection.commit()
+    c.close()
+    connection.close()
+    TeamCity.setBuildResultText("Created Database")
 
 
 def usage():

@@ -5,14 +5,15 @@ import sys
 from utils.Logger import Logger
 from pyswing.objects.market import Market
 from pyswing.objects.equity import Equity
-from pyswing.objects.indicatorSMA import IndicatorSMA
-from pyswing.objects.indicatorEMA import IndicatorEMA
-from pyswing.objects.indicatorBB20 import IndicatorBB20
-from pyswing.objects.indicatorROC import IndicatorROC
-from pyswing.objects.indicatorMACD import IndicatorMACD
-from pyswing.objects.indicatorSTOCH import IndicatorSTOCH
-from pyswing.objects.indicatorADX import IndicatorADX
-from pyswing.objects.indicatorDX import IndicatorDX
+from pyswing.objects.indicators.indicatorSMA import IndicatorSMA
+from pyswing.objects.indicators.indicatorEMA import IndicatorEMA
+from pyswing.objects.indicators.indicatorBB20 import IndicatorBB20
+from pyswing.objects.indicators.indicatorROC import IndicatorROC
+from pyswing.objects.indicators.indicatorMACD import IndicatorMACD
+from pyswing.objects.indicators.indicatorSTOCH import IndicatorSTOCH
+from pyswing.objects.indicators.indicatorADX import IndicatorADX
+from pyswing.objects.indicators.indicatorDX import IndicatorDX
+from pyswing.objects.indicators.indicatorADI import IndicatorADI
 from utils.TeamCity import TeamCity
 
 
@@ -61,6 +62,11 @@ def updateIndicators(argv):
 
         market = Market(tickerCodesRelativeFilePath)
 
+        # Market Indicators
+        adiIndicator = IndicatorADI()
+        adiIndicator.updateIndicator()
+
+        # Equity Indicators
         for index, row in market.tickers.iterrows():
             tickerCode = row[0]
             equity = Equity(tickerCode)

@@ -3,7 +3,7 @@ import getopt
 import sys
 
 from utils.Logger import Logger
-from pyswing.objects.rule import Rule, getRules
+from pyswing.objects.rules.rule import Rule, getRules
 from utils.TeamCity import TeamCity
 
 

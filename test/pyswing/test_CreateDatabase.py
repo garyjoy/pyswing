@@ -27,23 +27,19 @@ class TestCreateDatabase(unittest.TestCase):
 
         deleteFile(pyswing.constants.pySwingDatabase)
 
+
     def test_CreateDatabase(self):
 
-        # TODO:  Hard-coding the User is not good...
-        # "/Users/garyjoy/pyswing.db" will not work on my Macbook Air (it's just "Gary")
+        pyswing.constants.pySwingDatabase = pyswing.constants.pySwingTestDatabase
 
-        pyswing.constants.pySwingDatabase = "/Users/garyjoy/pyswing.db"
+        originalSize = os.path.getsize(pyswing.constants.pySwingDatabase)
 
-        if not os.path.exists(pyswing.constants.pySwingDatabase):
-            pyswing.constants.pySwingDatabase = "/Users/gary/pyswing.db"
+        createDatabase([])
 
-        if not os.path.exists(pyswing.constants.pySwingDatabase):
-            self.assertTrue(os.path.exists(pyswing.constants.pySwingDatabase))
+        subsequentSize = os.path.getsize(pyswing.constants.pySwingDatabase)
 
-        with self.assertRaises(SystemExit) as myThing:
-            createDatabase([])
+        self.assertEqual(originalSize, subsequentSize)
 
-        self.assertEqual(myThing.exception.code, 1)
 
 
 if __name__ == '__main__':

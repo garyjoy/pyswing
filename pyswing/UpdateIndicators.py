@@ -11,6 +11,8 @@ from pyswing.objects.indicators.indicatorBB20 import IndicatorBB20
 from pyswing.objects.indicators.indicatorROC import IndicatorROC
 from pyswing.objects.indicators.indicatorMACD import IndicatorMACD
 from pyswing.objects.indicators.indicatorSTOCH import IndicatorSTOCH
+from pyswing.objects.indicators.indicatorRSI import IndicatorRSI
+from pyswing.objects.indicators.indicatorAROON import IndicatorAROON
 from pyswing.objects.indicators.indicatorADX import IndicatorADX
 from pyswing.objects.indicators.indicatorDX import IndicatorDX
 from pyswing.objects.indicators.indicatorADI import IndicatorADI
@@ -90,8 +92,14 @@ def updateIndicators(argv):
             stochIndicator = IndicatorSTOCH(equityDataFrame, tickerCode)
             stochIndicator.updateIndicator()
 
+            rsiIndicator = IndicatorRSI(equityDataFrame, tickerCode)
+            rsiIndicator.updateIndicator()
+
             adxIndicator = IndicatorADX(equityDataFrame, tickerCode)
             adxIndicator.updateIndicator()
+
+            aroonIndicator = IndicatorAROON(equityDataFrame, tickerCode)
+            aroonIndicator.updateIndicator()
 
             dxIndicator = IndicatorDX(equityDataFrame, tickerCode)
             dxIndicator.updateIndicator()

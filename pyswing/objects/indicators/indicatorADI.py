@@ -21,7 +21,7 @@ class IndicatorADI(object):
 
         tableName = "Indicator_ADI"
 
-        self._insertQuery = "insert or replace into %s (Date, ADI, ADI_ROC, ADI_EMA) values (?,?,?,?)" % (tableName)
+        self._insertQuery = "insert or replace into %s (Date, ADI, ADI_ROC, ADI_EMA, ADI_SUM) values (?,?,?,?,?)" % (tableName)
         self._selectQuery = "SELECT Date, SUM(CASE WHEN Close > Open THEN 1 ELSE 0 END) - SUM(CASE WHEN Close < Open THEN 1 ELSE 0 END) as ADI FROM Equities group by Date"
 
         connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
@@ -32,6 +32,7 @@ class IndicatorADI(object):
 
         self._indicatorDataFrame['ADI_ROC'] = abstract.ROC(self._indicatorDataFrame, timeperiod=5, price='ADI')
         self._indicatorDataFrame['ADI_EMA'] = abstract.EMA(self._indicatorDataFrame, timeperiod=5, price='ADI')
+        self._indicatorDataFrame['ADI_SUM'] = abstract.SUM(self._indicatorDataFrame, price='ADI')
 
         self._tableName = "Indicator_ADI"
 

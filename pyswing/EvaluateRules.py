@@ -5,6 +5,7 @@ import sys
 from utils.Logger import Logger
 from pyswing.objects.market import Market
 from pyswing.objects.rules.simpleRule import SimpleRule
+from pyswing.objects.rules.marketRule import MarketRule
 from pyswing.objects.rules.relativeRule import RelativeRule, Comparison
 from pyswing.objects.rules.crossingRule import CrossingRule
 from pyswing.objects.rules.multipleIndicatorRule import MultipleIndicatorRule
@@ -166,13 +167,142 @@ def evaluateRules(argv):
         rules.append(SimpleRule("Equities", "abs(Close - High) > 5 * abs(Close - Low)"))
         rules.append(SimpleRule("Equities", "abs(Close - High) > 10 * abs(Close - Low)"))
 
+        rules.append(SimpleRule("Indicator_MACD", "MACD_12_26_9_DIVERGENCE < 0"))
+        rules.append(SimpleRule("Indicator_MACD", "MACD_12_26_9_DIVERGENCE > 0"))
+
+        rules.append(SimpleRule("Indicator_MACD", "MACD_12_26_9 > MACD_12_26"))
+        rules.append(SimpleRule("Indicator_MACD", "MACD_12_26_9 < MACD_12_26"))
+
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K < 5"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K < 10"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K < 15"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K < 20"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K < 30"))
+
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K > 95"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K > 90"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K > 85"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K > 80"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K > 70"))
+
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D < 5"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D < 10"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D < 15"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D < 20"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D < 30"))
+
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D > 95"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D > 90"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D > 85"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D > 80"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D > 70"))
+
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K > STOCH_D"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K < STOCH_D"))
+
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K_ROC > 500"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K_ROC > 750"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K_ROC > 1000"))
+
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K_ROC < -500"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K_ROC < -750"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_K_ROC < -1000"))
+
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D_ROC > 500"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D_ROC > 750"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D_ROC > 1000"))
+
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D_ROC < -500"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D_ROC < -750"))
+        rules.append(SimpleRule("Indicator_STOCH", "STOCH_D_ROC < -1000"))
+
+        rules.append(SimpleRule("Indicator_ADX", "ADX > 50"))
+        rules.append(SimpleRule("Indicator_ADX", "ADX > 55"))
+        rules.append(SimpleRule("Indicator_ADX", "ADX > 60"))
+
+        rules.append(SimpleRule("Indicator_ADX", "ADX_ROC > 50"))
+        rules.append(SimpleRule("Indicator_ADX", "ADX_ROC > 60"))
+        rules.append(SimpleRule("Indicator_ADX", "ADX_ROC > 70"))
+
+        rules.append(SimpleRule("Indicator_ADX", "ADX_ROC < -20"))
+        rules.append(SimpleRule("Indicator_ADX", "ADX_ROC < -25"))
+
+        rules.append(SimpleRule("Indicator_DX", "DX > 60"))
+        rules.append(SimpleRule("Indicator_DX", "DX > 70"))
+        rules.append(SimpleRule("Indicator_DX", "DX > 80"))
+
+        rules.append(SimpleRule("Indicator_DX", "DX_ROC > 1000"))
+        rules.append(SimpleRule("Indicator_DX", "DX_ROC > 2000"))
+        rules.append(SimpleRule("Indicator_DX", "DX_ROC > 3000"))
+        rules.append(SimpleRule("Indicator_DX", "DX_ROC > 4000"))
+
+        rules.append(SimpleRule("Indicator_DX", "DX_ROC < -95"))
+        rules.append(SimpleRule("Indicator_DX", "DX_ROC < -97"))
+        rules.append(SimpleRule("Indicator_DX", "DX_ROC < -98"))
+
+        rules.append(SimpleRule("Indicator_RSI", "RSI > 20"))
+        rules.append(SimpleRule("Indicator_RSI", "RSI > 30"))
+        rules.append(SimpleRule("Indicator_RSI", "RSI > 40"))
+        rules.append(SimpleRule("Indicator_RSI", "RSI > 50"))
+        rules.append(SimpleRule("Indicator_RSI", "RSI > 60"))
+        rules.append(SimpleRule("Indicator_RSI", "RSI > 70"))
+        rules.append(SimpleRule("Indicator_RSI", "RSI > 80"))
+
+        rules.append(SimpleRule("Indicator_RSI", "RSI < 80"))
+        rules.append(SimpleRule("Indicator_RSI", "RSI < 70"))
+        rules.append(SimpleRule("Indicator_RSI", "RSI < 60"))
+        rules.append(SimpleRule("Indicator_RSI", "RSI < 50"))
+        rules.append(SimpleRule("Indicator_RSI", "RSI < 40"))
+        rules.append(SimpleRule("Indicator_RSI", "RSI < 30"))
+        rules.append(SimpleRule("Indicator_RSI", "RSI < 20"))
+
+        rules.append(SimpleRule("Indicator_AROON", "AROON_UP = 100"))
+        rules.append(SimpleRule("Indicator_AROON", "AROON_UP = 0"))
+        rules.append(SimpleRule("Indicator_AROON", "AROON_UP > 50"))
+        rules.append(SimpleRule("Indicator_AROON", "AROON_UP < 50"))
+        rules.append(SimpleRule("Indicator_AROON", "AROON_UP > 90"))
+        rules.append(SimpleRule("Indicator_AROON", "AROON_UP < 90"))
+        rules.append(SimpleRule("Indicator_AROON", "AROON_UP > 10"))
+        rules.append(SimpleRule("Indicator_AROON", "AROON_UP < 10"))
+
+        rules.append(SimpleRule("Indicator_AROON", "AROON_DOWN = 100"))
+        rules.append(SimpleRule("Indicator_AROON", "AROON_DOWN = 0"))
+        rules.append(SimpleRule("Indicator_AROON", "AROON_DOWN > 50"))
+        rules.append(SimpleRule("Indicator_AROON", "AROON_DOWN < 50"))
+        rules.append(SimpleRule("Indicator_AROON", "AROON_DOWN > 90"))
+        rules.append(SimpleRule("Indicator_AROON", "AROON_DOWN < 90"))
+        rules.append(SimpleRule("Indicator_AROON", "AROON_DOWN > 10"))
+        rules.append(SimpleRule("Indicator_AROON", "AROON_DOWN < 10"))
+
+        rules.append(SimpleRule("Equities", "abs(High - Close) > 10 * abs(Low - Close)"))
+        rules.append(SimpleRule("Equities", "abs(High - Close) * 10 < abs(Low - Close)"))
+
+        rules.append(SimpleRule("Equities", "abs(High - Close) > 100 * abs(Low - Close)"))
+        rules.append(SimpleRule("Equities", "abs(High - Close) * 100 < abs(Low - Close)"))
 
         for index, row in market.tickers.iterrows():
-
             tickerCode = row[0]
-
             for rule in rules:
                 rule.evaluateRule(tickerCode)
+
+        # 136    “iv.running_total (advance decline helper) < ivp.running_total (advance decline helper)"
+        # 136    “iv.running_total (advance decline helper) > ivp.running_total (advance decline helper)"
+        # 136    “iv.running_total (advance decline helper) < ivp7.running_total (advance decline helper)"
+        # 136    “iv.running_total (advance decline helper) > ivp7.running_total (advance decline helper)"
+        # 136    “iv.running_total (advance decline helper) < ivp28.running_total (advance decline helper)"
+        # 136    “iv.running_total (advance decline helper) > ivp28.running_total (advance decline helper)"
+
+        marketRules = []
+
+        marketRules.append(MarketRule("Indicator_ADI", "ADI", -1, Comparison.GreaterThan))
+        marketRules.append(MarketRule("Indicator_ADI", "ADI", -5, Comparison.GreaterThan))
+        marketRules.append(MarketRule("Indicator_ADI", "ADI", -20, Comparison.GreaterThan))
+        marketRules.append(MarketRule("Indicator_ADI", "ADI", -1, Comparison.LessThan))
+        marketRules.append(MarketRule("Indicator_ADI", "ADI", -5, Comparison.LessThan))
+        marketRules.append(MarketRule("Indicator_ADI", "ADI", -20, Comparison.LessThan))
+
+        for marketRule in marketRules:
+            marketRule.evaluateRule()
 
         TeamCity.setBuildResultText("Evaluated Rules")
 

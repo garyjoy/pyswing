@@ -56,7 +56,7 @@ class TestAnalyseRules(unittest.TestCase):
 
         rowCount = self._countRows("Rules")
 
-        self.assertEqual(rowCount, 84)
+        self.assertEqual(rowCount, 180)
 
 
     def _countRows(self, tableName):

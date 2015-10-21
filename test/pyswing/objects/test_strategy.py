@@ -43,13 +43,13 @@ class TestStrategy(unittest.TestCase):
     def test_getStrategies(self):
 
         strategies = getTwoRuleStrategies(0.1)
-        self.assertEqual(len(strategies), 124)
+        self.assertEqual(len(strategies), 4872)
 
 
     def test_getRules(self):
 
         rules = getRules()
-        self.assertEqual(len(rules), 84)
+        self.assertEqual(len(rules), 180)
 
 
     def test_evaluateStrategy(self):

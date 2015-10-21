@@ -39,14 +39,14 @@ class TestEvaluateThreeRuleStrategies(unittest.TestCase):
 
         rowCount = self._countRows("TwoRuleStrategy")
 
-        self.assertEqual(rowCount, 124)
+        self.assertEqual(rowCount, 4872)
 
         args = "-n unitTest -N 1 -s v4.0 -t 5".split()
         evaluateThreeRuleStrategies(args)
 
         rowCount = self._countRows("ThreeRuleStrategy")
 
-        self.assertEqual(rowCount, 10)
+        self.assertEqual(rowCount, 53)
 
 
     def _countRows(self, tableName):

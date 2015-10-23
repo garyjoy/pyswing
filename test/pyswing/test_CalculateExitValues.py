@@ -44,7 +44,7 @@ class TestCalculateExitValues(unittest.TestCase):
 
         rowCount = self._countRows("Exit TrailingStop3.0 RiskRatio2")
 
-        self.assertEqual(rowCount, 603)
+        self.assertEqual(rowCount, 606)
 
 
     def _countRows(self, tableName):

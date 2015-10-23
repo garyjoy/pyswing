@@ -29,6 +29,8 @@ class ExitValuesTrailingStop(ExitValues):
         self._maximumLoss = maximumLoss
         self._riskRatio = riskRatio
 
+        self._maximumDuration = 10
+
         ExitValues.__init__(self, tickerCode)
 
     def calculateExitValueForBuy(self, rowIndex, numberOfRows):
@@ -52,7 +54,12 @@ class ExitValuesTrailingStop(ExitValues):
             high = day["High"]
             low = day["Low"]
 
-            if open < stop and numberOfDays > 0:
+            if numberOfDays == self._maximumDuration:
+                exitValue = open
+                ended = True
+                exitDetail = "Timeout on Day %i (Open=%f and Close=%f)" % ((numberOfDays + 1), fillValue, exitValue)
+
+            elif open < stop and numberOfDays > 0:
                 exitValue = open
                 ended = True
                 exitDetail = "Gapped Below Stop (%f) on Day %i (Open=%f and Close=%f)" % (stop, (numberOfDays + 1), fillValue, exitValue)
@@ -117,7 +124,12 @@ class ExitValuesTrailingStop(ExitValues):
             high = day["High"]
             low = day["Low"]
 
-            if open > stop and numberOfDays > 0:
+            if numberOfDays == self._maximumDuration:
+                exitValue = open
+                ended = True
+                exitDetail = "Timeout on Day %i (Open=%f and Close=%f)" % ((numberOfDays + 1), fillValue, exitValue)
+
+            elif open > stop and numberOfDays > 0:
                 exitValue = open
                 ended = True
                 exitDetail = "Gapped Above Stop (%f) on Day %i (Open=%f and Close=%f)" % (stop, (numberOfDays + 1), fillValue, exitValue)

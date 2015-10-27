@@ -55,6 +55,8 @@ def askHorse(argv):
 
         tradeDetails = []
         for strategy in strategies:
+            rulesDetail = ("Rules: '%s', '%s' and '%s'") % (strategy._rule1, strategy._rule2, strategy._rule3)
+            Logger.log(logging.INFO, "Checking Strategy", {"scope":__name__, "strategy":rulesDetail})
             if strategy.askHorse(latestDate):
                 tradeDetails.extend(strategy.tradeDetails)
 

@@ -2,16 +2,20 @@ import datetime
 import unittest
 import sqlite3
 
+from unittest.mock import patch
 from utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
 from utils.Logger import Logger
+
 import pyswing.constants
 import pyswing.globals
+
 from pyswing.EvaluateTwoRuleStrategies import evaluateTwoRuleStrategies
 from pyswing.EvaluateThreeRuleStrategies import evaluateThreeRuleStrategies
 from pyswing.AnalyseStrategies import analyseStrategies
+from pyswing.AskHorse import askHorse
 
 
-class TestAnalyseStrategies(unittest.TestCase):
+class TestAskHorse(unittest.TestCase):
 
     @classmethod
     def setUpClass(self):
@@ -21,7 +25,7 @@ class TestAnalyseStrategies(unittest.TestCase):
         pyswing.globals.potentialRuleMatches = None
         pyswing.globals.equityCount = None
 
-        pyswing.constants.pySwingDatabase = "output/TestAnalyseStrategies.db"
+        pyswing.constants.pySwingDatabase = "output/TestAskHorse.db"
         pyswing.constants.pySwingStartDate = datetime.datetime(2015, 1, 1)
 
         deleteFile(pyswing.constants.pySwingDatabase)
@@ -33,28 +37,16 @@ class TestAnalyseStrategies(unittest.TestCase):
         deleteFile(pyswing.constants.pySwingDatabase)
 
 
-    def test_AnalyseStrategies(self):
+    @patch("pyswing.AskHorse.sendEmail")
+    def test_AskHorse(self, sendEmail):
 
-        args = "-n unitTest -m 0.1 -s test_EvaluateTwoRuleStrategies".split()
-        evaluateTwoRuleStrategies(args)
+        self._createStrategy()
 
-        rowCount = self._countRows("TwoRuleStrategy")
+        args = "-n unitTest".split()
+        askHorse(args)
 
-        self.assertEqual(rowCount, 4872)
-
-        args = "-n unitTest -N 1 -s v4.0 -t 5".split()
-        evaluateThreeRuleStrategies(args)
-
-        rowCount = self._countRows("ThreeRuleStrategy")
-
-        self.assertEqual(rowCount, 53)
-
-        args = "-n unitTest -r 5.0 -s v4.0 -t 4".split()
-        analyseStrategies(args)
-
-        rowCount = self._countRows("Strategy")
-
-        self.assertEqual(rowCount, 1)
+        self.assertTrue(sendEmail.called)
+        self.assertEqual(len(sendEmail.call_args[0][0]), 3)
 
 
     def _countRows(self, tableName):
@@ -65,6 +57,16 @@ class TestAnalyseStrategies(unittest.TestCase):
         rowCount = cursor.fetchone()[0]
         connection.close()
         return rowCount
+
+
+    def _createStrategy(self):
+
+        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        query = "insert into Strategy (strategy,rule1,rule2,rule3,exit,type,meanResultPerTrade,medianResultPerTrade,totalProfit,numberOfTrades,sharpeRatio,maximumDrawdown,active) values ('v4.0', 'Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Exit TrailingStop3.0 RiskRatio2', 'Buy', 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1)"
+        cursor = connection.cursor()
+        cursor.execute(query)
+        connection.commit()
+        connection.close()
 
 
 if __name__ == '__main__':

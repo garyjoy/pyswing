@@ -15,7 +15,7 @@ from utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
 from utils.Logger import Logger
 import pyswing.constants
 import pyswing.globals
-from pyswing.objects.strategy import Strategy, getTwoRuleStrategies, getBestUnprocessedTwoRuleStrategy, getRules, markTwoRuleStrategyAsProcessed, getStrategies
+from pyswing.objects.strategy import Strategy, getTwoRuleStrategies, getBestUnprocessedTwoRuleStrategy, getRules, markTwoRuleStrategyAsProcessed, getStrategies, getLatestDate
 
 
 class TestStrategy(unittest.TestCase):
@@ -57,10 +57,39 @@ class TestStrategy(unittest.TestCase):
         strategies = getStrategies(34, -10)
         self.assertEqual(len(strategies), 1)
 
+    def test_getLatestDate(self):
+
+        latestDate = getLatestDate()
+        self.assertEqual(latestDate, "2015-07-01 00:00:00")
+
     def test_analyseStrategy(self):
 
         strategies = getStrategies(34, -10)
         strategies[0].analyse()
+
+    def test_analyseStrategy(self):
+
+        strategy = Strategy('Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Exit TrailingStop3.0 RiskRatio2', 'Buy', 'Rule Equities Close -1 Comparison.GreaterThan 1.01')
+        strategy.meanResultPerTrade = 1.0
+        strategy.medianResultPerTrade = 1.0
+        strategy.totalProfit = 1.0
+        strategy.numberOfTrades = 1.0
+        strategy.sharpeRatio = 1.0
+        strategy.maximumDrawdown = 1.0
+        data = strategy.askHorse('2015-05-25 00:00:00')
+        self.assertTrue(data)
+        self.assertEqual(len(strategy.tradeDetails), 3)
+
+        strategy = Strategy('Rule Equities Close -1 Comparison.LessThan 0.99', 'Rule Equities Close -1 Comparison.LessThan 0.99', 'Exit TrailingStop3.0 RiskRatio2', 'Buy', 'Rule Equities Close -1 Comparison.LessThan 0.99')
+        strategy.meanResultPerTrade = 1.0
+        strategy.medianResultPerTrade = 1.0
+        strategy.totalProfit = 1.0
+        strategy.numberOfTrades = 1.0
+        strategy.sharpeRatio = 1.0
+        strategy.maximumDrawdown = 1.0
+        moreData = strategy.askHorse('2015-05-25 00:00:00')
+        self.assertFalse(moreData)
+        self.assertEqual(len(strategy.tradeDetails), 0)
 
     def test_getRules(self):
 

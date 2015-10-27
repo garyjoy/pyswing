@@ -60,6 +60,60 @@ def getStrategies(numberOfTrades, returnPerTrade):
     return strategiesList
 
 
+def getLatestDate():
+
+    connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+
+    query = "select max(Date) from Equities"
+
+    latestDate = None
+
+    cursor = connection.cursor()
+    try:
+        cursor.execute(query)
+        resultSet = cursor.fetchall()
+        latestDate = resultSet[0][0]
+    except sqlite3.OperationalError:
+        Logger.log(logging.INFO, "Error Getting Latest Date", {"scope":__name__})
+
+    connection.close()
+
+    return latestDate
+
+
+def getActiveStrategies():
+
+    connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+
+    query = "select rule1, rule2, exit, type, rule3, meanResultPerTrade, medianResultPerTrade, totalProfit, numberOfTrades, sharpeRatio, maximumDrawdown from Strategy where active = 1"
+
+    strategies = None
+
+    cursor = connection.cursor()
+    try:
+        cursor.execute(query)
+        strategies = cursor.fetchall()
+    except sqlite3.OperationalError:
+        Logger.log(logging.INFO, "Error Getting Strategies", {"scope":__name__})
+
+    connection.close()
+
+    strategiesList = []
+    for strategyRow in strategies:
+
+        strategy = Strategy(strategyRow[0], strategyRow[1], strategyRow[2], strategyRow[3], strategyRow[4])
+        strategiesList.append(strategy)
+
+        strategy.meanResultPerTrade = strategyRow[5]
+        strategy.medianResultPerTrade = strategyRow[6]
+        strategy.totalProfit = strategyRow[7]
+        strategy.numberOfTrades = strategyRow[8]
+        strategy.sharpeRatio = strategyRow[9]
+        strategy.maximumDrawdown = strategyRow[10]
+
+    return strategiesList
+
+
 def getTwoRuleStrategies(minimumMatchesPerDay):
 
     connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
@@ -281,4 +335,36 @@ class Strategy(object):
         c.close()
         connection.close()
 
+    def askHorse(self, latestDate):
 
+        self.tradeDetails = []
+
+        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+
+        query = ("select r1.Code, r1.Date "
+            "from '%s' r1 "
+            " inner join '%s' r2 on r2.Match = 1 and r1.Date = r2.Date and r1.Code = r2.Code "
+            " inner join '%s' r3 on r3.Match = 1 and r1.Date = r3.Date and r1.Code = r3.Code "
+            "where r1.Match = 1 and r1.Date = '%s'") % (self._rule1, self._rule2, self._rule3, latestDate)
+
+        trades = None
+
+        cursor = connection.cursor()
+        try:
+            cursor.execute(query)
+            trades = cursor.fetchall()
+        except sqlite3.OperationalError:
+            Logger.log(logging.INFO, "Error Getting Trades", {"scope":__name__})
+
+        connection.close()
+
+        for trade in trades:
+            tradeSummary = ("%s %s using %s") % (self._type, trade[0], self._exit)
+            strategyDetail = ("Strategy: Mean: %s, Median: %s, Total: %s, Trades: %s, Sharpe Ratio: %s, Drawdown: %s") % (str(self.meanResultPerTrade), str(self.medianResultPerTrade), str(self.totalProfit), str(self.numberOfTrades), str(self.sharpeRatio), str(self.maximumDrawdown))
+            rulesDetail = ("Rules: '%s', '%s' and '%s'") % (self._rule1, self._rule2, self._rule3)
+
+            tradeDetail = "%s (%s)\n%s" % (tradeSummary, strategyDetail, rulesDetail)
+            self.tradeDetails.append(tradeDetail)
+            Logger.log(logging.INFO, "Suggested Trade", {"scope":__name__, "tradeDetail":tradeDetail})
+
+        return len(self.tradeDetails) > 0

@@ -58,7 +58,7 @@ def analyseStrategies(argv):
 
     if marketName != "" and numberOfTrades != "" and returnPerTrade != "" and pyswing.constants.pySwingStrategy:
 
-        Logger.log(logging.INFO, "Evaluate Three-Rule Strategies", {"scope":__name__, "market":marketName, "numberOfTrades":numberOfTrades, "returnPerTrade":returnPerTrade, "strategy":pyswing.constants.pySwingStrategy})
+        Logger.log(logging.INFO, "Analyse Strategies", {"scope":__name__, "market":marketName, "numberOfTrades":numberOfTrades, "returnPerTrade":returnPerTrade, "strategy":pyswing.constants.pySwingStrategy})
 
         strategies = getStrategies(numberOfTrades, returnPerTrade)
 

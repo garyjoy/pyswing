@@ -15,7 +15,7 @@ from utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
 from utils.Logger import Logger
 import pyswing.constants
 import pyswing.globals
-from pyswing.objects.strategy import Strategy, getTwoRuleStrategies, getBestUnprocessedTwoRuleStrategy, getRules, markTwoRuleStrategyAsProcessed
+from pyswing.objects.strategy import Strategy, getTwoRuleStrategies, getBestUnprocessedTwoRuleStrategy, getRules, markTwoRuleStrategyAsProcessed, getStrategies
 
 
 class TestStrategy(unittest.TestCase):
@@ -35,37 +35,48 @@ class TestStrategy(unittest.TestCase):
 
         copyFile(pyswing.constants.pySwingTestDatabase, pyswing.constants.pySwingDatabase)
 
+        twoRuleStrategy = Strategy("Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)", "Rule Equities abs(Close - High) * 2 < abs(Close - Low)", "Exit TrailingStop3.0 RiskRatio2", "Buy")
+        twoRuleStrategy.evaluateTwoRuleStrategy()
+
+        threeRuleStrategy = Strategy("Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)", "Rule Equities abs(Close - High) * 2 < abs(Close - Low)", "Exit TrailingStop3.0 RiskRatio2", "Buy", "Rule Equities Close -1 Comparison.GreaterThan 1.01")
+        threeRuleStrategy.evaluateThreeRuleStrategy()
+
+
     @classmethod
     def tearDownClass(self):
         deleteFile(pyswing.constants.pySwingDatabase)
 
 
-    def test_getStrategies(self):
+    def test_getTwoRuleStrategies(self):
 
         strategies = getTwoRuleStrategies(0.1)
         self.assertEqual(len(strategies), 4872)
 
+    def test_getStrategies(self):
+
+        strategies = getStrategies(34, -10)
+        self.assertEqual(len(strategies), 1)
+
+    def test_analyseStrategy(self):
+
+        strategies = getStrategies(34, -10)
+        strategies[0].analyse()
 
     def test_getRules(self):
 
         rules = getRules()
         self.assertEqual(len(rules), 180)
 
-
     def test_evaluateStrategy(self):
 
-        twoRuleStrategy = Strategy("Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)", "Rule Equities abs(Close - High) * 2 < abs(Close - Low)", "Exit TrailingStop3.0 RiskRatio2", "Buy")
-        twoRuleStrategy.evaluateTwoRuleStrategy()
+        rule1, rule2, type = getBestUnprocessedTwoRuleStrategy(10)
+
         numberOfTrades = self._numberOfTwoRuleTrades('Buy')
         self.assertEqual(numberOfTrades, 70)
-
-        rule1, rule2, type = getBestUnprocessedTwoRuleStrategy(10)
 
         self.assertEqual(rule1, "Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)")
         self.assertEqual(rule2, "Rule Equities abs(Close - High) * 2 < abs(Close - Low)")
 
-        threeRuleStrategy = Strategy("Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)", "Rule Equities abs(Close - High) * 2 < abs(Close - Low)", "Exit TrailingStop3.0 RiskRatio2", "Buy", "Rule Equities Close -1 Comparison.GreaterThan 1.01")
-        threeRuleStrategy.evaluateThreeRuleStrategy()
         numberOfTrades = self._numberOfThreeRuleTrades('Buy')
         self.assertEqual(numberOfTrades, 36)
 
@@ -74,7 +85,6 @@ class TestStrategy(unittest.TestCase):
         markTwoRuleStrategyAsProcessed(rule1, rule2, type)
         numberOfTrades = self._numberOfSearchedTwoRuleTrades()
         self.assertEqual(numberOfTrades, 1)
-
 
     def _numberOfSearchedTwoRuleTrades(self):
         connection = sqlite3.connect(pyswing.constants.pySwingDatabase)

@@ -183,3 +183,20 @@ CREATE TABLE IF NOT EXISTS ThreeRuleStrategy
     type TEXT,
     Searched INT
 );
+
+CREATE TABLE IF NOT EXISTS Strategy
+(
+    strategy TEXT,
+    rule1 TEXT,
+    rule2 TEXT,
+    rule3 TEXT,
+    exit TEXT,
+    type TEXT,
+    meanResultPerTrade REAL,
+    medianResultPerTrade REAL,
+    totalProfit REAL,
+    numberOfTrades INT,
+    sharpeRatio REAL,
+    maximumDrawdown REAL,
+    active INT
+);

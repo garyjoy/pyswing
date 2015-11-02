@@ -39,10 +39,10 @@ from pandas import expanding_sum
 
 connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
 query = ("select r1.Code, r1.Date, ev.Type, ev.ExitValue, ev.NumberOfDays, ev.ExitDetail "
-"from 'Rule Indicator_RSI RSI < 30' r1 "
-" inner join 'Rule Indicator_AROON AROON_UP < 10' r2 on r2.Match = 1 and r1.Date = r2.Date and r1.Code = r2.Code "
-" inner join 'Rule Equities Indicator_SMA t1.Close > t2.SMA_200' r3 on r3.Match = 1 and r1.Date = r3.Date and r1.Code = r3.Code "
-" inner join 'Exit TrailingStop3.0 RiskRatio2' ev on r1.Date = ev.MatchDate and r1.Code = ev.Code and ev.Type = 'Buy' "
+"from 'Rule Indicator_ROC ROC_10 < -20' r1 "
+" inner join 'Rule Indicator_STOCH STOCH_K > STOCH_D' r2 on r2.Match = 1 and r1.Date = r2.Date and r1.Code = r2.Code "
+" inner join 'Rule Indicator_AROON AROON_DOWN < 90' r3 on r3.Match = 1 and r1.Date = r3.Date and r1.Code = r3.Code "
+" inner join 'Exit TrailingStop3.0 RiskRatio2' ev on r1.Date = ev.MatchDate and r1.Code = ev.Code and ev.Type = 'Sell' "
 "where r1.Match = 1 "
 "order by r1.Date asc")
 cbaEquityData = read_sql_query(query, connection, 'Date')
@@ -52,3 +52,9 @@ cbaEquityData['ExitValueAfterCosts'] = cbaEquityData['ExitValue'] - 0.2
 exitValueDataFrame = cbaEquityData.ix[:,'ExitValueAfterCosts']
 cbaEquityData["Sum"] = expanding_sum(exitValueDataFrame)
 cbaEquityData.query("Date > '2005-01-01 00:00:00'").plot(y=['Sum'], title='Testing')
+
+
+
+from pyswing.AskHorse import askHorse
+args = "-n unitTest".split()
+askHorse(args)

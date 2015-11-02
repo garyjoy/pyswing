@@ -100,6 +100,7 @@ def evaluateRules(argv):
         rules.append(RelativeRule("Equities", "Close", -5, Comparison.GreaterThan, 1.20))
         rules.append(RelativeRule("Equities", "Close", -5, Comparison.LessThan, 0.80))
 
+        # TODO:  Add Crossing Rules Going the Other Way...
         rules.append(CrossingRule("Indicator_SMA","SMA_5","Indicator_SMA","SMA_20"))
         rules.append(CrossingRule("Indicator_SMA","SMA_10","Indicator_SMA","SMA_50"))
         rules.append(CrossingRule("Indicator_SMA","SMA_10","Indicator_SMA","SMA_200"))
@@ -113,6 +114,7 @@ def evaluateRules(argv):
         rules.append(MultipleIndicatorRule("Equities", "Indicator_SMA", "t1.Close < 0.9 * t2.SMA_200"))
         rules.append(MultipleIndicatorRule("Equities", "Indicator_SMA", "t1.Close < 0.8 * t2.SMA_200"))
 
+        # TODO:  Add Crossing Rules Going the Other Way...
         rules.append(CrossingRule("Indicator_EMA","EMA_5","Indicator_EMA","EMA_20"))
         rules.append(CrossingRule("Indicator_EMA","EMA_10","Indicator_EMA","EMA_50"))
         rules.append(CrossingRule("Indicator_EMA","EMA_10","Indicator_EMA","EMA_200"))
@@ -126,6 +128,7 @@ def evaluateRules(argv):
         rules.append(MultipleIndicatorRule("Equities", "Indicator_EMA", "t1.Close < 0.9 * t2.EMA_200"))
         rules.append(MultipleIndicatorRule("Equities", "Indicator_EMA", "t1.Close < 0.8 * t2.EMA_200"))
 
+        # TODO:  Add Crossing Rules Going the Other Way...
         rules.append(CrossingRule("Indicator_SMA","SMA_5","Indicator_EMA","EMA_20"))
         rules.append(CrossingRule("Indicator_SMA","SMA_5","Indicator_EMA","EMA_50"))
         rules.append(CrossingRule("Indicator_SMA","SMA_10","Indicator_EMA","EMA_50"))
@@ -294,6 +297,7 @@ def evaluateRules(argv):
 
         marketRules = []
 
+        # TODO: Are these numbers right? Should one set be positive?
         marketRules.append(MarketRule("Indicator_ADI", "ADI", -1, Comparison.GreaterThan))
         marketRules.append(MarketRule("Indicator_ADI", "ADI", -5, Comparison.GreaterThan))
         marketRules.append(MarketRule("Indicator_ADI", "ADI", -20, Comparison.GreaterThan))

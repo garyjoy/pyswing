@@ -23,3 +23,39 @@ inner join 'Rule Indicator_BB20 upperbandroc < -4 and lowerbandroc > 4' r2 on r1
 inner join 'Exit TrailingStop3.0 RiskRatio2' evb on evb.Date = r1.Date and evb.Code = r1.Code and evb.Type = 'Buy'
 inner join 'Exit TrailingStop3.0 RiskRatio2' evs on evs.Date = r1.Date and evs.Code = r1.Code and evs.Type = 'Sell'
 where r1.Match = 1
+
+select * from 'Exit TrailingStop3.0 RiskRatio2' where Code = 'AIO.AX' and Date = '2015-10-22 00:00:00';
+
+
+select * from ThreeRuleStrategy where numberOfTrades > 1000 and resultPerTrade > 0.6 order by numberOfTrades desc limit 1000;
+select * from ThreeRuleStrategy where numberOfTrades > 500 and resultPerTrade > 0.9 order by numberOfTrades desc limit 1000;
+select * from ThreeRuleStrategy where numberOfTrades > 250 and resultPerTrade > 1.3 order by numberOfTrades desc limit 1000;
+select * from ThreeRuleStrategy where numberOfTrades > 125 and resultPerTrade > 1.5 order by numberOfTrades desc limit 1000;
+
+select r1.Code, r1.Date, ev.Type, ev.ExitValue, ev.NumberOfDays, ev.ExitDetail
+from 'Rule Indicator_ROC ROC_10 < -20' r1
+ inner join 'Rule Indicator_STOCH STOCH_K > STOCH_D' r2 on r2.Match = 1 and r1.Date = r2.Date and r1.Code = r2.Code
+ inner join 'Rule Indicator_AROON AROON_DOWN < 90' r3 on r3.Match = 1 and r1.Date = r3.Date and r1.Code = r3.Code
+ inner join 'Exit TrailingStop3.0 RiskRatio2' ev on r1.Date = ev.MatchDate and r1.Code = ev.Code and ev.Type = 'Sell'
+where r1.Match = 1 -- and r1.Date = (select max(Date) from Equities)
+order by r1.Date desc;
+
+select r1.Code, r1.Date, ev.Type, ev.ExitValue, ev.NumberOfDays, ev.ExitDetail
+from 'Rule Equities Indicator_EMA t1.Close > 1.1 * t2.EMA_200' r1
+ inner join 'Rule Indicator_STOCH STOCH_K < 20' r2 on r2.Match = 1 and r1.Date = r2.Date and r1.Code = r2.Code
+ inner join 'Rule Indicator_AROON AROON_DOWN > 10' r3 on r3.Match = 1 and r1.Date = r3.Date and r1.Code = r3.Code
+ inner join 'Exit TrailingStop3.0 RiskRatio2' ev on r1.Date = ev.MatchDate and r1.Code = ev.Code and ev.Type = 'Buy'
+where r1.Match = 1 -- and r1.Date = (select max(Date) from Equities)
+order by r1.Date desc;
+
+
+select * from Strategy where numberoftrades > 200 order by maximumdrawdown desc;
+
+
+update Strategy set active = 1 where sharpeRatio > 1.4 and maximumDrawdown > -110;
+update Strategy set active = 1 where type = 'Sell' and sharpeRatio > 1.2 and maximumDrawdown > -50;
+
+
+select * from Strategy where active = 1;
+
+

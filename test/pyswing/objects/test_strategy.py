@@ -15,7 +15,8 @@ from utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
 from utils.Logger import Logger
 import pyswing.constants
 import pyswing.globals
-from pyswing.objects.strategy import Strategy, getTwoRuleStrategies, getBestUnprocessedTwoRuleStrategy, getRules, markTwoRuleStrategyAsProcessed, getStrategies, getLatestDate
+from pyswing.objects.strategy import Strategy, getTwoRuleStrategies, getBestUnprocessedTwoRuleStrategy, \
+    getRules, markTwoRuleStrategyAsProcessed, getStrategies, getLatestDate, emptyHistoricTradesTable
 
 
 class TestStrategy(unittest.TestCase):
@@ -40,6 +41,9 @@ class TestStrategy(unittest.TestCase):
 
         threeRuleStrategy = Strategy("Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)", "Rule Equities abs(Close - High) * 2 < abs(Close - Low)", "Exit TrailingStop3.0 RiskRatio2", "Buy", "Rule Equities Close -1 Comparison.GreaterThan 1.01")
         threeRuleStrategy.evaluateThreeRuleStrategy()
+
+        historicTrades = Strategy("Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)", "Rule Equities abs(Close - High) * 2 < abs(Close - Low)", "Exit TrailingStop3.0 RiskRatio2", "Buy", "Rule Equities Close -1 Comparison.GreaterThan 1.01")
+        historicTrades.generateHistoricTrades()
 
 
     @classmethod
@@ -115,6 +119,12 @@ class TestStrategy(unittest.TestCase):
         numberOfTrades = self._numberOfSearchedTwoRuleTrades()
         self.assertEqual(numberOfTrades, 1)
 
+    def test_generateHistoricTrades(self):
+        self.assertEqual(self._numberOfHistoricTrades(), 71)
+        emptyHistoricTradesTable()
+        self.assertEqual(self._numberOfHistoricTrades(), 0)
+
+
     def _numberOfSearchedTwoRuleTrades(self):
         connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
         query = "select count(1) from 'TwoRuleStrategy' where Searched = 1"
@@ -136,6 +146,15 @@ class TestStrategy(unittest.TestCase):
     def _numberOfThreeRuleTrades(self, type):
         connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
         query = "select numberOfTrades from 'ThreeRuleStrategy' where type = '%s'" % type
+        cursor = connection.cursor()
+        cursor.execute(query)
+        numberOfTrades = cursor.fetchone()[0]
+        connection.close()
+        return numberOfTrades
+
+    def _numberOfHistoricTrades(self):
+        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        query = "select count(1) from 'HistoricTrades'"
         cursor = connection.cursor()
         cursor.execute(query)
         numberOfTrades = cursor.fetchone()[0]

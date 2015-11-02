@@ -187,6 +187,23 @@ def deleteEmptyThreeRuleStrategies():
     connection.close()
 
 
+def emptyHistoricTradesTable():
+
+    connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+
+    query = "delete from HistoricTrades"
+
+    cursor = connection.cursor()
+    try:
+        cursor.execute(query)
+        connection.commit()
+    except sqlite3.OperationalError:
+        Logger.log(logging.INFO, "Error Deleting Historic Trades", {"scope":__name__})
+
+    connection.close()
+
+
+
 class Strategy(object):
     """
     ?
@@ -239,6 +256,13 @@ class Strategy(object):
     insertStrategySql = ("insert into Strategy (strategy,rule1,rule2,rule3,exit,type,meanResultPerTrade,medianResultPerTrade,totalProfit,numberOfTrades,sharpeRatio,maximumDrawdown,active) "
                          "values ('%s', '%s', '%s', '%s', '%s', '%s', %s, %s, %s, %s, %s, %s, 0);")
 
+    insertIntoHistoricTradesSql = ("insert into HistoricTrades\n"
+        "select r1.Date as matchDate, r1.Code, '%s' as type from '%s' r1\n"
+        "inner join '%s' r2 on r1.Date = r2.Date and r1.Code = r2.Code and r2.Match = 1\n"
+        "inner join '%s' r3 on r1.Date = r3.Date and r1.Code = r3.Code and r2.Match = 1\n"
+        "inner join '%s' evs on evs.Date = r1.Date and evs.Code = r1.Code and evs.Type = '%s'\n"
+        "where r1.Match = 1")
+
 
     def __init__(self, rule1, rule2, exit, type, rule3=None):
         """
@@ -283,7 +307,6 @@ class Strategy(object):
         connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
         c = connection.cursor()
         sql = self.evaluateThreeRuleSql % (pyswing.constants.pySwingStrategy, self._rule1, self._rule2, self._rule3, self._exit, self._type, self._rule1, self._rule2, self._rule3, self._exit, self._type)
-        # print(sql)
         c.executescript(sql)
         connection.commit()
         c.close()
@@ -368,3 +391,18 @@ class Strategy(object):
             Logger.log(logging.INFO, "Suggested Trade", {"scope":__name__, "tradeDetail":tradeDetail})
 
         return len(self.tradeDetails) > 0
+
+    def generateHistoricTrades(self):
+        """
+        ?
+        """
+
+        Logger.log(logging.INFO, "Generating Historic Trades", {"scope":__name__, "Rule 1":self._rule1, "Rule 2":self._rule2, "Rule 3":self._rule3, "Type":self._type})
+
+        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        c = connection.cursor()
+        sql = self.insertIntoHistoricTradesSql % (self._type, self._rule1, self._rule2, self._rule3, self._exit, self._type)
+        c.executescript(sql)
+        connection.commit()
+        c.close()
+        connection.close()

@@ -200,3 +200,12 @@ CREATE TABLE IF NOT EXISTS Strategy
     maximumDrawdown REAL,
     active INT
 );
+
+CREATE TABLE IF NOT EXISTS HistoricTrades
+(
+    matchDate TEXT,
+    Code TEXT,
+    type
+);
+CREATE INDEX IF NOT EXISTS ix_HistoricTrades_tradeDate ON HistoricTrades (matchDate);
+CREATE INDEX IF NOT EXISTS ix_HistoricTrades_Code ON HistoricTrades (Code);

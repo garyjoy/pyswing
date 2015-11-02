@@ -9,9 +9,6 @@ from utils.Logger import Logger
 import pyswing.constants
 import pyswing.globals
 
-from pyswing.EvaluateTwoRuleStrategies import evaluateTwoRuleStrategies
-from pyswing.EvaluateThreeRuleStrategies import evaluateThreeRuleStrategies
-from pyswing.AnalyseStrategies import analyseStrategies
 from pyswing.AskHorse import askHorse
 
 

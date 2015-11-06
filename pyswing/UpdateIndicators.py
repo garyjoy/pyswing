@@ -2,7 +2,7 @@ import logging
 import getopt
 import sys
 
-from utils.Logger import Logger
+from pyswing.utils.Logger import Logger
 from pyswing.objects.market import Market
 from pyswing.objects.equity import Equity
 from pyswing.objects.indicators.indicatorSMA import IndicatorSMA
@@ -16,7 +16,7 @@ from pyswing.objects.indicators.indicatorAROON import IndicatorAROON
 from pyswing.objects.indicators.indicatorADX import IndicatorADX
 from pyswing.objects.indicators.indicatorDX import IndicatorDX
 from pyswing.objects.indicators.indicatorADI import IndicatorADI
-from utils.TeamCity import TeamCity
+from pyswing.utils.TeamCity import TeamCity
 
 
 def updateIndicators(argv):

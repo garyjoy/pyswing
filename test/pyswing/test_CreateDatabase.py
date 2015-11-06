@@ -2,8 +2,8 @@ import unittest
 import os
 
 import pyswing.constants
-from utils.FileHelper import forceWorkingDirectory, deleteFile
-from utils.Logger import Logger
+from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile
+from pyswing.utils.Logger import Logger
 from pyswing.CreateDatabase import createDatabase
 
 

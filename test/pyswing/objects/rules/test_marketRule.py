@@ -2,8 +2,8 @@ import datetime
 import unittest
 from unittest.mock import patch
 
-from utils.FileHelper import forceWorkingDirectory, deleteFile
-from utils.Logger import Logger
+from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile
+from pyswing.utils.Logger import Logger
 from pyswing.objects.rules.marketRule import MarketRule
 from pyswing.objects.rules.relativeRule import Comparison
 from pyswing.objects.equity import Equity

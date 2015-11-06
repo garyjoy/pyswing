@@ -4,7 +4,7 @@ import sqlite3
 from pandas.io.sql import read_sql_query
 
 from pyswing.objects.rules.rule import Rule
-from utils.Logger import Logger
+from pyswing.utils.Logger import Logger
 import pyswing.constants
 
 

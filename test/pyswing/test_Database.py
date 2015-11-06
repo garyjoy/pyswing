@@ -1,6 +1,7 @@
 import datetime
 import unittest
 from unittest.mock import patch
+import os
 
 from pyswing.AnalyseRules import analyseRules
 from pyswing.CalculateExitValues import calculateExitValues
@@ -9,11 +10,10 @@ from pyswing.EvaluateRules import evaluateRules
 from pyswing.ImportData import importData
 from pyswing.UpdateIndicators import updateIndicators
 from pyswing.objects.equity import Equity
-from utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
-from utils.Logger import Logger
+from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
+from pyswing.utils.Logger import Logger
 import pyswing.constants
 import pyswing.globals
-import os
 
 
 class TestDatabase(unittest.TestCase):

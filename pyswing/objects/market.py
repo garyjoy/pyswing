@@ -2,7 +2,7 @@ import logging
 
 import pandas
 
-from utils.Logger import Logger
+from pyswing.utils.Logger import Logger
 
 
 class Market(object):

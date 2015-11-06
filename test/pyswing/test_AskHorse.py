@@ -1,14 +1,12 @@
 import datetime
 import unittest
 import sqlite3
-
 from unittest.mock import patch
-from utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
-from utils.Logger import Logger
 
+from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
+from pyswing.utils.Logger import Logger
 import pyswing.constants
 import pyswing.globals
-
 from pyswing.AskHorse import askHorse
 
 
@@ -59,7 +57,7 @@ class TestAskHorse(unittest.TestCase):
     def _createStrategy(self):
 
         connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
-        query = "insert into Strategy (strategy,rule1,rule2,rule3,exit,type,meanResultPerTrade,medianResultPerTrade,totalProfit,numberOfTrades,sharpeRatio,maximumDrawdown,active) values ('v4.0', 'Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Exit TrailingStop3.0 RiskRatio2', 'Buy', 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1)"
+        query = "insert into ActiveStrategy (strategy,rule1,rule2,rule3,exit,type,meanResultPerTrade,medianResultPerTrade,totalProfit,numberOfTrades,sharpeRatio,maximumDrawdown,active) values ('v4.0', 'Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Exit TrailingStop3.0 RiskRatio2', 'Buy', 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1)"
         cursor = connection.cursor()
         cursor.execute(query)
         connection.commit()

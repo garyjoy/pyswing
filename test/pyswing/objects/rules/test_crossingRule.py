@@ -3,8 +3,8 @@ import unittest
 from unittest.mock import patch
 
 import pyswing.constants
-from utils.FileHelper import forceWorkingDirectory, deleteFile
-from utils.Logger import Logger
+from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile
+from pyswing.utils.Logger import Logger
 from pyswing.objects.equity import Equity
 from pyswing.objects.rules.crossingRule import CrossingRule
 from pyswing.objects.indicators.indicatorSMA import IndicatorSMA

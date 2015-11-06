@@ -3,8 +3,8 @@ import unittest
 import sqlite3
 from unittest.mock import patch
 
-from utils.FileHelper import forceWorkingDirectory, deleteFile
-from utils.Logger import Logger
+from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile
+from pyswing.utils.Logger import Logger
 import pyswing.constants
 from pyswing.ImportData import importData
 from pyswing.UpdateIndicators import updateIndicators

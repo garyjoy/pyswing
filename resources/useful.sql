@@ -59,3 +59,45 @@ update Strategy set active = 1 where type = 'Sell' and sharpeRatio > 1.2 and max
 select * from Strategy where active = 1;
 
 
+
+select * from ThreeRuleStrategy where numberOfTrades > 1000 and resultPerTrade > 0.6 order by numberOfTrades desc limit 1000;
+select * from ThreeRuleStrategy where numberOfTrades > 500 and resultPerTrade > 0.9 order by numberOfTrades desc limit 1000;
+select * from ThreeRuleStrategy where numberOfTrades > 250 and resultPerTrade > 1.3 order by numberOfTrades desc limit 1000;
+select * from ThreeRuleStrategy where numberOfTrades > 125 and resultPerTrade > 1.5 order by numberOfTrades desc limit 1000;
+
+select r1.Code, r1.Date, ev.Type, ev.ExitValue, ev.NumberOfDays, ev.ExitDetail
+from 'Rule Indicator_ROC ROC_10 < -20' r1
+ inner join 'Rule Indicator_STOCH STOCH_K > STOCH_D' r2 on r2.Match = 1 and r1.Date = r2.Date and r1.Code = r2.Code
+ inner join 'Rule Indicator_AROON AROON_DOWN < 90' r3 on r3.Match = 1 and r1.Date = r3.Date and r1.Code = r3.Code
+ inner join 'Exit TrailingStop3.0 RiskRatio2' ev on r1.Date = ev.MatchDate and r1.Code = ev.Code and ev.Type = 'Sell'
+where r1.Match = 1 -- and r1.Date = (select max(Date) from Equities)
+order by r1.Date desc;
+
+select r1.Code, r1.Date, ev.Type, ev.ExitValue, ev.NumberOfDays, ev.ExitDetail
+from 'Rule Equities Indicator_EMA t1.Close > 1.1 * t2.EMA_200' r1
+ inner join 'Rule Indicator_STOCH STOCH_K < 20' r2 on r2.Match = 1 and r1.Date = r2.Date and r1.Code = r2.Code
+ inner join 'Rule Indicator_AROON AROON_DOWN > 10' r3 on r3.Match = 1 and r1.Date = r3.Date and r1.Code = r3.Code
+ inner join 'Exit TrailingStop3.0 RiskRatio2' ev on r1.Date = ev.MatchDate and r1.Code = ev.Code and ev.Type = 'Buy'
+where r1.Match = 1 -- and r1.Date = (select max(Date) from Equities)
+order by r1.Date desc;
+
+select * from Strategy where numberoftrades > 200 order by medianResultPerTrade desc;
+
+update Strategy set active = 1 where sharpeRatio > 1.4 and maximumDrawdown > -110;
+update Strategy set active = 1 where type = 'Sell' and sharpeRatio > 1.2 and maximumDrawdown > -50;
+
+
+select sum(numberOfTRades) / 2 from Strategy where sharpeRatio > 1.6 and maximumDrawdown > -35;
+
+select * from Strategy where sharpeRatio > 1.6 and maximumDrawdown > -35;
+
+
+select * from Strategy where active = 1;
+
+select * from (
+select distinct matchDate, Code, type from historicTrades order by matchDate desc) t
+inner join 'Exit TrailingStop3.0 RiskRatio2' ev on t.matchDate = ev.matchDate and t.code = ev.code and t.type = ev.type;
+
+select distinct matchDate, Code, type from historicTrades order by matchDate desc;
+
+select * from 'Rule Equities Indicator_EMA t1.Close > 1.1 * t2.EMA_200' order by date desc;

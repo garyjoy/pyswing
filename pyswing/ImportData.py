@@ -2,10 +2,10 @@ import logging
 import getopt
 import sys
 
-from utils.Logger import Logger
+from pyswing.utils.Logger import Logger
 from pyswing.objects.market import Market
 from pyswing.objects.equity import Equity
-from utils.TeamCity import TeamCity
+from pyswing.utils.TeamCity import TeamCity
 
 
 def importData(argv):

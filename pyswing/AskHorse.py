@@ -3,9 +3,9 @@ import getopt
 import sys
 import smtplib
 
-from utils.Logger import Logger
-from pyswing.objects.strategy import Strategy, getActiveStrategies, getLatestDate
-from utils.TeamCity import TeamCity
+from pyswing.utils.Logger import Logger
+from pyswing.objects.strategy import getActiveStrategies, getLatestDate
+from pyswing.utils.TeamCity import TeamCity
 
 
 def askHorse(argv):

@@ -11,8 +11,8 @@ import sqlite3
 # from pyswing.objects.equity import Equity
 # from unittest.mock import patch
 
-from utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
-from utils.Logger import Logger
+from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
+from pyswing.utils.Logger import Logger
 import pyswing.constants
 import pyswing.globals
 from pyswing.objects.strategy import Strategy, getTwoRuleStrategies, getBestUnprocessedTwoRuleStrategy, \

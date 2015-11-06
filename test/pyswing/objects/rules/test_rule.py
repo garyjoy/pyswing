@@ -1,7 +1,7 @@
 import unittest
 
-from utils.FileHelper import forceWorkingDirectory, deleteFile
-from utils.Logger import Logger
+from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile
+from pyswing.utils.Logger import Logger
 from pyswing.objects.rules.rule import Rule, getRules
 import pyswing.constants
 from pyswing.CreateDatabase import createDatabase

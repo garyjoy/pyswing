@@ -2,9 +2,9 @@ import logging
 import getopt
 import sys
 
-from utils.Logger import Logger
-from pyswing.objects.strategy import Strategy, getStrategies
-from utils.TeamCity import TeamCity
+from pyswing.utils.Logger import Logger
+from pyswing.objects.strategy import getStrategies
+from pyswing.utils.TeamCity import TeamCity
 import pyswing.constants
 
 

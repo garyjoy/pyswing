@@ -1,7 +1,7 @@
 import unittest
 
-from utils.FileHelper import forceWorkingDirectory
-from utils.Logger import Logger
+from pyswing.utils.FileHelper import forceWorkingDirectory
+from pyswing.utils.Logger import Logger
 from pyswing.objects.market import Market
 
 

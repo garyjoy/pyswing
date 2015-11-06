@@ -2,9 +2,9 @@ import logging
 import getopt
 import sys
 
-from utils.Logger import Logger
+from pyswing.utils.Logger import Logger
 from pyswing.objects.rules.rule import Rule, getRules
-from utils.TeamCity import TeamCity
+from pyswing.utils.TeamCity import TeamCity
 
 
 def analyseRules(argv):

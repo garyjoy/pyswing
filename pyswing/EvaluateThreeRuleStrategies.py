@@ -2,9 +2,9 @@ import logging
 import getopt
 import sys
 
-from utils.Logger import Logger
+from pyswing.utils.Logger import Logger
 from pyswing.objects.strategy import Strategy, getRules, getBestUnprocessedTwoRuleStrategy, markTwoRuleStrategyAsProcessed, deleteEmptyThreeRuleStrategies
-from utils.TeamCity import TeamCity
+from pyswing.utils.TeamCity import TeamCity
 import pyswing.constants
 
 

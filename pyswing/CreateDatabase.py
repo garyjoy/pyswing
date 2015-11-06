@@ -2,11 +2,10 @@ import logging
 import getopt
 import sys
 import sqlite3
-import os
 
 import pyswing.constants
-from utils.Logger import Logger
-from utils.TeamCity import TeamCity
+from pyswing.utils.Logger import Logger
+from pyswing.utils.TeamCity import TeamCity
 
 
 def createDatabase(argv):

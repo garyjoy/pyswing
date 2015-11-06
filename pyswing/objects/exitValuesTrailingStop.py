@@ -1,11 +1,4 @@
-import logging
-import sqlite3
-
-from pandas.io.sql import read_sql_query
-
 from pyswing.objects.exitValues import ExitValues
-from utils.Logger import Logger
-import pyswing.constants
 
 
 class ExitValuesTrailingStop(ExitValues):

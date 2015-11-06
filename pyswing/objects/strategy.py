@@ -1,13 +1,11 @@
-import datetime
 import logging
 import sqlite3
 
-from pandas.io.data import DataReader
 from pandas.io.sql import read_sql_query
 from pandas import expanding_max, expanding_min, expanding_sum
 from numpy import sqrt
 
-from utils.Logger import Logger
+from pyswing.utils.Logger import Logger
 import pyswing.constants
 
 
@@ -85,7 +83,7 @@ def getActiveStrategies():
 
     connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
 
-    query = "select rule1, rule2, exit, type, rule3, meanResultPerTrade, medianResultPerTrade, totalProfit, numberOfTrades, sharpeRatio, maximumDrawdown from Strategy where active = 1"
+    query = "select rule1, rule2, exit, type, rule3, meanResultPerTrade, medianResultPerTrade, totalProfit, numberOfTrades, sharpeRatio, maximumDrawdown from ActiveStrategy where active = 1"
 
     strategies = None
 

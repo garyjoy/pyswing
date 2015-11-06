@@ -2,8 +2,8 @@ import logging
 import getopt
 import sys
 
-from utils.Logger import Logger
-from pyswing.objects.strategy import Strategy, getActiveStrategies, emptyHistoricTradesTable
+from pyswing.utils.Logger import Logger
+from pyswing.objects.strategy import getActiveStrategies, emptyHistoricTradesTable
 
 
 def generateHistoricTradesForActiveStrategies(argv):

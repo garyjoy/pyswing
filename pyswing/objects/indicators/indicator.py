@@ -2,7 +2,7 @@ import logging
 import datetime
 import sqlite3
 
-from utils.Logger import Logger
+from pyswing.utils.Logger import Logger
 import pyswing.constants
 
 

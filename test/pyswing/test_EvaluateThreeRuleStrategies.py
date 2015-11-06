@@ -2,8 +2,8 @@ import datetime
 import unittest
 import sqlite3
 
-from utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
-from utils.Logger import Logger
+from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
+from pyswing.utils.Logger import Logger
 import pyswing.constants
 import pyswing.globals
 from pyswing.EvaluateTwoRuleStrategies import evaluateTwoRuleStrategies

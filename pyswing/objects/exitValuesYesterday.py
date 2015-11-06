@@ -30,10 +30,12 @@ class ExitValuesYesterday(ExitValues):
         fillValue = fillDay["Open"]
 
         stop = fillValue * (1 - self._maximumLoss)
-        limit = fillValue * (1 + (2 * self._maximumLoss))
+        limit = fillValue * (1 + (3 * self._maximumLoss))
 
         if rowIndex > 0:
             previousDayLow = self._buyExitValueDataFrame.irow(rowIndex - 1, "Low")
+            if previousDayLow > stop:
+                stop = previousDayLow
 
         numberOfDays = 0
         exitValue = None
@@ -74,9 +76,7 @@ class ExitValuesYesterday(ExitValues):
                 exitDetail = "Passed Limit (%f) on Day %i (Open=%f and Close=%f)" % (limit, (numberOfDays + 1), fillValue, exitValue)
 
             if not ended:
-                potentialStop = high * (1 - self._maximumLoss)
-                if potentialStop > stop:
-                    stop = potentialStop
+                stop = low
 
             numberOfDays = numberOfDays + 1
 

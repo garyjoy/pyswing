@@ -6,7 +6,7 @@ class ExitValuesYesterday(ExitValues):
     Exit Values Yesterday's Low Stop Class.
     """
 
-    def __init__(self, tickerCode, maximumLoss):
+    def __init__(self, tickerCode, maximumLoss, riskRatio):
         """
         Base Class Constructor.
 
@@ -16,9 +16,10 @@ class ExitValuesYesterday(ExitValues):
 
         # Logger.log(logging.DEBUG, "Log Object Creation", {"scope":__name__, "arguments":" ".join({""})})
 
-        self._tableName = "Exit Yesterday%s" % (str(maximumLoss * 100))
+        self._tableName = "Exit Yesterday MaximumStop%s RiskRatio%s" % (str(maximumLoss * 100), str(riskRatio))
 
         self._maximumLoss = maximumLoss
+        self._riskRatio = riskRatio
 
         self._maximumDuration = 10
 
@@ -30,12 +31,12 @@ class ExitValuesYesterday(ExitValues):
         fillValue = fillDay["Open"]
 
         stop = fillValue * (1 - self._maximumLoss)
-        limit = fillValue * (1 + (3 * self._maximumLoss))
+        limit = fillValue * (1 + (self._riskRatio * self._maximumLoss))
 
         if rowIndex > 0:
-            previousDayLow = self._buyExitValueDataFrame.irow(rowIndex - 1, "Low")
-            if previousDayLow > stop:
-                stop = previousDayLow
+            previousDayLow = self._buyExitValueDataFrame.irow(rowIndex - 1)
+            if previousDayLow["Low"] > stop:
+                stop = previousDayLow["Low"]
 
         numberOfDays = 0
         exitValue = None
@@ -103,12 +104,12 @@ class ExitValuesYesterday(ExitValues):
         fillValue = fillDay["Open"]
 
         stop = fillValue * (1 + self._maximumLoss)
-        limit = fillValue * (1 - (2 * self._maximumLoss))
+        limit = fillValue * (1 - (self._riskRatio * self._maximumLoss))
 
         if rowIndex > 0:
-            previousDayHigh = self._buyExitValueDataFrame.irow(rowIndex - 1, "High")
-            if previousDayHigh > stop:
-                stop = previousDayHigh
+            previousDayHigh = self._sellExitValueDataFrame.irow(rowIndex - 1)
+            if previousDayHigh["High"] > stop:
+                stop = previousDayHigh["High"]
 
         numberOfDays = 0
         exitValue = None

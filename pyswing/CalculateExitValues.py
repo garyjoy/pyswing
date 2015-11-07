@@ -4,6 +4,7 @@ import sys
 
 from pyswing.utils.Logger import Logger
 from pyswing.objects.exitValuesTrailingStop import ExitValuesTrailingStop
+from pyswing.objects.exitValuesYesterday import ExitValuesYesterday
 from pyswing.objects.market import Market
 from pyswing.utils.TeamCity import TeamCity
 
@@ -55,8 +56,18 @@ def calculateExitValues(argv):
 
         for index, row in market.tickers.iterrows():
             tickerCode = row[0]
-            exitValuesTrailingStop = ExitValuesTrailingStop(tickerCode, 0.03, 2)
-            exitValuesTrailingStop.calculateExitValues()
+
+            exitValuesTrailingStop3 = ExitValuesTrailingStop(tickerCode, 0.03, 2)
+            exitValuesTrailingStop3.calculateExitValues()
+
+            exitValuesTrailingStop2 = ExitValuesTrailingStop(tickerCode, 0.02, 3)
+            exitValuesTrailingStop2.calculateExitValues()
+
+            exitValuesYesterday2 = ExitValuesYesterday(tickerCode, 0.02, 3)
+            exitValuesYesterday2.calculateExitValues()
+
+            exitValuesYesterday3 = ExitValuesYesterday(tickerCode, 0.03, 2)
+            exitValuesYesterday3.calculateExitValues()
 
         TeamCity.setBuildResultText("Calculated Exit Values")
 

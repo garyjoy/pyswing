@@ -56,15 +56,20 @@ def evaluateTwoRuleStrategies(argv):
 
         Logger.log(logging.INFO, "Evaluate Two-Rule Strategies", {"scope":__name__, "market":marketName, "matches":minimumMatchesPerDay, "strategy":pyswing.constants.pySwingStrategy})
 
-        # TODO: Add Support For Multiple Exit Strategies...
         strategies = getTwoRuleStrategies(minimumMatchesPerDay)
+        # TODO: Get this using a function, don't hard-code it...
+        exits = ["Exit TrailingStop3.0 RiskRatio2", "Exit TrailingStop2.0 RiskRatio3", "Exit Yesterday MaximumStop3.0 RiskRatio2", "Exit Yesterday MaximumStop2.0 RiskRatio3"]
         inverseStrategies = set()
+
         for rules in strategies:
             if rules not in inverseStrategies:
-                buyStrategy = Strategy(rules[0], rules[1], "Exit TrailingStop3.0 RiskRatio2", 'Buy')
-                buyStrategy.evaluateTwoRuleStrategy()
-                sellStrategy = Strategy(rules[0], rules[1], "Exit TrailingStop3.0 RiskRatio2", 'Sell')
-                sellStrategy.evaluateTwoRuleStrategy()
+
+                for exit in exits:
+                    buyStrategy = Strategy(rules[0], rules[1], exit, 'Buy')
+                    buyStrategy.evaluateTwoRuleStrategy()
+                    sellStrategy = Strategy(rules[0], rules[1], exit, 'Sell')
+                    sellStrategy.evaluateTwoRuleStrategy()
+
                 inverseStrategies.add((rules[1], rules[0]))
 
         TeamCity.setBuildResultText("Evaluated Two-Rule Strategies")

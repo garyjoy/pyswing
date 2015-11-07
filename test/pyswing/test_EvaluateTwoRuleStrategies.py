@@ -33,12 +33,13 @@ class TestEvaluateTwoRuleStrategies(unittest.TestCase):
 
     def test_EvaluateTwoRuleStrategies(self):
 
+        # TODO:  This takes a few minutes to run. Can I speed it up somehow..?
         args = "-n unitTest -m 0.1 -s test_EvaluateTwoRuleStrategies".split()
         evaluateTwoRuleStrategies(args)
 
         rowCount = self._countRows("TwoRuleStrategy")
 
-        self.assertEqual(rowCount, 4872)
+        self.assertEqual(rowCount, 19488)
 
 
     def _countRows(self, tableName):

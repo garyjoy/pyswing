@@ -32,7 +32,7 @@ class ExitValuesTrailingStop(ExitValues):
         fillValue = fillDay["Open"]
 
         stop = fillValue * (1 - self._maximumLoss)
-        limit = fillValue * (1 + (2 * self._maximumLoss))
+        limit = fillValue * (1 + (self._riskRatio * self._maximumLoss))
 
         numberOfDays = 0
         exitValue = None

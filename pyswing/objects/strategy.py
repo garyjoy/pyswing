@@ -137,7 +137,7 @@ def getBestUnprocessedTwoRuleStrategy(numberOfTrades):
     connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
 
     # TODO:  Implement Sell
-    query = "select rule1, rule2, type from TwoRuleStrategy where numberOfTrades > %s and Searched = 0 order by resultPerTrade desc limit 1;" % numberOfTrades
+    query = "select rule1, rule2, exit, type from TwoRuleStrategy where numberOfTrades > %s and Searched = 0 order by resultPerTrade desc limit 1;" % numberOfTrades
 
     rowData = None
 
@@ -150,7 +150,7 @@ def getBestUnprocessedTwoRuleStrategy(numberOfTrades):
 
     connection.close()
 
-    return (rowData[0][0], rowData[0][1], rowData[0][2])
+    return (rowData[0][0], rowData[0][1], rowData[0][2], rowData[0][3])
 
 
 def markTwoRuleStrategyAsProcessed(rule1, rule2, type):

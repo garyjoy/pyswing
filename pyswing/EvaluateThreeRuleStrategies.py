@@ -65,9 +65,9 @@ def evaluateThreeRuleStrategies(argv):
         strategiesEvaluated = 0
         while strategiesEvaluated < numberOfStrategies:
 
-            rule1, rule2, type = getBestUnprocessedTwoRuleStrategy(numberOfTrades)
+            rule1, rule2, exit, type = getBestUnprocessedTwoRuleStrategy(numberOfTrades)
             for rule3 in rules:
-                strategy = Strategy(rule1, rule2, "Exit TrailingStop3.0 RiskRatio2", type, rule3)
+                strategy = Strategy(rule1, rule2, exit, type, rule3)
                 strategy.evaluateThreeRuleStrategy()
 
             markTwoRuleStrategyAsProcessed(rule1, rule2, type)

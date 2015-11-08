@@ -102,7 +102,7 @@ class TestStrategy(unittest.TestCase):
 
     def test_evaluateStrategy(self):
 
-        rule1, rule2, type = getBestUnprocessedTwoRuleStrategy(10)
+        rule1, rule2, exit, type = getBestUnprocessedTwoRuleStrategy(10)
 
         numberOfTrades = self._numberOfTwoRuleTrades('Buy')
         self.assertEqual(numberOfTrades, 70)

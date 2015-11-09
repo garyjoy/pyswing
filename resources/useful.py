@@ -38,7 +38,7 @@ from pandas.io.sql import read_sql_query
 from pandas import expanding_sum
 
 connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
-query = ("select t.matchDate as Date, ev.ExitValue from ( select distinct matchDate, Code, type from historicTrades order by matchDate asc) t inner join 'Exit TrailingStop3.0 RiskRatio2' ev on t.matchDate = ev.matchDate and t.code = ev.code and t.type = ev.type")
+query = ("select t.matchDate as Date, ev.ExitValue from ( select distinct matchDate, Code, type from historicTrades order by matchDate asc) t inner join 'Exit Yesterday MaximumStop2.0 RiskRatio3' ev on t.matchDate = ev.matchDate and t.code = ev.code and t.type = ev.type")
 cbaEquityData = read_sql_query(query, connection, 'Date')
 connection.close()
 

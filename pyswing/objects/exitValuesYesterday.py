@@ -33,11 +33,6 @@ class ExitValuesYesterday(ExitValues):
         stop = fillValue * (1 - self._maximumLoss)
         limit = fillValue * (1 + (self._riskRatio * self._maximumLoss))
 
-        if rowIndex > 0:
-            previousDayLow = self._buyExitValueDataFrame.irow(rowIndex - 1)
-            if previousDayLow["Low"] > stop:
-                stop = previousDayLow["Low"]
-
         numberOfDays = 0
         exitValue = None
         exitDetail = None
@@ -105,11 +100,6 @@ class ExitValuesYesterday(ExitValues):
 
         stop = fillValue * (1 + self._maximumLoss)
         limit = fillValue * (1 - (self._riskRatio * self._maximumLoss))
-
-        if rowIndex > 0:
-            previousDayHigh = self._sellExitValueDataFrame.irow(rowIndex - 1)
-            if previousDayHigh["High"] > stop:
-                stop = previousDayHigh["High"]
 
         numberOfDays = 0
         exitValue = None

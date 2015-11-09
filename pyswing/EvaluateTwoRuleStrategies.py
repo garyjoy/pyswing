@@ -67,8 +67,10 @@ def evaluateTwoRuleStrategies(argv):
                 for exit in exits:
                     buyStrategy = Strategy(rules[0], rules[1], exit, 'Buy')
                     buyStrategy.evaluateTwoRuleStrategy()
-                    sellStrategy = Strategy(rules[0], rules[1], exit, 'Sell')
-                    sellStrategy.evaluateTwoRuleStrategy()
+
+                    # TODO:  Put this back...
+                    # sellStrategy = Strategy(rules[0], rules[1], exit, 'Sell')
+                    # sellStrategy.evaluateTwoRuleStrategy()
 
                 inverseStrategies.add((rules[1], rules[0]))
 

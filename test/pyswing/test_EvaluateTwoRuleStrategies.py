@@ -39,7 +39,7 @@ class TestEvaluateTwoRuleStrategies(unittest.TestCase):
 
         rowCount = self._countRows("TwoRuleStrategy")
 
-        self.assertEqual(rowCount, 19488)
+        self.assertEqual(rowCount, 9744)
 
 
     def _countRows(self, tableName):

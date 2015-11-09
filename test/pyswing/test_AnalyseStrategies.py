@@ -40,7 +40,7 @@ class TestAnalyseStrategies(unittest.TestCase):
 
         rowCount = self._countRows("TwoRuleStrategy")
 
-        self.assertEqual(rowCount, 4872)
+        self.assertEqual(rowCount, 9744)
 
         args = "-n unitTest -N 1 -s v4.0 -t 5".split()
         evaluateThreeRuleStrategies(args)

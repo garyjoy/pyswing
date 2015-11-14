@@ -65,12 +65,12 @@ def evaluateTwoRuleStrategies(argv):
             if rules not in inverseStrategies:
 
                 for exit in exits:
-                    buyStrategy = Strategy(rules[0], rules[1], exit, 'Buy')
-                    buyStrategy.evaluateTwoRuleStrategy()
+                    # buyStrategy = Strategy(rules[0], rules[1], exit, 'Buy')
+                    # buyStrategy.evaluateTwoRuleStrategy()
 
                     # TODO:  Put this back...
-                    # sellStrategy = Strategy(rules[0], rules[1], exit, 'Sell')
-                    # sellStrategy.evaluateTwoRuleStrategy()
+                    sellStrategy = Strategy(rules[0], rules[1], exit, 'Sell')
+                    sellStrategy.evaluateTwoRuleStrategy()
 
                 inverseStrategies.add((rules[1], rules[0]))
 

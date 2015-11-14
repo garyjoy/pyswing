@@ -256,10 +256,10 @@ class Strategy(object):
                          "values ('%s', '%s', '%s', '%s', '%s', '%s', %s, %s, %s, %s, %s, %s, 0);")
 
     insertIntoHistoricTradesSql = ("insert into HistoricTrades\n"
-        "select r1.Date as matchDate, r1.Code, '%s' as type from '%s' r1\n"
+        "select r1.Date as matchDate, r1.Code, '%s' as type, evs.exitValue from '%s' r1\n"
         "inner join '%s' r2 on r1.Date = r2.Date and r1.Code = r2.Code and r2.Match = 1\n"
-        "inner join '%s' r3 on r1.Date = r3.Date and r1.Code = r3.Code and r2.Match = 1\n"
-        "inner join '%s' evs on evs.Date = r1.Date and evs.Code = r1.Code and evs.Type = '%s'\n"
+        "inner join '%s' r3 on r1.Date = r3.Date and r1.Code = r3.Code and r3.Match = 1\n"
+        "inner join '%s' evs on evs.MatchDate = r1.Date and evs.Code = r1.Code and evs.Type = '%s'\n"
         "where r1.Match = 1")
 
 
@@ -374,6 +374,7 @@ class Strategy(object):
         cursor = connection.cursor()
         try:
             cursor.execute(query)
+            # print(query)
             trades = cursor.fetchall()
         except sqlite3.OperationalError:
             Logger.log(logging.INFO, "Error Getting Trades", {"scope":__name__})
@@ -401,6 +402,7 @@ class Strategy(object):
         connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
         c = connection.cursor()
         sql = self.insertIntoHistoricTradesSql % (self._type, self._rule1, self._rule2, self._rule3, self._exit, self._type)
+        # print(sql)
         c.executescript(sql)
         connection.commit()
         c.close()

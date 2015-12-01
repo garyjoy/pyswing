@@ -83,10 +83,8 @@ def getActiveStrategies():
 
     connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
 
-    # TODO:  Put this back...
-    # query = "select rule1, rule2, exit, type, rule3, meanResultPerTrade, medianResultPerTrade, totalProfit, numberOfTrades, sharpeRatio, maximumDrawdown from ActiveStrategy where active = 1"
-
-    query = "select rule1, rule2, exit, type, rule3, meanResultPerTrade, medianResultPerTrade, totalProfit, numberOfTrades, sharpeRatio, maximumDrawdown from Strategy where active = 1"
+    query = "select rule1, rule2, exit, type, rule3, meanResultPerTrade, medianResultPerTrade, totalProfit, numberOfTrades, sharpeRatio, maximumDrawdown from ActiveStrategy where active = 1"
+    # query = "select rule1, rule2, exit, type, rule3, meanResultPerTrade, medianResultPerTrade, totalProfit, numberOfTrades, sharpeRatio, maximumDrawdown from Strategy where active = 1"
 
     strategies = None
 

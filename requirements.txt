@@ -3,5 +3,5 @@ TA-Lib==0.4.9
 matplotlib==1.4.3
 numexpr==2.4.3
 
-theanets==0.8.0rc0
-sklearn
+# theanets==0.8.0rc0
+# sklearn

@@ -29,7 +29,8 @@ class TestEvaluateThreeRuleStrategies(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        deleteFile(pyswing.constants.pySwingDatabase)
+        # deleteFile(pyswing.constants.pySwingDatabase)
+        pass
 
 
     def test_EvaluateThreeRuleStrategies(self):
@@ -39,7 +40,7 @@ class TestEvaluateThreeRuleStrategies(unittest.TestCase):
 
         rowCount = self._countRows("TwoRuleStrategy")
 
-        self.assertEqual(rowCount, 9744)
+        self.assertEqual(rowCount, 19488)
 
         args = "-n unitTest -N 1 -s v4.0 -t 5".split()
         evaluateThreeRuleStrategies(args)

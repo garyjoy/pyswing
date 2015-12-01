@@ -120,7 +120,7 @@ class TestStrategy(unittest.TestCase):
         self.assertEqual(numberOfTrades, 1)
 
     def test_generateHistoricTrades(self):
-        self.assertEqual(self._numberOfHistoricTrades(), 71)
+        self.assertEqual(self._numberOfHistoricTrades(), 36)
         emptyHistoricTradesTable()
         self.assertEqual(self._numberOfHistoricTrades(), 0)
 

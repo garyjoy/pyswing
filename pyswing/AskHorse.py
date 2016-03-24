@@ -48,7 +48,6 @@ def askHorse(argv):
     if marketName != "":
 
         latestDate = getLatestDate()
-        # latestDate = '2015-10-07 00:00:00'
 
         Logger.log(logging.INFO, "Ask Horse", {"scope":__name__, "market":marketName, "latestDate":latestDate})
 

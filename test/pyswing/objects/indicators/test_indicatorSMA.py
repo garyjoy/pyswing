@@ -43,12 +43,13 @@ class TestIndicatorSMA(unittest.TestCase):
 
         dataPoint = cbaIndicatorSMA._indicatorDataFrame.ix['2015-08-31 00:00:00']
 
-        self.assertAlmostEqual(dataPoint['SMA_5'], 75.82, 2)
-        self.assertAlmostEqual(dataPoint['SMA_10'], 75.85, 2)
-        self.assertAlmostEqual(dataPoint['SMA_15'], 76.70, 2)
-        self.assertAlmostEqual(dataPoint['SMA_20'], 77.76, 2)
-        self.assertAlmostEqual(dataPoint['SMA_50'], 80.80, 2)
-        self.assertAlmostEqual(dataPoint['SMA_200'], 82.10, 2)
+        # These tests will fail if the Adjusted Close values change...
+        self.assertAlmostEqual(dataPoint['SMA_5'], 72.93, 2)
+        self.assertAlmostEqual(dataPoint['SMA_10'], 72.96, 2)
+        self.assertAlmostEqual(dataPoint['SMA_15'], 73.78, 2)
+        self.assertAlmostEqual(dataPoint['SMA_20'], 74.80, 2)
+        self.assertAlmostEqual(dataPoint['SMA_50'], 77.72, 2)
+        self.assertAlmostEqual(dataPoint['SMA_200'], 78.98, 2)
 
 
 if __name__ == '__main__':

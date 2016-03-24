@@ -66,7 +66,7 @@ class TestEquity(unittest.TestCase):
 
         # https://au.finance.yahoo.com/q/hp?s=CBA.AX&a=00&b=1&c=2015&d=02&e=6&f=2015&g=d
         # Date	        Open	High	Low	    Close	Volume	    Adj Close*
-        # 2 Mar 2015	91.40	92.61	91.14	92.05	2,130,100	88.46
+        # 2 Mar 2015	91.40	92.61	91.14	92.05	2,130,100	85.09
 
         dayData = cbaData.ix['2015-03-02 00:00:00']
 
@@ -76,8 +76,9 @@ class TestEquity(unittest.TestCase):
         low = dayData.Low
         volume = dayData.Volume
 
-        self.assertAlmostEqual(open, 87.84, 2) # 91.40 * (88.46 / 92.05)
-        self.assertAlmostEqual(close, 88.46, 2)
+        # These tests will fail if the Adjusted Close values change...
+        self.assertAlmostEqual(open, 84.49, 2) # 91.40 * (85.09 / 92.05)
+        self.assertAlmostEqual(close, 85.09, 2)
 
         self.assertEqual(volume, 2130100)
 

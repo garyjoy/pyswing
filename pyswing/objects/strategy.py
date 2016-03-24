@@ -83,10 +83,7 @@ def getActiveStrategies():
 
     connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
 
-    # "ActiveStrategy" has a small subset of the trades in "Strategy" (see https://www.evernote.com/shard/s50/nl/1389282087/32148488-a9ef-46ec-a516-6f8671756720/ for more information)
-
-    # query = "select rule1, rule2, exit, type, rule3, meanResultPerTrade, medianResultPerTrade, totalProfit, numberOfTrades, sharpeRatio, maximumDrawdown from ActiveStrategy where active = 1"
-    query = "select rule1, rule2, exit, type, rule3, meanResultPerTrade, medianResultPerTrade, totalProfit, numberOfTrades, sharpeRatio, maximumDrawdown from Strategy where active = 1"
+    query = "select rule1, rule2, exit, type, rule3, meanResultPerTrade, medianResultPerTrade, totalProfit, numberOfTrades, sharpeRatio, maximumDrawdown from ActiveStrategy where active = 1"
 
     strategies = None
 

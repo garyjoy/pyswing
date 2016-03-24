@@ -41,6 +41,7 @@ class ExitValues(object):
 
         Logger.log(logging.INFO, "Calculating Exit Values", {"scope":__name__, "Rule":self._tableName, "code":self._tickerCode})
 
+        # TODO:  I think the hard-coded BUY in here is causing problems generating the sell values (when run every day)...
         self._selectQuery = "select e.Date as Date, e.Date as TradeDate, e.Code, e.Open, e.Close, e.High, e.Low, x.Type, x.ExitValue, x.NumberOfDays, x.ExitDetail from Equities e left join '%s' x on e.Date = x.MatchDate and e.Code = x.Code and x.Type = 'Buy' where e.Code = '%s' and x.ExitValue is NULL" % (self._tableName, self._tickerCode)
 
         connection = sqlite3.connect(pyswing.constants.pySwingDatabase)

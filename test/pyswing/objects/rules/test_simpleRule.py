@@ -8,6 +8,7 @@ from pyswing.objects.rules.simpleRule import SimpleRule
 from pyswing.objects.equity import Equity
 from pyswing.objects.indicators.indicatorROC import IndicatorROC
 import pyswing.constants
+import pyswing.database
 import pyswing.globals
 from pyswing.CreateDatabase import createDatabase
 
@@ -23,12 +24,12 @@ class TestSimpleRule(unittest.TestCase):
         pyswing.globals.potentialRuleMatches = None
         pyswing.globals.equityCount = None
 
-        pyswing.constants.pySwingDatabase = "output/TestSimpleRule.db"
+        pyswing.database.overrideDatabase("output/TestSimpleRule.db")
         pyswing.constants.pySwingStartDate = datetime.datetime(2014, 1, 1)
 
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
-        args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
+        args = "-n %s" % ("unitTesting")
         createDatabase(args.split())
 
         pretendDate = datetime.datetime(2015, 9, 1)
@@ -46,7 +47,7 @@ class TestSimpleRule(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
 
     def test_IndicatorSMA(self):

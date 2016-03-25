@@ -7,6 +7,7 @@ from pandas.io.sql import read_sql_query
 
 from pyswing.utils.Logger import Logger
 import pyswing.constants
+import pyswing.database
 
 
 class Equity(object):
@@ -53,7 +54,7 @@ class Equity(object):
         self._data.rename(columns={'Adj Close':'Close'}, inplace=True)
         self._data['Volume'] = self._data['Volume'].astype(float)
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         query = "insert or replace into Equities (Date, Open, High, Low, Volume, Close, Code) values (?,?,?,?,?,?,?)"
         connection.executemany(query, self._data.to_records(index=True))
@@ -63,7 +64,7 @@ class Equity(object):
 
     def dataFrame(self):
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         query = "select * from Equities where Code = '%s'" % (self._tickerCode)
         equityData = read_sql_query(query, connection, 'Date')
         connection.close()
@@ -73,7 +74,7 @@ class Equity(object):
 
     def _getLatestDate(self):
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         query = "select max(Date) from Equities where Code = '%s'" % (self._tickerCode)
 

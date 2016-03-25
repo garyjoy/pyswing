@@ -5,11 +5,12 @@ import sqlite3
 from pyswing.utils.Logger import Logger
 import pyswing.constants
 import pyswing.globals
+import pyswing.database
 
 
 def getRules():
 
-    connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+    connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
     query = "SELECT name FROM sqlite_master WHERE type = 'table' and name like 'Rule %'"
 
@@ -68,7 +69,7 @@ class Rule(object):
         equityCount = self._getEquityCount()
         potentialRuleMatches = self._getPotentialRuleMatches()
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         cursor = connection.cursor()
 
@@ -95,7 +96,7 @@ class Rule(object):
 
     def _getLatestDate(self):
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         query = "select max(Date) from '%s' where Code = '%s'" % (self._ruleTableName, self._tickerCode)
 
@@ -118,7 +119,7 @@ class Rule(object):
 
     def _createTable(self):
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         c = connection.cursor()
         c.executescript(Rule.CreateTableCommand % (self._ruleTableName))
         c.executescript(Rule.CreateDateIndexCommand % (self._ruleTableName, self._ruleTableName))
@@ -131,7 +132,7 @@ class Rule(object):
 
         if not pyswing.globals.equityCount:
 
-            connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+            connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
             query = "select count(distinct Code) from Equities"
 
@@ -151,7 +152,7 @@ class Rule(object):
 
         if not pyswing.globals.potentialRuleMatches:
 
-            connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+            connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
             query = "select count(1) from '%s'" % self._ruleTableName
 

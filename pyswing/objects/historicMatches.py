@@ -3,6 +3,7 @@ import sqlite3
 
 from pyswing.utils.Logger import Logger
 import pyswing.constants
+import pyswing.database
 
 
 class HistoricMatches(object):
@@ -35,7 +36,7 @@ class HistoricMatches(object):
                                     inner join HistoricMatches_151_200 h4 on h1.Date = h4.Date and h1.Code = h4.Code
                                     """
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         c = connection.cursor()
         c.executescript(deleteTableStatement)
         c.executescript(createTableStatement)
@@ -53,7 +54,7 @@ class HistoricMatches(object):
         # print(deleteTableStatement)
         # print(createTableStatement)
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         c = connection.cursor()
         c.executescript(deleteTableStatement)
         c.executescript(createTableStatement)
@@ -62,7 +63,7 @@ class HistoricMatches(object):
         connection.close()
 
     def _getRules(self):
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         query = "SELECT name FROM sqlite_master WHERE type='table' and name like 'Rule %' order by name"
 

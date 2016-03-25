@@ -9,6 +9,7 @@ from pyswing.objects.rules.relativeRule import Comparison
 from pyswing.objects.equity import Equity
 from pyswing.objects.indicators.indicatorADI import IndicatorADI
 import pyswing.constants
+import pyswing.database
 import pyswing.globals
 from pyswing.CreateDatabase import createDatabase
 
@@ -24,12 +25,12 @@ class TestMarketRule(unittest.TestCase):
         pyswing.globals.potentialRuleMatches = None
         pyswing.globals.equityCount = None
 
-        pyswing.constants.pySwingDatabase = "output/TestMarketRule.db"
+        pyswing.database.overrideDatabase("output/TestMarketRule.db")
         pyswing.constants.pySwingStartDate = datetime.datetime(2014, 1, 1)
 
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
-        args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
+        args = "-n %s" % ("unitTesting")
         createDatabase(args.split())
 
         pretendDate = datetime.datetime(2015, 9, 1)
@@ -47,7 +48,7 @@ class TestMarketRule(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
 
     def test_IndicatorADI(self):

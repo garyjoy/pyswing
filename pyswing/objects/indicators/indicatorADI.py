@@ -7,6 +7,7 @@ from talib import abstract
 
 from pyswing.utils.Logger import Logger
 import pyswing.constants
+import pyswing.database
 
 
 class IndicatorADI(object):
@@ -24,7 +25,7 @@ class IndicatorADI(object):
         self._insertQuery = "insert or replace into %s (Date, ADI, ADI_ROC, ADI_EMA, ADI_SUM) values (?,?,?,?,?)" % (tableName)
         self._selectQuery = "SELECT Date, SUM(CASE WHEN Close > Open THEN 1 ELSE 0 END) - SUM(CASE WHEN Close < Open THEN 1 ELSE 0 END) as ADI FROM Equities group by Date"
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         self._indicatorDataFrame = read_sql_query(self._selectQuery, connection, 'Date')
 
@@ -46,7 +47,7 @@ class IndicatorADI(object):
 
         Logger.log(logging.INFO, "Updating Indicator", {"scope":__name__, "indicator":self._tableName, "start":str(start)})
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         newRecords = self._indicatorDataFrame.query("Date > '%s'" % (str(start)))
 
@@ -59,7 +60,7 @@ class IndicatorADI(object):
 
     def _getLatestDate(self):
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         query = "select max(Date) from %s" % (self._tableName)
 

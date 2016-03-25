@@ -1,12 +1,10 @@
-import datetime
 import unittest
-import sqlite3
 
-from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
+from pyswing.utils.FileHelper import forceWorkingDirectory
 from pyswing.utils.Logger import Logger
 import pyswing.constants
+import pyswing.database
 import pyswing.globals
-from pyswing.GenerateHistoricMatchData import generateHistoricMatchData
 
 
 class TestGenerateHistoricMatchData(unittest.TestCase):
@@ -19,16 +17,16 @@ class TestGenerateHistoricMatchData(unittest.TestCase):
         pyswing.globals.potentialRuleMatches = None
         pyswing.globals.equityCount = None
 
-        # pyswing.constants.pySwingDatabase = "output/TestGenerateHistoricMatchData.db"
+        # pyswing.database.overrideDatabase("output/TestGenerateHistoricMatchData.db")
         # pyswing.constants.pySwingStartDate = datetime.datetime(2015, 1, 1)
         #
-        # deleteFile(pyswing.constants.pySwingDatabase)
+        # deleteFile(pyswing.database.pySwingDatabase)
         #
-        # copyFile(pyswing.constants.pySwingTestDatabase, pyswing.constants.pySwingDatabase)
+        # copyFile(pyswing.database.pySwingTestDatabase, pyswing.database.pySwingDatabase)
 
     @classmethod
     def tearDownClass(self):
-        # deleteFile(pyswing.constants.pySwingDatabase)
+        # deleteFile(pyswing.database.pySwingDatabase)
         pass
 
 

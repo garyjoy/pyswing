@@ -2,6 +2,7 @@ import unittest
 import os
 
 import pyswing.constants
+import pyswing.database
 from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile
 from pyswing.utils.Logger import Logger
 from pyswing.CreateDatabase import createDatabase
@@ -17,26 +18,27 @@ class TestCreateDatabase(unittest.TestCase):
 
     def test_CreateTestDatabase(self):
 
-        pyswing.constants.pySwingDatabase = "output/TestCreateDatabase.db"
-        deleteFile(pyswing.constants.pySwingDatabase)
+        pyswing.database.overrideDatabase("output/TestCreateDatabase.db")
+        deleteFile(pyswing.database.pySwingDatabase)
 
-        args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
+        args = "-n %s" % ("unitTesting")
         createDatabase(args.split())
 
-        self.assertTrue(os.path.isfile(pyswing.constants.pySwingDatabase))
+        self.assertTrue(os.path.isfile(pyswing.database.pySwingDatabase))
 
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
 
     def test_CreateDatabase(self):
 
-        pyswing.constants.pySwingDatabase = pyswing.constants.pySwingTestDatabase
+        pyswing.database.overrideDatabase(pyswing.database.pySwingTestDatabase)
 
-        originalSize = os.path.getsize(pyswing.constants.pySwingDatabase)
+        originalSize = os.path.getsize(pyswing.database.pySwingDatabase)
 
-        createDatabase([])
+        args = "-n %s" % ("unitTesting")
+        createDatabase(args.split())
 
-        subsequentSize = os.path.getsize(pyswing.constants.pySwingDatabase)
+        subsequentSize = os.path.getsize(pyswing.database.pySwingDatabase)
 
         self.assertEqual(originalSize, subsequentSize)
 

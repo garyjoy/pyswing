@@ -5,6 +5,7 @@ import sqlite3
 from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
 from pyswing.utils.Logger import Logger
 import pyswing.constants
+import pyswing.database
 import pyswing.globals
 from pyswing.EvaluateTwoRuleStrategies import evaluateTwoRuleStrategies
 from pyswing.EvaluateThreeRuleStrategies import evaluateThreeRuleStrategies
@@ -21,16 +22,16 @@ class TestAnalyseStrategies(unittest.TestCase):
         pyswing.globals.potentialRuleMatches = None
         pyswing.globals.equityCount = None
 
-        pyswing.constants.pySwingDatabase = "output/TestAnalyseStrategies.db"
+        pyswing.database.overrideDatabase("output/TestAnalyseStrategies.db")
         pyswing.constants.pySwingStartDate = datetime.datetime(2015, 1, 1)
 
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
-        copyFile(pyswing.constants.pySwingTestDatabase, pyswing.constants.pySwingDatabase)
+        copyFile(pyswing.database.pySwingTestDatabase, pyswing.database.pySwingDatabase)
 
     @classmethod
     def tearDownClass(self):
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
 
     def test_AnalyseStrategies(self):
@@ -58,7 +59,7 @@ class TestAnalyseStrategies(unittest.TestCase):
 
 
     def _countRows(self, tableName):
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         query = "select count(1) from '%s'" % (tableName)
         cursor = connection.cursor()
         cursor.execute(query)

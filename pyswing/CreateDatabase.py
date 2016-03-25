@@ -4,6 +4,7 @@ import sys
 import sqlite3
 
 import pyswing.constants
+import pyswing.database
 from pyswing.utils.Logger import Logger
 from pyswing.utils.TeamCity import TeamCity
 
@@ -14,23 +15,21 @@ def createDatabase(argv):
 
     :param argv: Command Line Parameters.
 
-    -D = Database File
-    -s = Script File
+    -n = Name
 
     Example:
 
-    python -m pyswing.ImportData -D /Users/garyjoy/pyswing.db -s resources/pyswing.sql
+    python -m pyswing.CreateDatabase -n asx
     """
 
     Logger.log(logging.INFO, "Log Script Call", {"scope":__name__, "arguments":" ".join(argv)})
     Logger.pushLogData("script", __name__)
 
-    databaseFilePath = pyswing.constants.pySwingDatabase
-    scriptFilePath = pyswing.constants.pySwingDatabaseScript
+    marketName = ""
 
     try:
-        shortOptions = "D:s:dh"
-        longOptions = ["databaseFilePath=", "scriptFilePath=", "debug", "help"]
+        shortOptions = "n:dh"
+        longOptions = ["marketName=", "debug", "help"]
         opts, __ = getopt.getopt(argv, shortOptions, longOptions)
     except getopt.GetoptError as e:
         Logger.log(logging.ERROR, "Error Reading Options", {"scope": __name__, "exception": str(e)})
@@ -44,21 +43,30 @@ def createDatabase(argv):
             print("?")
             usage()
             sys.exit()
-        elif opt in ("-D", "--databaseFilePath"):
-            databaseFilePath = arg
-        elif opt in ("-s", "--scriptFilePath"):
-            scriptFilePath = arg
+        elif opt in ("-n", "--marketName"):
+            marketName = arg
 
-    Logger.log(logging.INFO, "Creating Database", {"scope":__name__, "databaseFilePath":databaseFilePath, "scriptFilePath":scriptFilePath})
+    if marketName != "":
 
-    query = open(pyswing.constants.pySwingDatabaseScript, 'r').read()
-    connection = sqlite3.connect(databaseFilePath)
-    c = connection.cursor()
-    c.executescript(query)
-    connection.commit()
-    c.close()
-    connection.close()
-    TeamCity.setBuildResultText("Created Database")
+        pyswing.database.initialiseDatabase(marketName)
+        databaseFilePath = pyswing.database.pySwingDatabase
+        scriptFilePath = pyswing.constants.pySwingDatabaseScript
+
+        Logger.log(logging.INFO, "Creating Database", {"scope":__name__, "databaseFilePath":databaseFilePath, "scriptFilePath":scriptFilePath})
+
+        query = open(pyswing.constants.pySwingDatabaseScript, 'r').read()
+        connection = sqlite3.connect(databaseFilePath)
+        c = connection.cursor()
+        c.executescript(query)
+        connection.commit()
+        c.close()
+        connection.close()
+        TeamCity.setBuildResultText("Created Database")
+
+    else:
+        Logger.log(logging.ERROR, "Missing Options", {"scope": __name__, "options": str(argv)})
+        usage()
+        sys.exit(2)
 
 
 def usage():
@@ -67,12 +75,11 @@ def usage():
     print("  CreateDatabase.py -D databaseFilePath -s scriptFilePath [-d] [-h]")
     print("")
     print("arguments:")
-    print("  -D, --databaseFilePath     Database Name")
-    print("  -s, --scriptFilePath       Relative Script File Path")
+    print("  -n, --name        Name")
     print("")
     print("optional arguments:")
-    print("  -d, --debug                Change the Log Level to Debug")
-    print("  -h, --help                 Display Usage Information")
+    print("  -d, --debug       Change the Log Level to Debug")
+    print("  -h, --help        Display Usage Information")
 
 
 if __name__ == "__main__":

@@ -5,6 +5,7 @@ from pandas.io.sql import read_sql_query
 
 from pyswing.utils.Logger import Logger
 import pyswing.constants
+import pyswing.database
 
 
 class ExitValues(object):
@@ -44,7 +45,7 @@ class ExitValues(object):
         # TODO:  I think the hard-coded BUY in here is causing problems generating the sell values (when run every day)...
         self._selectQuery = "select e.Date as Date, e.Date as TradeDate, e.Code, e.Open, e.Close, e.High, e.Low, x.Type, x.ExitValue, x.NumberOfDays, x.ExitDetail from Equities e left join '%s' x on e.Date = x.MatchDate and e.Code = x.Code and x.Type = 'Buy' where e.Code = '%s' and x.ExitValue is NULL" % (self._tableName, self._tickerCode)
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         self._buyExitValueDataFrame = read_sql_query(self._selectQuery, connection, "Date")
         self._sellExitValueDataFrame = read_sql_query(self._selectQuery, connection, "Date")
@@ -98,7 +99,7 @@ class ExitValues(object):
 
     def _createTable(self):
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         c = connection.cursor()
         c.executescript(ExitValues.CreateTableCommand % (self._tableName))
         c.executescript(ExitValues.CreateDateIndexCommand % (self._tableName, self._tableName))

@@ -7,6 +7,7 @@ from pandas.io.sql import read_sql_query
 from pyswing.objects.rules.rule import Rule
 from pyswing.utils.Logger import Logger
 import pyswing.constants
+import pyswing.database
 
 
 class Comparison(Enum):
@@ -59,7 +60,7 @@ class RelativeRule(Rule):
         # We can't use self._getLatestDate() because we need data from before that date...
         self._restrictedSelectQuery = "%s where Code = '%s'" % (self._selectQuery, self._tickerCode)
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         self._ruleData = read_sql_query(self._restrictedSelectQuery, connection, 'Date')
 

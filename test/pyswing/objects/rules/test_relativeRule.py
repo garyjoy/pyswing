@@ -7,6 +7,7 @@ from pyswing.utils.Logger import Logger
 from pyswing.objects.equity import Equity
 from pyswing.objects.rules.relativeRule import RelativeRule, Comparison
 import pyswing.constants
+import pyswing.database
 from pyswing.CreateDatabase import createDatabase
 
 
@@ -18,12 +19,12 @@ class TestRelativeRule(unittest.TestCase):
         Logger.pushLogData("unitTesting", __name__)
         forceWorkingDirectory()
 
-        pyswing.constants.pySwingDatabase = "output/TestRelativeRule.db"
+        pyswing.database.overrideDatabase("output/TestRelativeRule.db")
         pyswing.constants.pySwingStartDate = datetime.datetime(2015, 1, 1)
 
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
-        args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
+        args = "-n %s" % ("unitTesting")
         createDatabase(args.split())
 
         pretendDate = datetime.datetime(2015, 9, 1)
@@ -35,7 +36,7 @@ class TestRelativeRule(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
 
     def test_RelativeRule(self):

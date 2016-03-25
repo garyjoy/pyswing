@@ -7,6 +7,7 @@ from pyswing.utils.Logger import Logger
 from pyswing.objects.indicators.indicatorDX import IndicatorDX
 from pyswing.objects.equity import Equity
 import pyswing.constants
+import pyswing.database
 from pyswing.CreateDatabase import createDatabase
 
 
@@ -18,12 +19,12 @@ class TestIndicatorDX(unittest.TestCase):
         Logger.pushLogData("unitTesting", __name__)
         forceWorkingDirectory()
 
-        pyswing.constants.pySwingDatabase = "output/TestIndicatorDX.db"
+        pyswing.database.overrideDatabase("output/TestIndicatorDX.db")
         pyswing.constants.pySwingStartDate = datetime.datetime(2014, 1, 1)
 
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
-        args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
+        args = "-n %s" % ("unitTesting")
         createDatabase(args.split())
 
         pretendDate = datetime.datetime(2015, 9, 1)
@@ -34,7 +35,7 @@ class TestIndicatorDX(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
 
     def test_IndicatorDX(self):

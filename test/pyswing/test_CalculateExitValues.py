@@ -6,6 +6,7 @@ from unittest.mock import patch
 from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile
 from pyswing.utils.Logger import Logger
 import pyswing.constants
+import pyswing.database
 from pyswing.ImportData import importData
 from pyswing.CalculateExitValues import calculateExitValues
 from pyswing.objects.equity import Equity
@@ -19,17 +20,17 @@ class TestCalculateExitValues(unittest.TestCase):
         Logger.pushLogData("unitTesting", __name__)
         forceWorkingDirectory()
 
-        pyswing.constants.pySwingDatabase = "output/TestCalculateExitValues.db"
+        pyswing.database.overrideDatabase("output/TestCalculateExitValues.db")
         pyswing.constants.pySwingStartDate = datetime.datetime(2015, 1, 1)
 
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
-        args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
+        args = "-n %s" % ("unitTesting")
         createDatabase(args.split())
 
     @classmethod
     def tearDownClass(self):
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
 
     def test_CalculateExitValues(self):
@@ -56,7 +57,7 @@ class TestCalculateExitValues(unittest.TestCase):
 
 
     def _countRows(self, tableName):
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         query = "select count(1) from '%s'" % (tableName)
         cursor = connection.cursor()
         cursor.execute(query)

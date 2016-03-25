@@ -5,9 +5,10 @@ import datetime
 from pandas.io.sql import read_sql_query
 
 from pyswing.objects.rules.rule import Rule
+from pyswing.objects.rules.relativeRule import Comparison
 from pyswing.utils.Logger import Logger
 import pyswing.constants
-from pyswing.objects.rules.relativeRule import Comparison
+import pyswing.database
 
 
 class MarketRule(object):
@@ -52,7 +53,7 @@ class MarketRule(object):
 
         Logger.log(logging.INFO, "Evaluating Rule", {"scope":__name__, "Rule":self._ruleTableName, "start":str(start)})
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         self._ruleData = read_sql_query(self._selectQuery, connection, 'Date')
 
@@ -84,7 +85,7 @@ class MarketRule(object):
 
         potentialRuleMatches = self._getPotentialRuleMatches()
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         cursor = connection.cursor()
 
@@ -111,7 +112,7 @@ class MarketRule(object):
 
     def _getLatestDate(self):
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         query = "select max(Date) from '%s'" % (self._ruleTableName)
 
@@ -134,7 +135,7 @@ class MarketRule(object):
 
     def _createTable(self):
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         c = connection.cursor()
         c.executescript(Rule.CreateTableCommand % (self._ruleTableName))
         c.executescript(Rule.CreateDateIndexCommand % (self._ruleTableName, self._ruleTableName))
@@ -146,7 +147,7 @@ class MarketRule(object):
 
         if not pyswing.globals.potentialRuleMatches:
 
-            connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+            connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
             query = "select count(1) from '%s'" % self._ruleTableName
 

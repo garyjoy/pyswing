@@ -6,6 +6,7 @@ from unittest.mock import patch
 from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile
 from pyswing.utils.Logger import Logger
 import pyswing.constants
+import pyswing.database
 from pyswing.ImportData import importData
 from pyswing.objects.equity import Equity
 from pyswing.CreateDatabase import createDatabase
@@ -18,17 +19,17 @@ class TestImportData(unittest.TestCase):
         Logger.pushLogData("unitTesting", __name__)
         forceWorkingDirectory()
 
-        pyswing.constants.pySwingDatabase = "output/TestImportData.db"
+        pyswing.database.overrideDatabase("output/TestImportData.db")
         pyswing.constants.pySwingStartDate = datetime.datetime(2015, 1, 1)
 
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
-        args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
+        args = "-n %s" % ("unitTesting")
         createDatabase(args.split())
 
     @classmethod
     def tearDownClass(self):
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
 
     def test_ImportData(self):
@@ -51,7 +52,7 @@ class TestImportData(unittest.TestCase):
 
 
     def _countEquityRows(self):
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         query = "select count(1) from Equities"
         cursor = connection.cursor()
         cursor.execute(query)

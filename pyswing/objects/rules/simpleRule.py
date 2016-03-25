@@ -6,6 +6,7 @@ from pandas.io.sql import read_sql_query
 from pyswing.objects.rules.rule import Rule
 from pyswing.utils.Logger import Logger
 import pyswing.constants
+import pyswing.database
 
 
 class SimpleRule(Rule):
@@ -40,7 +41,7 @@ class SimpleRule(Rule):
 
         self._restrictedSelectQuery = "%s where Code = '%s' and Date > '%s'" % (self._selectQuery, self._tickerCode, start)
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         self._ruleData = read_sql_query(self._restrictedSelectQuery, connection, 'Date')
 

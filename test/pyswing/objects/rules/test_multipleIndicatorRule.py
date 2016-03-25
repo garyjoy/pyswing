@@ -8,6 +8,7 @@ from pyswing.objects.rules.multipleIndicatorRule import MultipleIndicatorRule
 from pyswing.objects.equity import Equity
 from pyswing.objects.indicators.indicatorSMA import IndicatorSMA
 import pyswing.constants
+import pyswing.database
 from pyswing.CreateDatabase import createDatabase
 
 
@@ -19,12 +20,12 @@ class TestMultipleIndicatorRule(unittest.TestCase):
         Logger.pushLogData("unitTesting", __name__)
         forceWorkingDirectory()
 
-        pyswing.constants.pySwingDatabase = "output/TestMultipleIndicatorRule.db"
+        pyswing.database.overrideDatabase("output/TestMultipleIndicatorRule.db")
         pyswing.constants.pySwingStartDate = datetime.datetime(2013, 1, 1)
 
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
-        args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
+        args = "-n %s" % ("unitTesting")
         createDatabase(args.split())
 
         pretendDate = datetime.datetime(2015, 9, 1)
@@ -39,7 +40,7 @@ class TestMultipleIndicatorRule(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        deleteFile(pyswing.constants.pySwingDatabase)
+        deleteFile(pyswing.database.pySwingDatabase)
 
 
     def test_IndicatorSMA(self):

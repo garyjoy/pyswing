@@ -4,6 +4,7 @@ import sqlite3
 
 from pyswing.utils.Logger import Logger
 import pyswing.constants
+import pyswing.database
 
 
 class Indicator(object):
@@ -42,7 +43,7 @@ class Indicator(object):
 
         Logger.log(logging.INFO, "Updating Indicator", {"scope":__name__, "indicator":self._tableName, "code":self._tickerCode, "start":str(start)})
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         newRecords = self._indicatorDataFrame.query("Date > '%s'" % (str(start)))
 
@@ -55,7 +56,7 @@ class Indicator(object):
 
     def _getLatestDate(self):
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         query = "select max(Date) from %s where Code = '%s'" % (self._tableName, self._tickerCode)
 

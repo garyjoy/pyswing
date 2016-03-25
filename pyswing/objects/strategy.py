@@ -7,11 +7,12 @@ from numpy import sqrt
 
 from pyswing.utils.Logger import Logger
 import pyswing.constants
+import pyswing.database
 
 
 def getRules():
 
-    connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+    connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
     query = "select rule from Rules"
 
@@ -35,7 +36,7 @@ def getRules():
 
 def getStrategies(numberOfTrades, returnPerTrade):
 
-    connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+    connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
     query = "select rule1, rule2, rule3, exit, type from ThreeRuleStrategy where numberOfTrades > %s and resultPerTrade > %s" % (numberOfTrades, returnPerTrade)
 
@@ -60,7 +61,7 @@ def getStrategies(numberOfTrades, returnPerTrade):
 
 def getLatestDate():
 
-    connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+    connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
     query = "select max(Date) from Equities"
 
@@ -81,7 +82,7 @@ def getLatestDate():
 
 def getActiveStrategies():
 
-    connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+    connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
     query = "select rule1, rule2, exit, type, rule3, meanResultPerTrade, medianResultPerTrade, totalProfit, numberOfTrades, sharpeRatio, maximumDrawdown from ActiveStrategy where active = 1"
 
@@ -114,7 +115,7 @@ def getActiveStrategies():
 
 def getTwoRuleStrategies(minimumMatchesPerDay):
 
-    connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+    connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
     query = "select distinct r1.rule, r2.rule from Rules r1 inner join Rules r2 on 1 == 1 where r1.MatchesPerDay * r2.MatchesPerDay > %s and r1.rule != r2.rule" % minimumMatchesPerDay
 
@@ -134,7 +135,7 @@ def getTwoRuleStrategies(minimumMatchesPerDay):
 
 def getBestUnprocessedTwoRuleStrategy(numberOfTrades):
 
-    connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+    connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
     # TODO:  Implement Sell
     query = "select rule1, rule2, exit, type from TwoRuleStrategy where numberOfTrades > %s and Searched = 0 order by resultPerTrade desc limit 1;" % numberOfTrades
@@ -155,7 +156,7 @@ def getBestUnprocessedTwoRuleStrategy(numberOfTrades):
 
 def markTwoRuleStrategyAsProcessed(rule1, rule2, type):
 
-    connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+    connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
     query = "update TwoRuleStrategy set Searched = 1 where rule1 = '%s' and rule2 = '%s' and type = '%s';" % (rule1, rule2, type)
 
@@ -171,7 +172,7 @@ def markTwoRuleStrategyAsProcessed(rule1, rule2, type):
 
 def deleteEmptyThreeRuleStrategies():
 
-    connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+    connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
     query = "delete from ThreeRuleStrategy where resultPerTrade is NULL"
 
@@ -187,7 +188,7 @@ def deleteEmptyThreeRuleStrategies():
 
 def emptyHistoricTradesTable():
 
-    connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+    connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
     query = "delete from HistoricTrades"
 
@@ -286,7 +287,7 @@ class Strategy(object):
 
         Logger.log(logging.INFO, "Evaluating Two-Rule Strategy", {"scope":__name__, "Rule 1":self._rule1, "Rule 2":self._rule2})
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         c = connection.cursor()
         sql = self.evaluateTwoRuleSql % (pyswing.constants.pySwingStrategy, self._rule1, self._rule2, self._exit, self._type, self._rule1, self._rule2, self._exit, self._type)
         # print(sql)
@@ -302,7 +303,7 @@ class Strategy(object):
 
         Logger.log(logging.INFO, "Evaluating Three-Rule Strategy", {"scope":__name__, "Rule 1":self._rule1, "Rule 2":self._rule2, "Rule 3":self._rule3, "Type":self._type})
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         c = connection.cursor()
         sql = self.evaluateThreeRuleSql % (pyswing.constants.pySwingStrategy, self._rule1, self._rule2, self._rule3, self._exit, self._type, self._rule1, self._rule2, self._rule3, self._exit, self._type)
         c.executescript(sql)
@@ -314,7 +315,7 @@ class Strategy(object):
 
         # Logger.log(logging.INFO, "Analyse Strategy", {"scope":__name__, "Rule 1":self._rule1, "Rule 2":self._rule2, "Rule 3":self._rule3, "Type":self._type})
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         query = self.analyseStrategySql % (self._rule1, self._rule2, self._rule3, self._exit, self._type)
         self._strategyData = read_sql_query(query, connection, 'Date')
         self._strategyData['ExitValueAfterCosts'] = self._strategyData['ExitValue'] - 0.2
@@ -342,7 +343,7 @@ class Strategy(object):
 
         Logger.log(logging.INFO, "Analysing Strategy", {"scope":__name__, "Rule 1":self._rule1, "Rule 2":self._rule2, "Rule 3":self._rule3, "Exit":self._exit, "Type":self._type, "Mean":str(mean), "Median":str(median), "Sum":str(sum), "Count":str(count), "SharpeRatio":str(sharpeRatio), "DrawDown":str(drawDown)})
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         c = connection.cursor()
 
         deleteSql = self.deleteStrategySql % (pyswing.constants.pySwingStrategy, self._rule1, self._rule2, self._rule3, self._exit, self._type)
@@ -360,7 +361,7 @@ class Strategy(object):
 
         self.tradeDetails = []
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
         query = ("select r1.Code, r1.Date "
             "from '%s' r1 "
@@ -398,7 +399,7 @@ class Strategy(object):
 
         Logger.log(logging.INFO, "Generating Historic Trades", {"scope":__name__, "Rule 1":self._rule1, "Rule 2":self._rule2, "Rule 3":self._rule3, "Type":self._type})
 
-        connection = sqlite3.connect(pyswing.constants.pySwingDatabase)
+        connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         c = connection.cursor()
         sql = self.insertIntoHistoricTradesSql % (self._type, self._rule1, self._rule2, self._rule3, self._exit, self._type)
         # print(sql)

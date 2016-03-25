@@ -5,6 +5,8 @@ import sys
 from pyswing.utils.Logger import Logger
 from pyswing.objects.rules.rule import Rule, getRules
 from pyswing.utils.TeamCity import TeamCity
+import pyswing.constants
+import pyswing.database
 
 
 def analyseRules(argv):

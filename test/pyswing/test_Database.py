@@ -1,81 +1,66 @@
-import datetime
 import unittest
-from unittest.mock import patch
 import os
+import pwd
 
-from pyswing.AnalyseRules import analyseRules
-from pyswing.CalculateExitValues import calculateExitValues
-from pyswing.CreateDatabase import createDatabase
-from pyswing.EvaluateRules import evaluateRules
-from pyswing.ImportData import importData
-from pyswing.UpdateIndicators import updateIndicators
-from pyswing.objects.equity import Equity
-from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile, copyFile
+from pyswing.utils.FileHelper import *
 from pyswing.utils.Logger import Logger
-import pyswing.constants
-import pyswing.globals
+
+import pyswing.database
 
 
 class TestDatabase(unittest.TestCase):
-    """
-    This isn't really a Unit Test.
-
-    Instead it creates a test database (resources/TestDatabase.db) that other Unit Tests leverage.
-
-    The only real point of this is to limit the amount of traffic sent to Yahoo Finance...
-    """
 
     @classmethod
     def setUpClass(self):
+
         Logger.pushLogData("unitTesting", __name__)
+
         forceWorkingDirectory()
 
-        pyswing.globals.potentialRuleMatches = None
-        pyswing.globals.equityCount = None
-
-        pyswing.constants.pySwingDatabase = "output/TestDatabase.db"
-        pyswing.constants.pySwingStartDate = datetime.datetime(2015, 1, 1)
-
-        deleteFile(pyswing.constants.pySwingDatabase)
-        deleteFile(pyswing.constants.pySwingTestDatabase)
-
-        args = "-D %s -s %s" % (pyswing.constants.pySwingDatabase, pyswing.constants.pySwingDatabaseScript)
-        createDatabase(args.split())
-
-        pretendDate = datetime.datetime(2015, 7, 1)
-        with patch.object(Equity, '_getTodaysDate', return_value=pretendDate) as mock_method:
-            args = "-n unitTest".split()
-            importData(args)
-
-        args = "-n unitTest".split()
-        updateIndicators(args)
-
-        args = "-n unitTest".split()
-        evaluateRules(args)
-
-        args = "-n unitTest".split()
-        analyseRules(args)
-
-        args = "-n unitTest".split()
-        calculateExitValues(args)
+    def tearDown(self):
+        pass
 
 
-    @classmethod
-    def tearDownClass(self):
-        deleteFile(pyswing.constants.pySwingDatabase)
+    def test_initialiseDatabase(self):
+
+        self.assertIsNone(pyswing.database.pySwingDatabase, "Check Default Database")
+
+        pyswing.database.initialiseDatabase("test_initialiseDatabase")
+
+        homeDirectory = pwd.getpwuid(os.getuid()).pw_dir
+
+        self.assertTrue(homeDirectory in pyswing.database.pySwingDatabase)
+        self.assertTrue("pyswing_test_initialiseDatabase.db" in pyswing.database.pySwingDatabase)
+
+        pyswing.database.initialiseDatabase("test_somethingElse")
+
+        self.assertTrue(homeDirectory in pyswing.database.pySwingDatabase)
+        self.assertFalse("pyswing_test_initialiseDatabase.db" in pyswing.database.pySwingDatabase)
+        self.assertTrue("pyswing_test_somethingElse.db" in pyswing.database.pySwingDatabase)
+
+        # Restore the default values (doesn't work in tearDown())...
+        pyswing.database.pySwingDatabase = None
+        pyswing.database.pySwingDatabaseInitialised = False
+        pyswing.database.pySwingDatabaseOverridden = False
 
 
-    def test_TestDatabase(self):
+    def test_overrideDatabase(self):
 
-        self.assertTrue(os.path.exists(pyswing.constants.pySwingDatabase))
-        self.assertFalse(os.path.exists(pyswing.constants.pySwingTestDatabase))
+        self.assertIsNone(pyswing.database.pySwingDatabase, "Check Default Database")
 
-        copyFile(pyswing.constants.pySwingDatabase, pyswing.constants.pySwingTestDatabase)
+        pyswing.database.overrideDatabase("test_overrideDatabase")
 
-        self.assertTrue(os.path.exists(pyswing.constants.pySwingTestDatabase))
+        self.assertEqual("test_overrideDatabase", pyswing.database.pySwingDatabase)
+
+        pyswing.database.initialiseDatabase("test_somethingElse")
+
+        self.assertEqual("test_overrideDatabase", pyswing.database.pySwingDatabase)
+
+        # Restore the default values (doesn't work in tearDown())...
+        pyswing.database.pySwingDatabase = None
+        pyswing.database.pySwingDatabaseInitialised = False
+        pyswing.database.pySwingDatabaseOverridden = False
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
-
-

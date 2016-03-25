@@ -5,6 +5,8 @@ import sys
 from pyswing.utils.Logger import Logger
 from pyswing.objects.historicMatches import HistoricMatches
 
+import pyswing.database
+
 
 def generateHistoricMatchData(argv):
     """
@@ -46,6 +48,8 @@ def generateHistoricMatchData(argv):
             marketName = arg
 
     if marketName != "":
+
+        pyswing.database.initialiseDatabase(marketName)
 
         Logger.log(logging.INFO, "Generate Historic Match Data", {"scope":__name__, "market":marketName})
 

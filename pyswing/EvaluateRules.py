@@ -11,6 +11,8 @@ from pyswing.objects.rules.crossingRule import CrossingRule
 from pyswing.objects.rules.multipleIndicatorRule import MultipleIndicatorRule
 from pyswing.utils.TeamCity import TeamCity
 
+import pyswing.database
+
 
 def evaluateRules(argv):
     """
@@ -50,6 +52,8 @@ def evaluateRules(argv):
             marketName = arg
 
     if marketName != "":
+
+        pyswing.database.initialiseDatabase(marketName)
 
         Logger.log(logging.INFO, "Evaluate Rules", {"scope":__name__, "market":marketName})
 

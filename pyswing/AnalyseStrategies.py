@@ -5,7 +5,9 @@ import sys
 from pyswing.utils.Logger import Logger
 from pyswing.objects.strategy import getStrategies
 from pyswing.utils.TeamCity import TeamCity
+
 import pyswing.constants
+import pyswing.database
 
 
 def analyseStrategies(argv):
@@ -57,6 +59,8 @@ def analyseStrategies(argv):
             numberOfTrades = arg
 
     if marketName != "" and numberOfTrades != "" and returnPerTrade != "" and pyswing.constants.pySwingStrategy:
+
+        pyswing.database.initialiseDatabase(marketName)
 
         Logger.log(logging.INFO, "Analyse Strategies", {"scope":__name__, "market":marketName, "numberOfTrades":numberOfTrades, "returnPerTrade":returnPerTrade, "strategy":pyswing.constants.pySwingStrategy})
 

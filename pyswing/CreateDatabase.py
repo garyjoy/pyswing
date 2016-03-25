@@ -5,6 +5,7 @@ import sqlite3
 
 import pyswing.constants
 import pyswing.database
+
 from pyswing.utils.Logger import Logger
 from pyswing.utils.TeamCity import TeamCity
 

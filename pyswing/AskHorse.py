@@ -7,6 +7,8 @@ from pyswing.utils.Logger import Logger
 from pyswing.objects.strategy import getActiveStrategies, getLatestDate
 from pyswing.utils.TeamCity import TeamCity
 
+import pyswing.database
+
 
 def askHorse(argv):
     """
@@ -46,6 +48,8 @@ def askHorse(argv):
             marketName = arg
 
     if marketName != "":
+
+        pyswing.database.initialiseDatabase(marketName)
 
         latestDate = getLatestDate()
 

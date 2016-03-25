@@ -18,6 +18,8 @@ from pyswing.objects.indicators.indicatorDX import IndicatorDX
 from pyswing.objects.indicators.indicatorADI import IndicatorADI
 from pyswing.utils.TeamCity import TeamCity
 
+import pyswing.database
+
 
 def updateIndicators(argv):
     """
@@ -57,6 +59,8 @@ def updateIndicators(argv):
             marketName = arg
 
     if marketName != "":
+
+        pyswing.database.initialiseDatabase(marketName)
 
         Logger.log(logging.INFO, "Update Indicators", {"scope":__name__, "market":marketName})
 

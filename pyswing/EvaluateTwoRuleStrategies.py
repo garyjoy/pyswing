@@ -5,7 +5,9 @@ import sys
 from pyswing.utils.Logger import Logger
 from pyswing.objects.strategy import Strategy, getTwoRuleStrategies
 from pyswing.utils.TeamCity import TeamCity
+
 import pyswing.constants
+import pyswing.database
 
 
 def evaluateTwoRuleStrategies(argv):
@@ -53,6 +55,8 @@ def evaluateTwoRuleStrategies(argv):
             pyswing.constants.pySwingStrategy = arg
 
     if marketName != "" and minimumMatchesPerDay and pyswing.constants.pySwingStrategy:
+
+        pyswing.database.initialiseDatabase(marketName)
 
         Logger.log(logging.INFO, "Evaluate Two-Rule Strategies", {"scope":__name__, "market":marketName, "matches":minimumMatchesPerDay, "strategy":pyswing.constants.pySwingStrategy})
 

@@ -7,6 +7,8 @@ from pyswing.objects.market import Market
 from pyswing.objects.equity import Equity
 from pyswing.utils.TeamCity import TeamCity
 
+import pyswing.database
+
 
 def importData(argv):
     """
@@ -46,6 +48,8 @@ def importData(argv):
             marketName = arg
 
     if marketName != "":
+
+        pyswing.database.initialiseDatabase(marketName)
 
         Logger.log(logging.INFO, "Import Market Data", {"scope":__name__, "market":marketName})
 

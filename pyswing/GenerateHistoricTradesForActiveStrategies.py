@@ -5,6 +5,8 @@ import sys
 from pyswing.utils.Logger import Logger
 from pyswing.objects.strategy import getActiveStrategies, emptyHistoricTradesTable
 
+import pyswing.database
+
 
 def generateHistoricTradesForActiveStrategies(argv):
     """
@@ -46,6 +48,8 @@ def generateHistoricTradesForActiveStrategies(argv):
             marketName = arg
 
     if marketName != "":
+
+        pyswing.database.initialiseDatabase(marketName)
 
         Logger.log(logging.INFO, "Generate Historic Trades for Active Strategies", {"scope":__name__, "market":marketName})
 

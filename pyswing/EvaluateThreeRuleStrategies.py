@@ -5,7 +5,9 @@ import sys
 from pyswing.utils.Logger import Logger
 from pyswing.objects.strategy import Strategy, getRules, getBestUnprocessedTwoRuleStrategy, markTwoRuleStrategyAsProcessed, deleteEmptyThreeRuleStrategies
 from pyswing.utils.TeamCity import TeamCity
+
 import pyswing.constants
+import pyswing.database
 
 
 def evaluateThreeRuleStrategies(argv):
@@ -57,6 +59,8 @@ def evaluateThreeRuleStrategies(argv):
             numberOfTrades = arg
 
     if marketName != "" and numberOfTrades != "" and numberOfStrategies > 0 and pyswing.constants.pySwingStrategy:
+
+        pyswing.database.initialiseDatabase(marketName)
 
         Logger.log(logging.INFO, "Evaluate Three-Rule Strategies", {"scope":__name__, "market":marketName, "number":str(numberOfStrategies), "strategy":pyswing.constants.pySwingStrategy})
 

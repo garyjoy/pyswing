@@ -5,6 +5,7 @@ import sys
 from pyswing.utils.Logger import Logger
 from pyswing.objects.rules.rule import Rule, getRules
 from pyswing.utils.TeamCity import TeamCity
+
 import pyswing.constants
 import pyswing.database
 
@@ -47,6 +48,8 @@ def analyseRules(argv):
             marketName = arg
 
     if marketName != "":
+
+        pyswing.database.initialiseDatabase(marketName)
 
         Logger.log(logging.INFO, "Analyse Rules", {"scope":__name__, "market":marketName})
 

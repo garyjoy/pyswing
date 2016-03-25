@@ -8,6 +8,8 @@ from pyswing.objects.exitValuesYesterday import ExitValuesYesterday
 from pyswing.objects.market import Market
 from pyswing.utils.TeamCity import TeamCity
 
+import pyswing.database
+
 
 def calculateExitValues(argv):
     """
@@ -47,6 +49,8 @@ def calculateExitValues(argv):
             marketName = arg
 
     if marketName != "":
+
+        pyswing.database.initialiseDatabase(marketName)
 
         Logger.log(logging.INFO, "Calculate Exit Values", {"scope":__name__, "market":marketName})
 

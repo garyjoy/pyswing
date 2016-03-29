@@ -65,15 +65,31 @@ def evaluateTwoRuleStrategies(argv):
         exits = ["Exit TrailingStop3.0 RiskRatio2", "Exit TrailingStop2.0 RiskRatio3", "Exit Yesterday MaximumStop3.0 RiskRatio2", "Exit Yesterday MaximumStop2.0 RiskRatio3"]
         inverseStrategies = set()
 
+        # Temporary
+        whereWeLeftOff = False
+
         for rules in strategies:
             if rules not in inverseStrategies:
 
                 for exit in exits:
-                    buyStrategy = Strategy(rules[0], rules[1], exit, 'Buy')
-                    buyStrategy.evaluateTwoRuleStrategy()
 
-                    sellStrategy = Strategy(rules[0], rules[1], exit, 'Sell')
-                    sellStrategy.evaluateTwoRuleStrategy()
+                    # Temporary
+                    if whereWeLeftOff:
+
+                        buyStrategy = Strategy(rules[0], rules[1], exit, 'Buy')
+                        buyStrategy.evaluateTwoRuleStrategy()
+
+                        sellStrategy = Strategy(rules[0], rules[1], exit, 'Sell')
+                        sellStrategy.evaluateTwoRuleStrategy()
+
+                    else:
+                        Logger.log(logging.INFO, "Already Done", {"rule1": rules[0], "rule1": rules[0]})
+
+                    # Temporary
+                    if rules[0] == "Rule Indicator_BB20 upperbandroc > 5 and lowerbandroc <- 5" and rules[1] == "Rule Indicator_AROON AROON_UP < 90":
+                        whereWeLeftOff = True
+                        Logger.log(logging.INFO, "Caught Up", {"rule1": rules[0], "rule1": rules[0]})
+
 
                 inverseStrategies.add((rules[1], rules[0]))
 

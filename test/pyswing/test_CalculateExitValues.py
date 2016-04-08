@@ -46,14 +46,14 @@ class TestCalculateExitValues(unittest.TestCase):
         rowCount = self._countRows("Exit TrailingStop3.0 RiskRatio2")
         self.assertEqual(rowCount, 606)
 
-        rowCount = self._countRows("Exit TrailingStop2.0 RiskRatio3")
-        self.assertEqual(rowCount, 622)
-
-        rowCount = self._countRows("Exit Yesterday MaximumStop3.0 RiskRatio2")
-        self.assertEqual(rowCount, 636)
-
-        rowCount = self._countRows("Exit Yesterday MaximumStop2.0 RiskRatio3")
-        self.assertEqual(rowCount, 637)
+        # rowCount = self._countRows("Exit TrailingStop2.0 RiskRatio3")
+        # self.assertEqual(rowCount, 622)
+        #
+        # rowCount = self._countRows("Exit Yesterday MaximumStop3.0 RiskRatio2")
+        # self.assertEqual(rowCount, 636)
+        #
+        # rowCount = self._countRows("Exit Yesterday MaximumStop2.0 RiskRatio3")
+        # self.assertEqual(rowCount, 637)
 
 
     def _countRows(self, tableName):

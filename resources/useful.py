@@ -21,7 +21,6 @@ cbaEquityData = read_sql_query(query, connection, 'Date')
 connection.close()
 cbaEquityData.query("Date > '2015-01-01 00:00:00'").plot(y=['upperband','middleband','lowerband','Close'], title='CBA BBAND 2015')
 
-
 import pyswing.database
 import sqlite3
 from pandas.io.sql import read_sql_query
@@ -38,25 +37,22 @@ args = "-n asx".split()
 askHorse(args)
 
 
-# Run me when ...
+# Run me to populate (emptying to begin with) the historic trades table using the strategies in active strategies (which must be put in there manually)...
 from pyswing.GenerateHistoricTradesForActiveStrategies import generateHistoricTradesForActiveStrategies
 args = "-n ftse".split()
 generateHistoricTradesForActiveStrategies(args)
 
 
-# Run me when ...
-
+# Run me to chart the (distinct) results in active strategy
 import pyswing.database
 import sqlite3
 from pandas.io.sql import read_sql_query
 from pandas import expanding_sum
-
 connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 query = ("select t.matchDate as Date, t.code as Code, t.type as Type, t.ExitValue as ExitValue from ( select distinct matchDate, Code, type, exitValue from historicTrades order by matchDate asc) t")
 cbaEquityData = read_sql_query(query, connection, 'Date')
 connection.close()
-
 cbaEquityData['ExitValueAfterCosts'] = cbaEquityData['ExitValue'] - 0.2
 exitValueDataFrame = cbaEquityData.ix[:,'ExitValueAfterCosts']
 cbaEquityData["Sum"] = expanding_sum(exitValueDataFrame)
-cbaEquityData.query("Date > '2005-01-01 00:00:00'").plot(y=['Sum'], title='v1.1')
+cbaEquityData.query("Date > '2005-01-01 00:00:00'").plot(y=['Sum'], title='v?.?')

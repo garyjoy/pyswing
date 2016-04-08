@@ -64,14 +64,14 @@ def calculateExitValues(argv):
             exitValuesTrailingStop3 = ExitValuesTrailingStop(tickerCode, 0.03, 2)
             exitValuesTrailingStop3.calculateExitValues()
 
-            exitValuesTrailingStop2 = ExitValuesTrailingStop(tickerCode, 0.02, 3)
-            exitValuesTrailingStop2.calculateExitValues()
-
-            exitValuesYesterday2 = ExitValuesYesterday(tickerCode, 0.02, 3)
-            exitValuesYesterday2.calculateExitValues()
-
-            exitValuesYesterday3 = ExitValuesYesterday(tickerCode, 0.03, 2)
-            exitValuesYesterday3.calculateExitValues()
+            # exitValuesTrailingStop2 = ExitValuesTrailingStop(tickerCode, 0.02, 3)
+            # exitValuesTrailingStop2.calculateExitValues()
+            #
+            # exitValuesYesterday2 = ExitValuesYesterday(tickerCode, 0.02, 3)
+            # exitValuesYesterday2.calculateExitValues()
+            #
+            # exitValuesYesterday3 = ExitValuesYesterday(tickerCode, 0.03, 2)
+            # exitValuesYesterday3.calculateExitValues()
 
         TeamCity.setBuildResultText("Calculated Exit Values")
 

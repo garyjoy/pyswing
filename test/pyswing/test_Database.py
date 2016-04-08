@@ -17,13 +17,17 @@ class TestDatabase(unittest.TestCase):
 
         forceWorkingDirectory()
 
+        pyswing.database.pySwingDatabase = None
+        pyswing.database.pySwingDatabaseInitialised = False
+        pyswing.database.pySwingDatabaseOverridden = False
+
     def tearDown(self):
         pass
 
 
     def test_initialiseDatabase(self):
 
-        self.assertIsNone(pyswing.database.pySwingDatabase, "Check Default Database")
+        self.assertIsNone(pyswing.database.pySwingDatabase, "Check Default Database (%s)" % pyswing.database.pySwingDatabase)
 
         pyswing.database.initialiseDatabase("test_initialiseDatabase")
 
@@ -46,7 +50,7 @@ class TestDatabase(unittest.TestCase):
 
     def test_overrideDatabase(self):
 
-        self.assertIsNone(pyswing.database.pySwingDatabase, "Check Default Database")
+        self.assertIsNone(pyswing.database.pySwingDatabase, "Check Default Database (%s)" % pyswing.database.pySwingDatabase)
 
         pyswing.database.overrideDatabase("test_overrideDatabase")
 

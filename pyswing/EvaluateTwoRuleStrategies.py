@@ -61,8 +61,11 @@ def evaluateTwoRuleStrategies(argv):
         Logger.log(logging.INFO, "Evaluate Two-Rule Strategies", {"scope":__name__, "market":marketName, "matches":minimumMatchesPerDay, "strategy":pyswing.constants.pySwingStrategy})
 
         strategies = getTwoRuleStrategies(minimumMatchesPerDay)
+
         # TODO: Get this using a function, don't hard-code it...
-        exits = ["Exit TrailingStop3.0 RiskRatio2", "Exit TrailingStop2.0 RiskRatio3", "Exit Yesterday MaximumStop3.0 RiskRatio2", "Exit Yesterday MaximumStop2.0 RiskRatio3"]
+        exits = ["Exit TrailingStop3.0 RiskRatio2"]
+        # exits = ["Exit TrailingStop3.0 RiskRatio2", "Exit TrailingStop2.0 RiskRatio3", "Exit Yesterday MaximumStop3.0 RiskRatio2", "Exit Yesterday MaximumStop2.0 RiskRatio3"]
+
         inverseStrategies = set()
 
         for rules in strategies:

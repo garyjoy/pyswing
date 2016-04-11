@@ -6,11 +6,12 @@ cbaEquity.dataFrame().query("Date > '2015-01-01 00:00:00'").plot(y=['Close'], ti
 import pyswing.database
 import sqlite3
 from pandas.io.sql import read_sql_query
+pyswing.database.initialiseDatabase("ftse")
 connection = sqlite3.connect(pyswing.database.pySwingDatabase)
-query = "select * from Indicator_BB20 where Code = 'CBA.AX'"
+query = "select * from Indicator_ADI"
 cbaEquityData = read_sql_query(query, connection, 'Date')
 connection.close()
-cbaEquityData.query("Date > '2015-01-01 00:00:00'").plot(y=['upperband','middleband','lowerband'], title='CBA BBAND 2015')
+cbaEquityData.query("Date > '2015-12-01 00:00:00'").plot(y=['ADI','ADI_ROC','ADI_EMA','ADI_SUM'], title='Hello!')
 
 import pyswing.database
 import sqlite3

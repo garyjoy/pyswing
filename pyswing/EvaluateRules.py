@@ -301,7 +301,7 @@ def evaluateRules(argv):
 
         marketRules = []
 
-        # TODO: Are these numbers right? Should one set be positive?
+        #   TODO: These Rules are pointless ()...
         marketRules.append(MarketRule("Indicator_ADI", "ADI", -1, Comparison.GreaterThan))
         marketRules.append(MarketRule("Indicator_ADI", "ADI", -5, Comparison.GreaterThan))
         marketRules.append(MarketRule("Indicator_ADI", "ADI", -20, Comparison.GreaterThan))

@@ -4,6 +4,7 @@ import sys
 
 from pyswing.utils.Logger import Logger
 from pyswing.objects.strategy import Strategy, getTwoRuleStrategies
+from pyswing.objects.exitValues import getExitStrategies
 from pyswing.utils.TeamCity import TeamCity
 
 import pyswing.constants
@@ -62,9 +63,7 @@ def evaluateTwoRuleStrategies(argv):
 
         strategies = getTwoRuleStrategies(minimumMatchesPerDay)
 
-        # TODO: Get this using a function, don't hard-code it...
-        exits = ["Exit TrailingStop3.0 RiskRatio2"]
-        # exits = ["Exit TrailingStop3.0 RiskRatio2", "Exit TrailingStop2.0 RiskRatio3", "Exit Yesterday MaximumStop3.0 RiskRatio2", "Exit Yesterday MaximumStop2.0 RiskRatio3"]
+        exits = getExitStrategies()
 
         inverseStrategies = set()
 

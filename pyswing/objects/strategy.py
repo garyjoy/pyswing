@@ -137,7 +137,6 @@ def getBestUnprocessedTwoRuleStrategy(numberOfTrades):
 
     connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
-    # TODO:  Implement Sell
     query = "select rule1, rule2, exit, type from TwoRuleStrategy where numberOfTrades > %s and Searched = 0 order by resultPerTrade desc limit 1;" % numberOfTrades
 
     rowData = None

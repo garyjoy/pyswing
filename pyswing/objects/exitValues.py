@@ -8,6 +8,26 @@ import pyswing.constants
 import pyswing.database
 
 
+def getExitStrategies():
+
+    connection = sqlite3.connect(pyswing.database.pySwingDatabase)
+
+    query = "SELECT name FROM sqlite_master WHERE type = 'table' and name like 'Exit %'"
+
+    exitStrategies = None
+
+    cursor = connection.cursor()
+    try:
+        cursor.execute(query)
+        exitStrategies = cursor.fetchall()
+    except sqlite3.OperationalError:
+        Logger.log(logging.INFO, "Error Getting Exit Strategies", {"scope":__name__})
+
+    connection.close()
+
+    return [(exitStrategy[0]) for exitStrategy in exitStrategies]
+
+
 class ExitValues(object):
     """
     Exit Values Base Class.
@@ -42,13 +62,10 @@ class ExitValues(object):
 
         Logger.log(logging.INFO, "Calculating Exit Values", {"scope":__name__, "Rule":self._tableName, "code":self._tickerCode})
 
-        # TODO:  I think the hard-coded BUY in here is causing problems generating the sell values (when run every day)...
-        self._selectQuery = "select e.Date as Date, e.Date as TradeDate, e.Code, e.Open, e.Close, e.High, e.Low, x.Type, x.ExitValue, x.NumberOfDays, x.ExitDetail from Equities e left join '%s' x on e.Date = x.MatchDate and e.Code = x.Code and x.Type = 'Buy' where e.Code = '%s' and x.ExitValue is NULL" % (self._tableName, self._tickerCode)
-
         connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
-        self._buyExitValueDataFrame = read_sql_query(self._selectQuery, connection, "Date")
-        self._sellExitValueDataFrame = read_sql_query(self._selectQuery, connection, "Date")
+        self._selectBuyQuery = "select e.Date as Date, e.Date as TradeDate, e.Code, e.Open, e.Close, e.High, e.Low, x.Type, x.ExitValue, x.NumberOfDays, x.ExitDetail from Equities e left join '%s' x on e.Date = x.MatchDate and e.Code = x.Code and x.Type = 'Buy' where e.Code = '%s' and x.ExitValue is NULL" % (self._tableName, self._tickerCode)
+        self._buyExitValueDataFrame = read_sql_query(self._selectBuyQuery, connection, "Date")
 
         numberOfRows = self._buyExitValueDataFrame.shape[0]
         for i in range(0, numberOfRows):
@@ -64,6 +81,9 @@ class ExitValues(object):
         newRecords = self._buyExitValueDataFrame.query("Type=='Buy'")
         connection.executemany(self._insertQuery, newRecords.to_records(index=True))
         connection.commit()
+
+        self._selectSellQuery = "select e.Date as Date, e.Date as TradeDate, e.Code, e.Open, e.Close, e.High, e.Low, x.Type, x.ExitValue, x.NumberOfDays, x.ExitDetail from Equities e left join '%s' x on e.Date = x.MatchDate and e.Code = x.Code and x.Type = 'Sell' where e.Code = '%s' and x.ExitValue is NULL" % (self._tableName, self._tickerCode)
+        self._sellExitValueDataFrame = read_sql_query(self._selectSellQuery, connection, "Date")
 
         numberOfRows = self._sellExitValueDataFrame.shape[0]
         for i in range(0, numberOfRows):

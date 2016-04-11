@@ -37,6 +37,11 @@ args = "-n asx".split()
 askHorse(args)
 
 
+from pyswing.AnalyseStrategies import analyseStrategies
+args = "-n ftse -s v1.2 -r 0.4 -t 500".split
+analyseStrategies(args)
+
+
 # Run me to populate (emptying to begin with) the historic trades table using the strategies in active strategies (which must be put in there manually)...
 from pyswing.GenerateHistoricTradesForActiveStrategies import generateHistoricTradesForActiveStrategies
 args = "-n ftse".split()
@@ -55,4 +60,4 @@ connection.close()
 cbaEquityData['ExitValueAfterCosts'] = cbaEquityData['ExitValue'] - 0.2
 exitValueDataFrame = cbaEquityData.ix[:,'ExitValueAfterCosts']
 cbaEquityData["Sum"] = expanding_sum(exitValueDataFrame)
-cbaEquityData.query("Date > '2005-01-01 00:00:00'").plot(y=['Sum'], title='v?.?')
+cbaEquityData.query("Date > '2005-01-01 00:00:00'").plot(y=['Sum'], title='v1.2')

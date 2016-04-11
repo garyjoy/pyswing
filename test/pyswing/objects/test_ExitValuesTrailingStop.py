@@ -6,6 +6,7 @@ from pyswing.utils.FileHelper import forceWorkingDirectory, deleteFile
 from pyswing.utils.Logger import Logger
 from pyswing.objects.exitValuesTrailingStop import ExitValuesTrailingStop
 from pyswing.objects.equity import Equity
+from pyswing.objects.exitValues import getExitStrategies
 import pyswing.constants
 import pyswing.database
 from pyswing.CreateDatabase import createDatabase
@@ -47,7 +48,6 @@ class TestExitValuesTrailingStop(unittest.TestCase):
         dataPointBuyWin = exitValues._buyExitValueDataFrame.ix['2015-07-02 00:00:00']
         self.assertAlmostEqual(dataPointBuyWin['ExitValue'], 1.581, 3)
 
-        # TODO:  Work out why this fails sometimes (e.g. when I run all the tests)
         dataPointBuyLose = exitValues._buyExitValueDataFrame.ix['2015-07-13 00:00:00']
         self.assertAlmostEqual(dataPointBuyLose['ExitValue'], -1.741, 3)
 
@@ -56,6 +56,9 @@ class TestExitValuesTrailingStop(unittest.TestCase):
 
         dataPointSellLose = exitValues._sellExitValueDataFrame.ix['2015-07-14 00:00:00']
         self.assertAlmostEqual(dataPointSellLose['ExitValue'], -4.832, 3)
+
+        strategies = getExitStrategies()
+        self.assertTrue(len(strategies) == 1)
 
 
 if __name__ == '__main__':

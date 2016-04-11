@@ -110,9 +110,9 @@ CREATE TABLE IF NOT EXISTS Indicator_ADI
 (
     Date TEXT,
     ADI REAL,
+    ADI_SUM REAL,
     ADI_ROC REAL,
     ADI_EMA REAL,
-    ADI_SUM REAL,
     PRIMARY KEY (Date)
 );
 CREATE INDEX IF NOT EXISTS ix_Indicator_ADI_Date ON Indicator_ADI (Date);

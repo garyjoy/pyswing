@@ -31,7 +31,7 @@ class IndicatorADI(object):
 
         self._indicatorDataFrame['ADI'] = self._indicatorDataFrame['ADI'].astype(float)
 
-        self._indicatorDataFrame['ADI_SUM'] = abstract.SUM(self._indicatorDataFrame, price='ADI')
+        self._indicatorDataFrame['ADI_SUM'] = self._indicatorDataFrame['ADI'].cumsum()
         self._indicatorDataFrame['ADI_ROC'] = abstract.ROC(self._indicatorDataFrame, timeperiod=5, price='ADI_SUM')
         self._indicatorDataFrame['ADI_EMA'] = abstract.EMA(self._indicatorDataFrame, timeperiod=5, price='ADI')
 

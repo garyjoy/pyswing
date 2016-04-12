@@ -35,19 +35,19 @@ class TestEvaluateThreeRuleStrategies(unittest.TestCase):
 
     def test_EvaluateThreeRuleStrategies(self):
 
-        args = "-n unitTest -m 0.1 -s test_EvaluateTwoRuleStrategies".split()
+        args = "-n unitTest -m 1.0 -s test_EvaluateTwoRuleStrategies".split()
         evaluateTwoRuleStrategies(args)
 
         rowCount = self._countRows("TwoRuleStrategy")
 
-        self.assertEqual(rowCount, 4872)
+        self.assertEqual(rowCount, 1974)
 
         args = "-n unitTest -N 1 -s v4.0 -t 5".split()
         evaluateThreeRuleStrategies(args)
 
         rowCount = self._countRows("ThreeRuleStrategy")
 
-        self.assertEqual(rowCount, 53)
+        self.assertEqual(rowCount, 71)
 
 
     def _countRows(self, tableName):

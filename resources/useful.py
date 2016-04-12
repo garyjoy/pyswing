@@ -8,10 +8,10 @@ import sqlite3
 from pandas.io.sql import read_sql_query
 pyswing.database.initialiseDatabase("ftse")
 connection = sqlite3.connect(pyswing.database.pySwingDatabase)
-query = "select * from Indicator_ADI"
+query = "select * from Indicator_ROC WHERE CODE = 'AAL.L'"
 cbaEquityData = read_sql_query(query, connection, 'Date')
 connection.close()
-cbaEquityData.query("Date > '2015-12-01 00:00:00'").plot(y=['ADI','ADI_ROC','ADI_EMA','ADI_SUM'], title='Hello!')
+cbaEquityData.query("Date > '2010-01-01 00:00:00'").plot(y=['ROC_5','ROC_10','ROC_20'], title='Hello!')
 
 import pyswing.database
 import sqlite3

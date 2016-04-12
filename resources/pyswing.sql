@@ -23,7 +23,9 @@ CREATE TABLE IF NOT EXISTS Indicator_SMA
     SMA_15 REAL,
     SMA_20 REAL,
     SMA_50 REAL,
+    SMA_100 REAL,
     SMA_200 REAL,
+    SMA_300 REAL,
     PRIMARY KEY (Date, Code)
 );
 CREATE INDEX IF NOT EXISTS ix_Indicator_SMA_Date ON Indicator_SMA (Date);
@@ -74,7 +76,9 @@ CREATE TABLE IF NOT EXISTS Indicator_EMA
     EMA_15 REAL,
     EMA_20 REAL,
     EMA_50 REAL,
+    EMA_100 REAL,
     EMA_200 REAL,
+    EMA_300 REAL,
     PRIMARY KEY (Date, Code)
 );
 CREATE INDEX IF NOT EXISTS ix_Indicator_EMA_Date ON Indicator_EMA (Date);

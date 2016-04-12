@@ -34,12 +34,12 @@ class TestEvaluateTwoRuleStrategies(unittest.TestCase):
 
     def test_EvaluateTwoRuleStrategies(self):
 
-        args = "-n unitTest -m 0.1 -s test_EvaluateTwoRuleStrategies".split()
+        args = "-n unitTest -m 1.0 -s test_EvaluateTwoRuleStrategies".split()
         evaluateTwoRuleStrategies(args)
 
         rowCount = self._countRows("TwoRuleStrategy")
 
-        self.assertEqual(rowCount, 4872)
+        self.assertEqual(rowCount, 1974)
 
 
     def _countRows(self, tableName):

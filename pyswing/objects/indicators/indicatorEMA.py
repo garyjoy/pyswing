@@ -19,7 +19,7 @@ class IndicatorEMA(Indicator):
         tableName = "Indicator_EMA"
         tickerCode = tickerCode
 
-        insertQuery = "insert or replace into %s (Date, Code, EMA_5, EMA_10, EMA_15, EMA_20, EMA_50, EMA_200) values (?,?,?,?,?,?,?,?)" % (tableName)
+        insertQuery = "insert or replace into %s (Date, Code, EMA_5, EMA_10, EMA_15, EMA_20, EMA_50, EMA_100, EMA_200, EMA_300) values (?,?,?,?,?,?,?,?,?,?)" % (tableName)
 
         equityDataFrame = equityDataFrame
 
@@ -32,6 +32,8 @@ class IndicatorEMA(Indicator):
         indicatorDataFrame['EMA_15'] = abstract.EMA(equityDataFrame, timeperiod=15, price='Close')
         indicatorDataFrame['EMA_20'] = abstract.EMA(equityDataFrame, timeperiod=20, price='Close')
         indicatorDataFrame['EMA_50'] = abstract.EMA(equityDataFrame, timeperiod=50, price='Close')
+        indicatorDataFrame['EMA_100'] = abstract.EMA(equityDataFrame, timeperiod=100, price='Close')
         indicatorDataFrame['EMA_200'] = abstract.EMA(equityDataFrame, timeperiod=200, price='Close')
+        indicatorDataFrame['EMA_300'] = abstract.EMA(equityDataFrame, timeperiod=300, price='Close')
 
         Indicator.__init__(self, tableName, tickerCode, insertQuery, equityDataFrame, indicatorDataFrame)

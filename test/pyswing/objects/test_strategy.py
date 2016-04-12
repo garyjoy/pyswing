@@ -40,10 +40,10 @@ class TestStrategy(unittest.TestCase):
         twoRuleStrategy = Strategy("Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)", "Rule Equities abs(Close - High) * 2 < abs(Close - Low)", "Exit TrailingStop3.0 RiskRatio2", "Buy")
         twoRuleStrategy.evaluateTwoRuleStrategy()
 
-        threeRuleStrategy = Strategy("Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)", "Rule Equities abs(Close - High) * 2 < abs(Close - Low)", "Exit TrailingStop3.0 RiskRatio2", "Buy", "Rule Equities Close -1 Comparison.GreaterThan 1.01")
+        threeRuleStrategy = Strategy("Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)", "Rule Equities abs(Close - High) * 2 < abs(Close - Low)", "Exit TrailingStop3.0 RiskRatio2", "Buy", "Rule Indicator_RSI RSI > 20")
         threeRuleStrategy.evaluateThreeRuleStrategy()
 
-        historicTrades = Strategy("Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)", "Rule Equities abs(Close - High) * 2 < abs(Close - Low)", "Exit TrailingStop3.0 RiskRatio2", "Buy", "Rule Equities Close -1 Comparison.GreaterThan 1.01")
+        historicTrades = Strategy("Rule Equities Indicator_BB20 abs(t1.Close - t2.upperband) < abs(t1.Close - t2.middleband)", "Rule Equities abs(Close - High) * 2 < abs(Close - Low)", "Exit TrailingStop3.0 RiskRatio2", "Buy", "Rule Indicator_RSI RSI > 20")
         historicTrades.generateHistoricTrades()
 
 
@@ -54,8 +54,8 @@ class TestStrategy(unittest.TestCase):
 
     def test_getTwoRuleStrategies(self):
 
-        strategies = getTwoRuleStrategies(0.1)
-        self.assertEqual(len(strategies), 4872)
+        strategies = getTwoRuleStrategies(1)
+        self.assertEqual(len(strategies), 1974)
 
     def test_getStrategies(self):
 
@@ -74,7 +74,7 @@ class TestStrategy(unittest.TestCase):
 
     def test_analyseStrategy(self):
 
-        strategy = Strategy('Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Exit TrailingStop3.0 RiskRatio2', 'Buy', 'Rule Equities Close -1 Comparison.GreaterThan 1.01')
+        strategy = Strategy('Rule Indicator_RSI RSI > 20', 'Rule Indicator_RSI RSI > 20', 'Exit TrailingStop3.0 RiskRatio2', 'Buy', 'Rule Indicator_RSI RSI > 20')
         strategy.meanResultPerTrade = 1.0
         strategy.medianResultPerTrade = 1.0
         strategy.totalProfit = 1.0
@@ -85,21 +85,21 @@ class TestStrategy(unittest.TestCase):
         self.assertTrue(data)
         self.assertEqual(len(strategy.tradeDetails), 3)
 
-        strategy = Strategy('Rule Equities Close -1 Comparison.LessThan 0.99', 'Rule Equities Close -1 Comparison.LessThan 0.99', 'Exit TrailingStop3.0 RiskRatio2', 'Buy', 'Rule Equities Close -1 Comparison.LessThan 0.99')
+        strategy = Strategy('Rule Equities abs(Close - High) * 10 < abs(Close - Low)', 'Rule Equities abs(Close - High) * 10 < abs(Close - Low)', 'Exit TrailingStop3.0 RiskRatio2', 'Buy', 'Rule Equities abs(Close - High) * 10 < abs(Close - Low)')
         strategy.meanResultPerTrade = 1.0
         strategy.medianResultPerTrade = 1.0
         strategy.totalProfit = 1.0
         strategy.numberOfTrades = 1.0
         strategy.sharpeRatio = 1.0
         strategy.maximumDrawdown = 1.0
-        moreData = strategy.askHorse('2015-05-25 00:00:00')
+        moreData = strategy.askHorse('2015-05-26 00:00:00')
         self.assertFalse(moreData)
         self.assertEqual(len(strategy.tradeDetails), 0)
 
     def test_getRules(self):
 
         rules = getRules()
-        self.assertEqual(len(rules), 180)
+        self.assertEqual(len(rules), 182)
 
     def test_evaluateStrategy(self):
 
@@ -112,7 +112,7 @@ class TestStrategy(unittest.TestCase):
         self.assertEqual(rule2, "Rule Equities abs(Close - High) * 2 < abs(Close - Low)")
 
         numberOfTrades = self._numberOfThreeRuleTrades('Buy')
-        self.assertEqual(numberOfTrades, 36)
+        self.assertEqual(numberOfTrades, 70)
 
         numberOfTrades = self._numberOfSearchedTwoRuleTrades()
         self.assertEqual(numberOfTrades, 0)
@@ -121,7 +121,7 @@ class TestStrategy(unittest.TestCase):
         self.assertEqual(numberOfTrades, 1)
 
     def test_generateHistoricTrades(self):
-        self.assertEqual(self._numberOfHistoricTrades(), 36)
+        self.assertEqual(self._numberOfHistoricTrades(), 70)
         emptyHistoricTradesTable()
         self.assertEqual(self._numberOfHistoricTrades(), 0)
 

@@ -39,7 +39,7 @@ class TestGenerateHistoricTradesForActiveStrategies(unittest.TestCase):
         args = "-n unitTest".split()
         generateHistoricTradesForActiveStrategies(args)
 
-        self.assertEqual(self._countRows("HistoricTrades"), 79)
+        self.assertEqual(self._countRows("HistoricTrades"), 333)
 
 
     def _countRows(self, tableName):
@@ -55,7 +55,7 @@ class TestGenerateHistoricTradesForActiveStrategies(unittest.TestCase):
     def _createStrategy(self):
 
         connection = sqlite3.connect(pyswing.database.pySwingDatabase)
-        query = "insert into ActiveStrategy (strategy,rule1,rule2,rule3,exit,type,meanResultPerTrade,medianResultPerTrade,totalProfit,numberOfTrades,sharpeRatio,maximumDrawdown,active) values ('v4.0', 'Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Rule Equities Close -1 Comparison.GreaterThan 1.01', 'Exit TrailingStop3.0 RiskRatio2', 'Buy', 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1)"
+        query = "insert into ActiveStrategy (strategy,rule1,rule2,rule3,exit,type,meanResultPerTrade,medianResultPerTrade,totalProfit,numberOfTrades,sharpeRatio,maximumDrawdown,active) values ('v4.0', 'Rule Indicator_RSI RSI > 20', 'Rule Indicator_RSI RSI > 20', 'Rule Indicator_RSI RSI > 20', 'Exit TrailingStop3.0 RiskRatio2', 'Buy', 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1)"
         cursor = connection.cursor()
         cursor.execute(query)
         connection.commit()

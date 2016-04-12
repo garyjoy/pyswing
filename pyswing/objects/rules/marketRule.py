@@ -19,7 +19,7 @@ class MarketRule(object):
     CreateTableCommand = "CREATE TABLE IF NOT EXISTS '%s' (Date TEXT, Match INT, PRIMARY KEY (Date));"
     CreateDateIndexCommand = "CREATE INDEX IF NOT EXISTS 'ix_%s_Date' ON '%s' (Date);"
 
-    def __init__(self, indicatorTable, indicatorColumn, relativeIndex, comparison, multiplier=1.00):
+    def __init__(self, indicatorTable, indicatorRule):
         """
         Class Constructor.
 
@@ -28,53 +28,36 @@ class MarketRule(object):
 
         # Logger.log(logging.DEBUG, "Log Object Creation", {"scope":__name__, "arguments":" ".join({""})})
 
-        self._ruleTableName = "Rule %s %s %s %s %s" % (indicatorTable, indicatorColumn, relativeIndex, comparison, multiplier)
+        self._ruleTableName = "Rule %s %s" % (indicatorTable, indicatorRule)
 
         self._createTable()
 
         self._insertQuery = "insert or replace into '%s' (Date, Match) values (?,?)" % (self._ruleTableName)
-
-        self._selectQuery = "select Date, %s from %s" % (indicatorColumn, indicatorTable)
-
-        self._indicatorColumn = indicatorColumn
-        self._relativeIndex = relativeIndex
-        self._comparison = comparison
-        self._multiplier = multiplier
+        self._selectQuery = "select Date, %s as Match from %s" % (indicatorRule, indicatorTable)
 
 
     def evaluateRule(self):
         """
-        ?
-
-        :param tickerCode:
+        ?.
         """
 
         start = self._getLatestDate()
 
         Logger.log(logging.INFO, "Evaluating Rule", {"scope":__name__, "Rule":self._ruleTableName, "start":str(start)})
 
+        self._restrictedSelectQuery = "%s where Date > '%s'" % (self._selectQuery, start)
+
         connection = sqlite3.connect(pyswing.database.pySwingDatabase)
 
-        self._ruleData = read_sql_query(self._selectQuery, connection, 'Date')
-
-        self._ruleData['Relative'] = self._ruleData[self._indicatorColumn].shift(self._relativeIndex * -1)
-
-        if self._comparison == Comparison.GreaterThan :
-            self._ruleData['Match'] = self._ruleData[self._indicatorColumn] > self._multiplier * self._ruleData['Relative']
-        else:
-            self._ruleData['Match'] = self._ruleData[self._indicatorColumn] < self._multiplier * self._ruleData['Relative']
+        self._ruleData = read_sql_query(self._restrictedSelectQuery, connection, 'Date')
 
         self._ruleData['Match'] = self._ruleData['Match'].astype(float)
 
-        self._ruleData.drop('Relative', axis=1, inplace=True)
-        self._ruleData.drop(self._indicatorColumn, axis=1, inplace=True)
-
-        newRecords = self._ruleData.query("Date > '%s'" % (str(start)))
-
-        connection.executemany(self._insertQuery, newRecords.to_records(index=True))
+        connection.executemany(self._insertQuery, self._ruleData.to_records(index=True))
         connection.commit()
 
         connection.close()
+
 
     def analyseRule(self):
         """

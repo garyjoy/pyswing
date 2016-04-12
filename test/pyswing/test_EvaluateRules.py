@@ -47,8 +47,8 @@ class TestEvaluateRules(unittest.TestCase):
         args = "-n unitTest".split()
         evaluateRules(args)
 
-        rowCount = self._countRows("Rule Indicator_ROC ROC_5 > 20")
-        anotherRowCount = self._countRows("Rule Indicator_SMA SMA_10 Cross Indicator_SMA SMA_200")
+        rowCount = self._countRows("Rule Indicator_STOCH STOCH_K < 5")
+        anotherRowCount = self._countRows("Rule Indicator_RSI RSI > 20")
 
         self.assertEqual(rowCount, 387)
         self.assertEqual(rowCount, anotherRowCount)

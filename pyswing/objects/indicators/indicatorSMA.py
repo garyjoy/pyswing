@@ -19,7 +19,7 @@ class IndicatorSMA(Indicator):
         tableName = "Indicator_SMA"
         tickerCode = tickerCode
 
-        insertQuery = "insert or replace into %s (Date, Code, SMA_5, SMA_10, SMA_15, SMA_20, SMA_50, SMA_200) values (?,?,?,?,?,?,?,?)" % (tableName)
+        insertQuery = "insert or replace into %s (Date, Code, SMA_5, SMA_10, SMA_15, SMA_20, SMA_50, SMA_100, SMA_200, SMA_300) values (?,?,?,?,?,?,?,?,?,?)" % (tableName)
 
         equityDataFrame = equityDataFrame
 
@@ -32,6 +32,8 @@ class IndicatorSMA(Indicator):
         indicatorDataFrame['SMA_15'] = abstract.SMA(equityDataFrame, timeperiod=15, price='Close')
         indicatorDataFrame['SMA_20'] = abstract.SMA(equityDataFrame, timeperiod=20, price='Close')
         indicatorDataFrame['SMA_50'] = abstract.SMA(equityDataFrame, timeperiod=50, price='Close')
+        indicatorDataFrame['SMA_100'] = abstract.SMA(equityDataFrame, timeperiod=100, price='Close')
         indicatorDataFrame['SMA_200'] = abstract.SMA(equityDataFrame, timeperiod=200, price='Close')
+        indicatorDataFrame['SMA_300'] = abstract.SMA(equityDataFrame, timeperiod=300, price='Close')
 
         Indicator.__init__(self, tableName, tickerCode, insertQuery, equityDataFrame, indicatorDataFrame)

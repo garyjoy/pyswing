@@ -7,6 +7,7 @@ from numpy import sqrt
 
 from pyswing.utils.Logger import Logger
 import pyswing.constants
+import pyswing.globals
 import pyswing.database
 
 
@@ -288,7 +289,7 @@ class Strategy(object):
 
         connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         c = connection.cursor()
-        sql = self.evaluateTwoRuleSql % (pyswing.constants.pySwingStrategy, self._rule1, self._rule2, self._exit, self._type, self._rule1, self._rule2, self._exit, self._type)
+        sql = self.evaluateTwoRuleSql % (pyswing.globals.pySwingStrategy, self._rule1, self._rule2, self._exit, self._type, self._rule1, self._rule2, self._exit, self._type)
         # print(sql)
         c.executescript(sql)
         connection.commit()
@@ -304,7 +305,7 @@ class Strategy(object):
 
         connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         c = connection.cursor()
-        sql = self.evaluateThreeRuleSql % (pyswing.constants.pySwingStrategy, self._rule1, self._rule2, self._rule3, self._exit, self._type, self._rule1, self._rule2, self._rule3, self._exit, self._type)
+        sql = self.evaluateThreeRuleSql % (pyswing.globals.pySwingStrategy, self._rule1, self._rule2, self._rule3, self._exit, self._type, self._rule1, self._rule2, self._rule3, self._exit, self._type)
         c.executescript(sql)
         connection.commit()
         c.close()
@@ -345,11 +346,11 @@ class Strategy(object):
         connection = sqlite3.connect(pyswing.database.pySwingDatabase)
         c = connection.cursor()
 
-        deleteSql = self.deleteStrategySql % (pyswing.constants.pySwingStrategy, self._rule1, self._rule2, self._rule3, self._exit, self._type)
+        deleteSql = self.deleteStrategySql % (pyswing.globals.pySwingStrategy, self._rule1, self._rule2, self._rule3, self._exit, self._type)
         c.executescript(deleteSql)
         connection.commit()
 
-        insertSql = self.insertStrategySql % (pyswing.constants.pySwingStrategy, self._rule1, self._rule2, self._rule3, self._exit, self._type, str(mean), str(median), str(sum), str(count), str(sharpeRatio), str(drawDown))
+        insertSql = self.insertStrategySql % (pyswing.globals.pySwingStrategy, self._rule1, self._rule2, self._rule3, self._exit, self._type, str(mean), str(median), str(sum), str(count), str(sharpeRatio), str(drawDown))
         c.executescript(insertSql)
         connection.commit()
 

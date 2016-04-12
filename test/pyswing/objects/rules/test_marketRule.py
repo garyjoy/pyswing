@@ -42,7 +42,7 @@ class TestMarketRule(unittest.TestCase):
         indicatorADI = IndicatorADI()
         indicatorADI.updateIndicator()
 
-        self.rule = MarketRule("Indicator_ADI", "ADI", -1, Comparison.GreaterThan)
+        self.rule = MarketRule("Indicator_ADI", "ADI > 0")
         self.rule.evaluateRule()
 
 
@@ -67,7 +67,7 @@ class TestMarketRule(unittest.TestCase):
     def test_analyseRule(self):
 
         self.rule.analyseRule()
-        self.assertAlmostEqual(self.rule._matchesPerDay, 0.270, 3)
+        self.assertAlmostEqual(self.rule._matchesPerDay, 0.438, 3)
 
 
 if __name__ == '__main__':

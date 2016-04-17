@@ -61,4 +61,4 @@ connection.close()
 cbaEquityData['ExitValueAfterCosts'] = cbaEquityData['ExitValue'] - 0.2
 exitValueDataFrame = cbaEquityData.ix[:,'ExitValueAfterCosts']
 cbaEquityData["Sum"] = expanding_sum(exitValueDataFrame)
-cbaEquityData.query("Date > '2005-01-01 00:00:00'").plot(y=['Sum'], title='v1.3')
+cbaEquityData.query("Date > '2005-01-01 00:00:00'").plot(y=['Sum'], title='v1.4')
